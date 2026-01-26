@@ -4,12 +4,10 @@ from typing import List, Optional, Dict, Any
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage, get_connection
-from decouple import config  # If you're using python-decouple for env vars
+from decouple import config
 from email.mime.image import MIMEImage
 
-
 logger = logging.getLogger(__name__)
-
 
 class EmailUtil:
     def __init__(self, prod: bool = True) -> None:

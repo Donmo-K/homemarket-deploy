@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f4f4; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .header { text-align: center; margin-bottom: 30px; }
+        .logo { max-height: 60px; }
+        .code { font-size: 32px; font-weight: bold; letter-spacing: 5px; color: #3F84E5; text-align: center; margin: 30px 0; background: #f0f7ff; padding: 15px; border-radius: 4px; }
+        .footer { text-align: center; color: #888; font-size: 12px; margin-top: 30px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+             <!-- Use CID for inline image -->
+            <img src="cid:logo_img" alt="HomeMarket" class="logo">
+        </div>
+        <h2>Verify Your Email Address</h2>
+        <p>Welcome to HomeMarket! Please use the following code to verify your email address and activate your account.</p>
+        
+        <div class="code">{{ code }}</div>
+        
+        <p>This code will expire in 10 minutes.</p>
+        <p>If you didn't create an account with us, please ignore this email.</p>
+        
+        <div class="footer">
+            &copy; 2026 HomeMarket. All rights reserved.
+        </div>
+    </div>
+</body>
+</html>
