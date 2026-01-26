@@ -1,13 +1,13 @@
 {
-  "name": "soprescom",
-  "version": "3.8.0",
-  "description": "",
+  "name": "homemarket",
+  "version": "1.0.0",
+  "description": "HomeMarket Django Application",
   "scripts": {
     "start": "npm run dev",
     "build": "npm run build:clean && npm run build:tailwind",
-    "build:clean": "rimraf -i ./soprescom/static/css/output.css",
-    "build:tailwind": "tailwindcss -i ./soprescom/static/css/input.css -o ./soprescom/static/css/output.css --minify",
-    "dev": "tailwindcss -i ./soprescom/static/css/input.css -o ./soprescom/static/css/output.css --watch --minify",
+    "build:clean": "rimraf -i ./static/css/output.css",
+    "build:tailwind": "tailwindcss -i ./static/css/input.css -o ./static/css/output.css --minify",
+    "dev": "tailwindcss -i ./static/css/input.css -o ./static/css/output.css --watch --minify",
     "tailwindcss": "node ./node_modules/tailwindcss/lib/cli.js"
   },
   "devDependencies": {
