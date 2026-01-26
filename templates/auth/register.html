@@ -4,62 +4,92 @@
 {% block title %}Register - HomeMarket{% endblock %}
 
 {% block content %}
-<div class="flex min-h-screen bg-white">
+<div class="flex min-h-screen bg-gray-50">
     <!-- Left Side: Image & Logo -->
-    <div class="hidden lg:flex w-1/2 relative bg-primary">
-        <img src="{% static 'images/auth_register_side.webp' %}" alt="Register" class="absolute inset-0 w-full h-full object-cover opacity-90">
-        <div class="absolute inset-0 bg-blue-900/30"></div>
-        <div class="absolute top-8 left-8 z-10">
-             <img src="{% static 'images/logo/logo.webp' %}" alt="HomeMarket Logo" class="h-12 w-auto bg-white/80 rounded-lg p-2">
+    <div class="hidden lg:block w-1/2 relative bg-primary overflow-hidden">
+        <!-- Enlarged Image to ensure visibility -->
+        <img src="{% static 'images/auth_register_side.webp' %}" alt="Register" class="absolute inset-0 w-full h-full object-cover">
+        
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-blue-900/40"></div>
+        
+        <!-- Logo -->
+        <div class="absolute top-10 left-10 z-10">
+             <img src="{% static 'images/logo/logo.webp' %}" alt="HomeMarket Logo" class="h-16 w-auto bg-white/90 rounded-xl p-3 shadow-lg">
         </div>
-        <div class="relative z-10 flex flex-col justify-end p-12 text-white">
-            <h2 class="text-4xl font-bold mb-4 font-lato">Join Our Community</h2>
-            <p class="text-lg text-gray-100">Unlock your dream property journey with us.</p>
+        
+        <!-- Text Content -->
+        <div class="absolute bottom-20 left-10 right-10 z-10 text-white">
+            <h2 class="text-5xl font-bold mb-6 font-lato leading-tight">Welcome Home</h2>
+            <p class="text-xl font-light text-gray-100 max-w-lg">Join thousands of people who found their perfect property with HomeMarket.</p>
         </div>
     </div>
 
     <!-- Right Side: Form -->
-    <div class="w-full lg:w-1/2 flex items-center justify-center p-8 lg:p-16">
-        <div class="custom-form w-full max-w-md">
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12 overflow-y-auto">
+        <div class="w-full max-w-lg bg-white rounded-2xl shadow-xl p-8 lg:p-10 border border-gray-100">
             <!-- Mobile Logo -->
-            <div class="lg:hidden flex justify-center mb-8">
-                <img src="{% static 'images/logo/logo.webp' %}" alt="Logo" class="h-12 bg-gray-50 p-1 rounded">
+            <div class="lg:hidden flex justify-center mb-6">
+                <img src="{% static 'images/logo/logo.webp' %}" alt="Logo" class="h-14 bg-white shadow-sm p-2 rounded-lg">
             </div>
 
-            <h2 class="text-3xl font-bold text-tertiary mb-2 font-lato">Create Account</h2>
-            <p class="text-gray-500 mb-8">Please enter your details to sign up.</p>
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 font-lato">Create Account</h2>
+                <p class="text-gray-500 mt-2">Enter your details to get started.</p>
+            </div>
 
-            <form method="POST" action="{% url 'register' %}">
+            <form method="POST" action="{% url 'register' %}" class="space-y-5">
                 {% csrf_token %}
                 
-                <div class="mb-5">
-                    <label for="user_type" class="custom-label">I am a</label>
-                    <select name="user_type" id="user_type" class="custom-input">
-                        <option value="BUYER">Buyer</option>
-                        <option value="SELLER">Seller</option>
-                    </select>
+                <!-- Name Fields -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="first_name" class="custom-label mb-1">First Name</label>
+                        <input type="text" name="first_name" id="first_name" class="custom-input bg-gray-50 focus:bg-white h-12" placeholder="John" required>
+                    </div>
+                    <div>
+                        <label for="last_name" class="custom-label mb-1">Last Name</label>
+                        <input type="text" name="last_name" id="last_name" class="custom-input bg-gray-50 focus:bg-white h-12" placeholder="Doe" required>
+                    </div>
                 </div>
 
-                <div class="mb-5">
-                    <label for="email" class="custom-label">Email Address</label>
-                    <input type="email" name="email" id="email" class="custom-input" placeholder="name@example.com" required>
+                 <!-- Phone & User Type -->
+                 <div class="grid grid-cols-2 gap-4">
+                    <div>
+                         <label for="phone_number" class="custom-label mb-1">Phone Number</label>
+                         <input type="tel" name="phone_number" id="phone_number" class="custom-input bg-gray-50 focus:bg-white h-12" placeholder="+123456789" required>
+                    </div>
+                    <div>
+                        <label for="user_type" class="custom-label mb-1">I am a</label>
+                        <select name="user_type" id="user_type" class="custom-input bg-gray-50 focus:bg-white h-12 cursor-pointer">
+                            <option value="BUYER">Buyer</option>
+                            <option value="SELLER">Seller</option>
+                        </select>
+                    </div>
+                 </div>
+
+                <div>
+                    <label for="email" class="custom-label mb-1">Email Address</label>
+                    <input type="email" name="email" id="email" class="custom-input bg-gray-50 focus:bg-white h-12" placeholder="name@example.com" required>
                 </div>
 
-                <div class="mb-5">
-                    <label for="password" class="custom-label">Password</label>
-                    <input type="password" name="password" id="password" class="custom-input" placeholder="••••••••" required>
+                <div>
+                    <label for="password" class="custom-label mb-1">Password</label>
+                    <input type="password" name="password" id="password" class="custom-input bg-gray-50 focus:bg-white h-12" placeholder="••••••••" required>
                 </div>
 
-                <div class="mb-6">
-                    <label for="confirm_password" class="custom-label">Confirm Password</label>
-                    <input type="password" name="confirm_password" id="confirm_password" class="custom-input" placeholder="••••••••" required>
+                <div>
+                    <label for="confirm_password" class="custom-label mb-1">Confirm Password</label>
+                    <input type="password" name="confirm_password" id="confirm_password" class="custom-input bg-gray-50 focus:bg-white h-12" placeholder="••••••••" required>
                 </div>
 
-                <button type="submit" class="custom-btn">Sign Up</button>
+                <div class="pt-4">
+                    <button type="submit" class="custom-btn h-12 text-base shadow-lg shadow-blue-500/30">Create Account</button>
+                </div>
             </form>
 
             <p class="mt-8 text-sm text-center text-gray-500">
-                Already have an account? <a href="{% url 'login' %}" class="font-semibold text-primary hover:underline">Log in</a>
+                Already have an account? <a href="{% url 'login' %}" class="font-semibold text-primary hover:text-blue-700 transition-colors">Log in</a>
             </p>
         </div>
     </div>

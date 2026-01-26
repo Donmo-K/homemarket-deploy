@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - HomeMarket{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 p-8">
+    <div class="max-w-7xl mx-auto">
+        <div class="bg-white rounded-xl shadow-md p-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">Welcome Home, {{ user.first_name }}!</h1>
+            <p class="text-gray-600">You have successfully logged in.</p>
+            
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Example Cards -->
+                <div class="bg-blue-50 p-6 rounded-lg border border-blue-100">
+                    <h3 class="font-semibold text-lg text-blue-800 mb-2">My Profile</h3>
+                    <p class="text-sm text-blue-600">View and edit your profile details.</p>
+                </div>
+                
+                 <div class="bg-green-50 p-6 rounded-lg border border-green-100">
+                    <h3 class="font-semibold text-lg text-green-800 mb-2">Verified Status</h3>
+                    <p class="text-sm text-green-600">
+                        {% if user.seller_verification.is_verified %}
+                            Verified Seller
+                        {% else %}
+                            {% if user.user_type == 'SELLER' %}
+                                Pending Verification
+                            {% else %}
+                                Buyer Account
+                            {% endif %}
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

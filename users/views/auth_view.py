@@ -2,13 +2,11 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
-from django.utils import timezone
 from users.models import User
 from global_data.enum import UserType
 from global_data.email import EmailUtil
 import random
 import string
-from django.contrib.sites.shortcuts import get_current_site
 import os
 from django.conf import settings
 
@@ -24,7 +22,10 @@ class RegisterView(View):
         return render(request, self.template_name)
     
     def post(self, request):
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
         email = request.POST.get('email')
+        phone_number = request.POST.get('phone_number')
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
         user_type = request.POST.get('user_type')
@@ -37,17 +38,24 @@ class RegisterView(View):
             messages.error(request, "Email already exists")
             return redirect('register')
             
-        user = User.objects.create_user(username=email, email=email, password=password)
+        user = User.objects.create_user(
+            username=email, 
+            email=email, 
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
+            phone_number=phone_number
+        )
         user.is_active = False # Require verification
+        
         if user_type == UserType.SELLER:
             user.user_type = UserType.SELLER
         else:
             user.user_type = UserType.BUYER
+            
         user.save()
         
-        # Save verification code in session (simple OTP mechanism for now, or could use a model)
-        # For simplicity and statelessness, let's use a temporary session store or a dedicated model.
-        # Given the request, I'll store it in the session for this flow.
+        # OTP Logic
         verification_code = generate_code()
         request.session['verification_email'] = email
         request.session['verification_code'] = verification_code
@@ -55,13 +63,12 @@ class RegisterView(View):
         # Send Email
         email_util = EmailUtil()
         logo_path = os.path.join(settings.STATIC_ROOT, 'images/logo/logo.webp')
-        # Ensure static root exists or use direct path if static not collected in dev
         if not os.path.exists(logo_path):
              logo_path = os.path.join(settings.BASE_DIR, 'static/images/logo/logo.webp')
 
         email_util.send_email_with_template(
             template='email/verification_code.html',
-            context={'code': verification_code},
+            context={'code': verification_code, 'first_name': first_name},
             receivers=[email],
             subject='Verify your HomeMarket Account',
             inline_images={'logo_img': logo_path}
@@ -86,8 +93,9 @@ class LoginView(View):
         if user is not None:
             if not user.is_active:
                 messages.error(request, "Account is not active. Please verify your email.")
-                # Logic to resend code could go here
-                return redirect('login')
+                request.session['verification_email'] = email
+                # Optional: Resend logic here or redirect to a resend page
+                return redirect('verify_otp') # Or resend code
             login(request, user)
             return redirect('home')
         else:
@@ -113,7 +121,6 @@ class VerificationView(View):
                 user.is_active = True
                 user.save()
                 
-                # Cleanup session
                 del request.session['verification_email']
                 del request.session['verification_code']
                 

@@ -4,61 +4,61 @@
 {% block title %}Login - HomeMarket{% endblock %}
 
 {% block content %}
-<div class="flex min-h-screen bg-white">
+<div class="flex min-h-screen bg-gray-50">
     <!-- Left Side: Image & Logo -->
-    <div class="hidden lg:flex w-1/2 relative bg-tertiary">
-        <img src="{% static 'images/auth_login_side.webp' %}" alt="Login" class="absolute inset-0 w-full h-full object-cover opacity-80">
-        <div class="absolute inset-0 bg-blue-950/40"></div>
-        <div class="absolute top-8 left-8 z-10">
-             <img src="{% static 'images/logo/logo.webp' %}" alt="HomeMarket Logo" class="h-12 w-auto bg-white/80 rounded-lg p-2">
+    <div class="hidden lg:block w-1/2 relative bg-tertiary overflow-hidden">
+        <img src="{% static 'images/auth_login_side.webp' %}" alt="Login" class="absolute inset-0 w-full h-full object-cover">
+         <div class="absolute inset-0 bg-gray-900/30"></div>
+        <div class="absolute top-10 left-10 z-10">
+             <img src="{% static 'images/logo/logo.webp' %}" alt="HomeMarket Logo" class="h-16 w-auto bg-white/90 rounded-xl p-3 shadow-lg">
         </div>
-        <div class="relative z-10 flex flex-col justify-end p-12 text-white">
-            <h2 class="text-4xl font-bold mb-4 font-lato">Welcome Back</h2>
-            <p class="text-lg text-gray-100">Sign in to continue your journey.</p>
+        <div class="absolute bottom-20 left-10 right-10 z-10 text-white">
+            <h2 class="text-5xl font-bold mb-6 font-lato leading-tight">Welcome Back</h2>
+            <p class="text-xl font-light text-gray-100 max-w-lg">Sign in to manage your properties and find new opportunities.</p>
         </div>
     </div>
 
     <!-- Right Side: Form -->
-    <div class="w-full lg:w-1/2 flex items-center justify-center p-8 lg:p-16">
-        <div class="custom-form w-full max-w-md">
-            
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12">
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 lg:p-10 border border-gray-100">
              <!-- Mobile Logo -->
              <div class="lg:hidden flex justify-center mb-8">
-                <img src="{% static 'images/logo/logo.webp' %}" alt="Logo" class="h-12 bg-gray-50 p-1 rounded">
+                <img src="{% static 'images/logo/logo.webp' %}" alt="Logo" class="h-14 bg-white shadow-sm p-2 rounded-lg">
             </div>
 
-            <h2 class="text-3xl font-bold text-tertiary mb-2 font-lato">Login</h2>
-            <p class="text-gray-500 mb-8">Welcome back! Please enter your details.</p>
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 font-lato">Member Login</h2>
+                <p class="text-gray-500 mt-2">Please enter your credentials.</p>
+            </div>
 
-            <form method="POST" action="{% url 'login' %}">
+            <form method="POST" action="{% url 'login' %}" class="space-y-6">
                 {% csrf_token %}
                 
-                <div class="mb-5">
-                    <label for="email" class="custom-label">Email Address</label>
-                    <input type="email" name="email" id="email" class="custom-input" placeholder="name@example.com" required>
+                <div>
+                    <label for="email" class="custom-label mb-1">Email Address</label>
+                    <input type="email" name="email" id="email" class="custom-input bg-gray-50 focus:bg-white h-12" placeholder="name@example.com" required>
                 </div>
 
-                <div class="mb-6">
-                    <label for="password" class="custom-label">Password</label>
-                    <input type="password" name="password" id="password" class="custom-input" placeholder="••••••••" required>
+                <div>
+                    <label for="password" class="custom-label mb-1">Password</label>
+                    <input type="password" name="password" id="password" class="custom-input bg-gray-50 focus:bg-white h-12" placeholder="••••••••" required>
                 </div>
                 
-                 <div class="flex items-center justify-between mb-6">
+                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
-                        <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
-                        <label for="remember-me" class="ml-2 block text-sm text-gray-900">Remember me</label>
+                        <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded cursor-pointer">
+                        <label for="remember-me" class="ml-2 block text-sm text-gray-600 cursor-pointer">Remember me</label>
                     </div>
                     <div class="text-sm">
-                        <a href="#" class="font-medium text-primary hover:text-blue-900">Forgot password?</a>
+                        <a href="#" class="font-medium text-primary hover:text-blue-700">Forgot password?</a>
                     </div>
                 </div>
 
-
-                <button type="submit" class="custom-btn">Sign In</button>
+                <button type="submit" class="custom-btn h-12 text-base shadow-lg shadow-blue-500/30">Sign In</button>
             </form>
 
             <p class="mt-8 text-sm text-center text-gray-500">
-                Don't have an account? <a href="{% url 'register' %}" class="font-semibold text-primary hover:underline">Sign up</a>
+                Don't have an account? <a href="{% url 'register' %}" class="font-semibold text-primary hover:text-blue-700 transition-colors">Sign up</a>
             </p>
         </div>
     </div>
