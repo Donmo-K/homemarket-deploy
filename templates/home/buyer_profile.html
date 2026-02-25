@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Home Market - Buyer Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000080",
+                        "background-light": "#f5f5f8",
+                        "background-dark": "#0f0f23",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 lg:px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-6 flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">home_work</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Home Market</h2>
+</div>
+<label class="hidden md:flex flex-col min-w-40 h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full bg-slate-100 dark:bg-slate-800">
+<div class="text-slate-500 flex items-center justify-center pl-4 rounded-l-xl">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:outline-0 focus:ring-0 h-full placeholder:text-slate-500 px-4 pl-2 text-base font-normal" placeholder="Search properties..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-4 lg:gap-8 items-center">
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Listings</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Saved</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Messages</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Insights</a>
+</nav>
+<div class="flex gap-2">
+<button class="flex size-10 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex size-10 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/20" data-alt="Professional portrait of Alex Johnson" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDUGMLiQ86f4XgF3RQWe9JKdis7pTSOM-MM4JpaC5AkoxIPPqOgRYSrWZBpC6ORNeJRZp5E1fIamUOBVOvTGcCVJFW7sUn5ukmv1aYWZt00pTSTSO-YHiwaArgfvG8r7xgr1w8KCZUhD7RKaVij8EWvt2jekVwFmvQUUqUwCx8v5E2SzdAlt6HjFWB9C-1guBlipU_5i2kI5Te2uhudWYeaQLYlOEKAmCml9f7ik-ejEh5heiJkeyW6MLuF-YfVh0hlp_YjYiAq8tg");'></div>
+</div>
+</header>
+<main class="flex-1 max-w-[1200px] mx-auto w-full px-4 lg:px-10 py-8">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Profile Card & Sidebar Nav -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<!-- Profile Header Card -->
+<div class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-800">
+<div class="flex flex-col items-center text-center">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-32 border-4 border-primary/10 mb-4" data-alt="Alex Johnson profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD-Q5HTdTBkP6-GdThVHppDhtXIzwwcXxb05EF6Z12llKPy8jeK9cWfxrAoHw4syR4_udM_EBrkBrg9wzXKrGAj41zpddGSEB_inpdryIIY7S4STnN34rz3BDi6O7ShRF1Mu2VvRDtHamEKwAxq4i3uUkOGoFT6MDBUDg_oRxZwyogIH91tOKQKK_w-GI6gl1io8PVGIzvmyjGMJshHn0Q6I982i_0puYf7tSn5SYTljMDkZc1uBNhh-6UvJkA-QLnqIn3GaucTIas");'></div>
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white">Alex Johnson</h1>
+<div class="mt-2 flex items-center gap-2 bg-primary/10 px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-primary text-sm font-bold">verified</span>
+<span class="text-primary text-sm font-bold">Premium Member</span>
+</div>
+<p class="mt-3 text-slate-500 text-sm">Member since Jan 2023</p>
+</div>
+<div class="mt-8 flex flex-col gap-2">
+<a class="flex items-center gap-3 p-3 rounded-lg bg-primary text-white" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-medium">Personal Details</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">search_check</span>
+<span class="font-medium">My Preferences</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-medium">Billing &amp; Plan</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">security</span>
+<span class="font-medium">Security</span>
+</a>
+</div>
+</div>
+<!-- Membership Level Card -->
+<div class="bg-primary rounded-xl p-6 shadow-lg relative overflow-hidden text-white">
+<div class="relative z-10">
+<h3 class="text-lg font-bold mb-2">Premium Level</h3>
+<p class="text-primary/10 text-xs uppercase tracking-wider font-bold mb-4 bg-white/20 inline-block px-2 py-0.5 rounded">Active Plan</p>
+<ul class="space-y-3 mb-6">
+<li class="flex items-start gap-3 text-sm">
+<span class="material-symbols-outlined text-yellow-400">star</span>
+<span>48h Early access to new listings</span>
+</li>
+<li class="flex items-start gap-3 text-sm">
+<span class="material-symbols-outlined text-yellow-400">star</span>
+<span>Unlimited saved searches</span>
+</li>
+<li class="flex items-start gap-3 text-sm">
+<span class="material-symbols-outlined text-yellow-400">star</span>
+<span>VIP concierge support</span>
+</li>
+</ul>
+<button class="w-full bg-white text-primary font-bold py-2 rounded-lg hover:bg-slate-100 transition-colors">Manage Subscription</button>
+</div>
+<!-- Background Decoration -->
+<div class="absolute top-[-20%] right-[-10%] opacity-10">
+<span class="material-symbols-outlined text-[150px]">diamond</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Main Content -->
+<div class="lg:col-span-8 flex flex-col gap-8">
+<!-- Personal Information Section -->
+<div class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-800">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">Personal Information</h3>
+<button class="text-primary text-sm font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-base">edit</span> Edit
+                                </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-1">
+<p class="text-slate-500 text-sm">Full Name</p>
+<p class="text-slate-900 dark:text-white font-medium">Alex Johnson</p>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-slate-500 text-sm">Email Address</p>
+<p class="text-slate-900 dark:text-white font-medium">alex.j@homemarket.com</p>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-slate-500 text-sm">Phone Number</p>
+<p class="text-slate-900 dark:text-white font-medium">+1 (555) 012-3456</p>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-slate-500 text-sm">Location</p>
+<p class="text-slate-900 dark:text-white font-medium">San Francisco, CA</p>
+</div>
+</div>
+</div>
+<!-- Search Preferences Section -->
+<div class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-800">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">My Search Preferences</h3>
+<button class="text-primary text-sm font-semibold">Manage Saved Searches</button>
+</div>
+<div class="flex flex-wrap gap-4 mb-6">
+<div class="bg-background-light dark:bg-slate-800 p-4 rounded-lg flex-1 min-w-[200px] border border-slate-100 dark:border-slate-700">
+<div class="flex items-center gap-2 text-slate-500 mb-1">
+<span class="material-symbols-outlined text-lg">payments</span>
+<span class="text-xs font-semibold uppercase tracking-wider">Price Range</span>
+</div>
+<p class="text-slate-900 dark:text-white font-bold">$1.2M - $2.5M</p>
+</div>
+<div class="bg-background-light dark:bg-slate-800 p-4 rounded-lg flex-1 min-w-[200px] border border-slate-100 dark:border-slate-700">
+<div class="flex items-center gap-2 text-slate-500 mb-1">
+<span class="material-symbols-outlined text-lg">location_on</span>
+<span class="text-xs font-semibold uppercase tracking-wider">Locations</span>
+</div>
+<p class="text-slate-900 dark:text-white font-bold">Bay Area, Marin County</p>
+</div>
+<div class="bg-background-light dark:bg-slate-800 p-4 rounded-lg flex-1 min-w-[200px] border border-slate-100 dark:border-slate-700">
+<div class="flex items-center gap-2 text-slate-500 mb-1">
+<span class="material-symbols-outlined text-lg">home</span>
+<span class="text-xs font-semibold uppercase tracking-wider">Property Type</span>
+</div>
+<p class="text-slate-900 dark:text-white font-bold">Single Family, Luxury Villa</p>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<p class="text-sm text-slate-500">Active alerts: <span class="font-semibold text-slate-700 dark:text-slate-300">Daily Email Digest, Instant SMS</span></p>
+</div>
+</div>
+<!-- Account Settings Quick Links -->
+<div class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-800">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white mb-6">Account Settings</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<button class="flex flex-col items-start p-4 rounded-xl border border-slate-100 dark:border-slate-800 hover:border-primary/30 hover:bg-primary/5 transition-all text-left">
+<span class="material-symbols-outlined text-primary mb-2">notifications_active</span>
+<span class="font-bold text-slate-900 dark:text-white text-sm">Notifications</span>
+<span class="text-xs text-slate-500 mt-1">Manage alerts &amp; emails</span>
+</button>
+<button class="flex flex-col items-start p-4 rounded-xl border border-slate-100 dark:border-slate-800 hover:border-primary/30 hover:bg-primary/5 transition-all text-left">
+<span class="material-symbols-outlined text-primary mb-2">lock</span>
+<span class="font-bold text-slate-900 dark:text-white text-sm">Privacy</span>
+<span class="text-xs text-slate-500 mt-1">Data usage &amp; visibility</span>
+</button>
+<button class="flex flex-col items-start p-4 rounded-xl border border-slate-100 dark:border-slate-800 hover:border-primary/30 hover:bg-primary/5 transition-all text-left">
+<span class="material-symbols-outlined text-primary mb-2">credit_card</span>
+<span class="font-bold text-slate-900 dark:text-white text-sm">Payment Methods</span>
+<span class="text-xs text-slate-500 mt-1">Visa ending in 4242</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-8 px-6 lg:px-10">
+<div class="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined">home_work</span>
+<span class="font-bold">Home Market</span>
+</div>
+<div class="flex gap-8 text-sm text-slate-500">
+<a class="hover:text-primary" href="#">Help Center</a>
+<a class="hover:text-primary" href="#">Terms of Service</a>
+<a class="hover:text-primary" href="#">Privacy Policy</a>
+</div>
+<div class="text-sm text-slate-500">
+                        © 2024 Home Market Inc.
+                    </div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>

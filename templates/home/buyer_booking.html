@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#221610",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>My Bookings | Home Market</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark flex flex-col">
+<div class="p-6 flex items-center gap-3">
+<div class="size-8 bg-primary rounded flex items-center justify-center text-white">
+<span class="material-symbols-outlined">home</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight">Home Market</h2>
+</div>
+<nav class="flex-1 px-4 space-y-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">search</span>
+<span class="font-medium">Search</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-white" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-medium">My Bookings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-medium">Saved</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-medium">Settings</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3 p-2">
+<div class="size-10 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover bg-center" data-alt="User profile avatar of Alex Johnson" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDHihycMrEpAGXf0FJqG_jau2S57iNGbafrA9Aigf-Yw4icXbbJUyEUZ_jkp5wVgm97E4awlxLyz2J_SurLXHFVIDsuRpi7csDqpfI4a19vqVpqYGorq0iPwclwEUSpF20_aymK-o3g-XfNaPqpSculB0N-8mxWEGszZy30lT1_-59ny2ckdVPeHZcx-uAB5c_T-KBlpB9vMLRThJOand9qolz0p15COJ9T-uqE3-5EiRSpgVPy4Q9oHEeqVIt5j0NTYgLb66Ph3UA')"></div>
+<div class="flex flex-col">
+<span class="text-sm font-bold">Alex Johnson</span>
+<span class="text-xs text-slate-500">Premium Buyer</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto bg-background-light dark:bg-background-dark">
+<!-- Header -->
+<header class="sticky top-0 z-10 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-8 py-4 flex items-center justify-between">
+<h1 class="text-2xl font-black tracking-tight">My Bookings &amp; Appointments</h1>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-200 dark:border-slate-800"></div>
+<button class="bg-primary text-white px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+                    Book New Visit
+                </button>
+</div>
+</header>
+<div class="p-8 max-w-6xl mx-auto">
+<!-- View Selector and Filters -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+<div class="flex bg-slate-200/50 dark:bg-slate-800 p-1 rounded-xl w-fit">
+<button class="px-6 py-2 rounded-lg bg-white dark:bg-slate-700 shadow-sm font-bold text-sm">List View</button>
+<button class="px-6 py-2 rounded-lg text-slate-500 font-bold text-sm">Calendar View</button>
+</div>
+<div class="flex gap-2 overflow-x-auto pb-2 md:pb-0">
+<button class="px-4 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20 text-sm font-bold">All</button>
+<button class="px-4 py-1.5 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-sm font-bold hover:bg-slate-50">Confirmed</button>
+<button class="px-4 py-1.5 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-sm font-bold hover:bg-slate-50">Pending</button>
+<button class="px-4 py-1.5 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-sm font-bold hover:bg-slate-50">Completed</button>
+</div>
+</div>
+<!-- Booking List -->
+<div class="space-y-4">
+<!-- Card 1: Confirmed -->
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+<div class="p-5 flex flex-col md:flex-row gap-6">
+<div class="w-full md:w-48 h-32 rounded-lg bg-cover bg-center shrink-0" data-alt="Modern luxury villa with pool" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDa06S9Y2f2dAGOkk1eE8s1PAK4GOuLMVDIzBN4kCfkqWct5JtlQCyxAuBNNHT7EB2nOp07VU-I58ViVLpHcO9LbZp7OlZBQKuHNx9-FCOhAZdCT4NKD0p3HM6mRMzAFO4NiSyAkvR5JRymrvRTyCI65vC2ezGSEhQt05Sx3AoT8qz9wAtqjJzszSj5OVShadeIFw4jHforaeINRtD73pCdXTiNpFR5bZkRQPVid4fyXGxhwXU_FlrUo0cnEJWl_G451COamSOv0QY')"></div>
+<div class="flex-1">
+<div class="flex items-start justify-between mb-2">
+<div>
+<h3 class="text-lg font-bold">Sunset Heights Villa</h3>
+<p class="text-slate-500 text-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">location_on</span>
+                                        123 Malibu Drive, CA
+                                    </p>
+</div>
+<span class="px-3 py-1 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-xs font-bold uppercase tracking-wider">Confirmed</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">calendar_month</span>
+<span class="text-sm font-medium">Oct 24, 2023</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">schedule</span>
+<span class="text-sm font-medium">10:30 AM</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">person</span>
+<span class="text-sm font-medium">Agent: Sarah M.</span>
+</div>
+</div>
+</div>
+<div class="flex md:flex-col justify-end gap-2 md:w-40 border-t md:border-t-0 md:border-l border-slate-100 dark:border-slate-800 pt-4 md:pt-0 md:pl-6">
+<button class="flex-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white px-4 py-2 rounded-lg text-sm font-bold transition-colors">Reschedule</button>
+<button class="flex-1 border border-primary/30 text-primary hover:bg-primary/5 px-4 py-2 rounded-lg text-sm font-bold transition-colors">Contact Agent</button>
+</div>
+</div>
+</div>
+<!-- Card 2: Pending -->
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+<div class="p-5 flex flex-col md:flex-row gap-6">
+<div class="w-full md:w-48 h-32 rounded-lg bg-cover bg-center shrink-0" data-alt="Luxury penthouse exterior" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBqFwes7DOggPae2Cnu9CK4Nq41d4_do_KRHswZYOM4zUROpu5Qlv3okIcLKNWilBJa2pXkrUvv-3D6v9Arxxx-aeZ006tTb5ZXHKlVC-glw-MbMNU6nRK1amt7s4ShvetclOHCIjvCb44q_YhSdQGKf5FnIXqxrjGa3lIc1_-nUkg-4LFVmWWHd_v4o_fnJ_-ZYFeSory00F9st55AFFczKvynoHP0y8TJAtG2Pp6ubhe-8N6zSynVYbNQZxjJ9oR3IRnxnujypjg')"></div>
+<div class="flex-1">
+<div class="flex items-start justify-between mb-2">
+<div>
+<h3 class="text-lg font-bold">Urban Loft Downtown</h3>
+<p class="text-slate-500 text-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">location_on</span>
+                                        742 Broadway St, NY
+                                    </p>
+</div>
+<span class="px-3 py-1 rounded-full bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 text-xs font-bold uppercase tracking-wider">Pending</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">calendar_month</span>
+<span class="text-sm font-medium">Oct 26, 2023</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">schedule</span>
+<span class="text-sm font-medium">02:15 PM</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">person</span>
+<span class="text-sm font-medium">Agent: David L.</span>
+</div>
+</div>
+</div>
+<div class="flex md:flex-col justify-end gap-2 md:w-40 border-t md:border-t-0 md:border-l border-slate-100 dark:border-slate-800 pt-4 md:pt-0 md:pl-6">
+<button class="flex-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white px-4 py-2 rounded-lg text-sm font-bold transition-colors">Reschedule</button>
+<button class="flex-1 border border-primary/30 text-primary hover:bg-primary/5 px-4 py-2 rounded-lg text-sm font-bold transition-colors">Contact Agent</button>
+</div>
+</div>
+</div>
+<!-- Card 3: Completed -->
+<div class="bg-slate-50/50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm opacity-80">
+<div class="p-5 flex flex-col md:flex-row gap-6">
+<div class="w-full md:w-48 h-32 rounded-lg bg-cover bg-center shrink-0 grayscale" data-alt="Traditional family house" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC0EVAEd9VcQtVrQFQjqJ8V4Y6dFJQupZIAgXCMqsidiVlZehdKQcaTm85AuueHcpwKaO-bpRFt4-m6BuFsxnY3E3ShAoZqCsxqu6SqhfIDet7n1R1N4Z9OERVx96cHeaWgjr1RYUDD-jl_GaKLIjpQ5aZ8z0_R3-ouLIhUzvuaojsw70ztJk4HwSGXiwjv9vhNlwR0BRPb37p86GU5ozUbtkv-SKh66I9arbqgHnnNbgVqqTgmmYgBjRE6FYuWMcdeBnge7poHdR4')"></div>
+<div class="flex-1">
+<div class="flex items-start justify-between mb-2">
+<div>
+<h3 class="text-lg font-bold">Oakwood Family Home</h3>
+<p class="text-slate-500 text-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">location_on</span>
+                                        55 Maple Ave, NJ
+                                    </p>
+</div>
+<span class="px-3 py-1 rounded-full bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Completed</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">calendar_month</span>
+<span class="text-sm font-medium">Oct 15, 2023</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">schedule</span>
+<span class="text-sm font-medium">09:00 AM</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">person</span>
+<span class="text-sm font-medium">Agent: Maria G.</span>
+</div>
+</div>
+</div>
+<div class="flex md:flex-col justify-end gap-2 md:w-40 border-t md:border-t-0 md:border-l border-slate-100 dark:border-slate-800 pt-4 md:pt-0 md:pl-6">
+<button class="flex-1 bg-primary text-white hover:bg-primary/90 px-4 py-2 rounded-lg text-sm font-bold transition-colors">Rate Visit</button>
+<button class="flex-1 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 px-4 py-2 rounded-lg text-sm font-bold transition-colors">View Report</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State Illustration Placeholder (Hidden) -->
+<!-- 
+            <div class="flex flex-col items-center justify-center py-20 text-center">
+                <div class="size-20 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-4">
+                    <span class="material-symbols-outlined text-4xl text-slate-400">event_busy</span>
+                </div>
+                <h3 class="text-xl font-bold">No bookings found</h3>
+                <p class="text-slate-500">You don't have any property visits scheduled for this period.</p>
+                <button class="mt-6 bg-primary text-white px-6 py-2 rounded-lg font-bold">Find a Property</button>
+            </div> 
+            -->
+</div>
+</main>
+</div>
+</body></html>

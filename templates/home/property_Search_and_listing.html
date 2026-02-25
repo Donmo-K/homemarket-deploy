@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Home Market - Premium Property Listings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000080",
+                        "background-light": "#f5f5f8",
+                        "background-dark": "#0f0f23",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.25rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 w-full bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-20">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-3xl font-bold">home_work</span>
+<h1 class="text-xl font-black tracking-tight">Home Market</h1>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-sm font-semibold text-primary" href="#">Buy</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#">Rent</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#">Sell</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#">Agents</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden lg:flex relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="pl-10 pr-4 py-2 bg-slate-100 dark:bg-primary/10 border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 w-64" placeholder="Search neighborhood..." type="text"/>
+</div>
+<button class="p-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-10 w-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center overflow-hidden">
+<img alt="User Profile" data-alt="Professional headshot of a smiling man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD36wQRwAvkTdD3tldH489LXHPpSLS96H2yRZAsfpu1YCKvEjhJe2Mm-pUHxnyrXOS9lylzSMvAZJJOQaD9aBxXm5PUPt-3UtkbU-ifpGY-bFKT-rtQodz2eaxJZ3rDNEBm3F8Oj2tFexkLwPoZ5k0r3m3nx_kcjS5L9f2_tWRLyrqT5xOrvJgxYT14utfs8I1XV6HqulIUb4Bhr9J0mkKT0pEcvd37wS9B42dztsLWB1ydNy1iFsJnjblhsQlNy5RCh6aTt8yv0uQ"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<!-- Breadcrumbs & Header -->
+<div class="mb-8">
+<nav class="flex items-center gap-2 text-sm text-slate-500 mb-4">
+<a class="hover:text-primary" href="#">Home</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="font-medium text-primary">Property Listings</span>
+</nav>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="text-4xl font-black tracking-tight text-slate-900 dark:text-white">Properties for Sale</h2>
+<p class="text-slate-500 mt-2 font-medium">1,240 luxury homes found in New York Area</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">
+<span class="material-symbols-outlined text-lg">sort</span> Sort by: Popularity
+                    </button>
+</div>
+</div>
+</div>
+<div class="flex flex-col lg:flex-row gap-8">
+<!-- Sidebar Filters -->
+<aside class="w-full lg:w-72 space-y-8">
+<div class="bg-white dark:bg-background-dark/50 p-6 rounded-xl border border-primary/5">
+<h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">tune</span> Filters
+                    </h3>
+<!-- Location Filter -->
+<div class="mb-8">
+<label class="block text-sm font-bold text-slate-900 dark:text-slate-100 mb-3">Location</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">location_on</span>
+<input class="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-primary focus:border-primary" type="text" value="New York, NY"/>
+</div>
+</div>
+<!-- Price Slider (Visual Representation) -->
+<div class="mb-8">
+<div class="flex justify-between items-center mb-3">
+<label class="text-sm font-bold text-slate-900 dark:text-slate-100">Price Range</label>
+<span class="text-xs font-bold text-primary">$500k - $2.5M</span>
+</div>
+<div class="relative h-2 bg-slate-200 rounded-full">
+<div class="absolute left-1/4 right-1/4 h-full bg-primary rounded-full"></div>
+<div class="absolute left-1/4 top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-primary rounded-full shadow-md"></div>
+<div class="absolute right-1/4 top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-primary rounded-full shadow-md"></div>
+</div>
+</div>
+<!-- Bedrooms -->
+<div class="mb-8">
+<label class="block text-sm font-bold text-slate-900 dark:text-slate-100 mb-3">Bedrooms</label>
+<div class="grid grid-cols-4 gap-2">
+<button class="py-2 text-sm font-medium border border-slate-200 rounded-lg hover:border-primary hover:text-primary transition-all">1+</button>
+<button class="py-2 text-sm font-medium border border-slate-200 rounded-lg hover:border-primary hover:text-primary transition-all">2+</button>
+<button class="py-2 text-sm font-bold bg-primary text-white border border-primary rounded-lg">3+</button>
+<button class="py-2 text-sm font-medium border border-slate-200 rounded-lg hover:border-primary hover:text-primary transition-all">4+</button>
+</div>
+</div>
+<!-- Property Type -->
+<div class="mb-8">
+<label class="block text-sm font-bold text-slate-900 dark:text-slate-100 mb-3">Property Type</label>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20" type="checkbox"/>
+<span class="text-sm font-medium text-slate-600 group-hover:text-primary">Apartments</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20" type="checkbox"/>
+<span class="text-sm font-medium text-slate-600 group-hover:text-primary">Houses</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20" type="checkbox"/>
+<span class="text-sm font-medium text-slate-600 group-hover:text-primary">Villas</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20" type="checkbox"/>
+<span class="text-sm font-medium text-slate-600 group-hover:text-primary">Condos</span>
+</label>
+</div>
+</div>
+<button class="w-full py-3 bg-primary text-white font-bold rounded-xl hover:shadow-lg hover:shadow-primary/20 transition-all">
+                        Apply Filters
+                    </button>
+<button class="w-full mt-3 py-3 text-slate-500 font-bold text-sm hover:text-primary transition-colors">
+                        Reset All
+                    </button>
+</div>
+<!-- Featured Card In Sidebar -->
+<div class="relative overflow-hidden rounded-xl bg-primary aspect-[4/5] p-6 flex flex-col justify-end">
+<img alt="Featured Property" class="absolute inset-0 w-full h-full object-cover opacity-50" data-alt="Modern luxury villa with pool at sunset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAehgN8Y8LKPf_JFNQJ-NVLdl3Tb2qKcqG8djT7mTIhi0tUHqacNKJJQF91TNyPhZFJ3egQYDe1X6OEBzb7o3SYROy2gr2RYILw0x2ItvGONFqrm32kHTd3Zzt7pmt1GqWRezF-EcAtyQmQ1GXCnTj8RxcScaxAzwUTyS2fX9tObkailFdgiZm98wDa9eMSqO6e4eRMLhoBDB2tCwxrLPKDLCoOT0GMhkiwUmiWxCHu4sPHR1A97ntmxUhcXE1cLGyS6QsdXV4D1mI"/>
+<div class="relative z-10 text-white">
+<span class="px-2 py-1 bg-white/20 backdrop-blur-md rounded text-[10px] font-bold uppercase tracking-wider">Top Rated Agent</span>
+<h4 class="text-xl font-bold mt-2">Find your dream home with AI assistant</h4>
+<button class="mt-4 px-4 py-2 bg-white text-primary rounded-lg text-sm font-bold">Start Searching</button>
+</div>
+</div>
+</aside>
+<!-- Main Content: Property Grid -->
+<div class="flex-1">
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Property Card 1 -->
+<div class="group bg-white dark:bg-background-dark/40 rounded-xl overflow-hidden border border-slate-100 hover:shadow-2xl hover:shadow-slate-200 transition-all duration-300">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="Property 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Modern house exterior with large windows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuClPLBY85M_6NvtXsqLM92KtYgJPutNfnZgGoBtncQ_nRVd_VeERKxuRoxmFYDFXGmQpSVxw4837dRPHARkXEd9K0Uk7ymmRV0Jyshnzw2lWYXh_z9sWXNH2YDnCYHjPvAj786Ra00O5LKU2skkkgZUJU2UzMEmTKXJ4vyHe1zOb-VpGlbaps8MY1Z6EKkIip5b2MNBVWqO26UzIXvsTLCnedVFTDsTj6_VcY6Csc1wyBucSA1OarD3k97g9lOqIVoB4CnAHpOrBus"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full">For Sale</span>
+<span class="px-3 py-1 bg-white/90 text-primary text-xs font-bold rounded-full">New</span>
+</div>
+<button class="absolute top-4 right-4 w-9 h-9 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-2xl font-black text-primary">$1,250,000</h3>
+</div>
+<h4 class="font-bold text-lg text-slate-900 leading-tight mb-2">Skyline Penthouse, Chelsea</h4>
+<p class="text-slate-500 text-sm line-clamp-2 mb-4">A breathtaking penthouse offering panoramic views of the Manhattan skyline with floor-to-ceiling windows.</p>
+<div class="flex items-center gap-4 py-4 border-t border-slate-50">
+<div class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-lg">bed</span>
+<span class="text-sm font-semibold text-slate-900">3</span>
+</div>
+<div class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-lg">bathtub</span>
+<span class="text-sm font-semibold text-slate-900">2</span>
+</div>
+<div class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-lg">square_foot</span>
+<span class="text-sm font-semibold text-slate-900">2,400 sqft</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Property Card 2 -->
+<div class="group bg-white dark:bg-background-dark/40 rounded-xl overflow-hidden border border-slate-100 hover:shadow-2xl hover:shadow-slate-200 transition-all duration-300">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="Property 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Traditional suburban home with manicured lawn" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtCLxmyK_BzTRhlWloMq7z4UMhu_YoPEmf0a_bs7yPI0lXvLN545Ze8FfTCDA6PUNvjbGgIMq9DuMx7PGTbF9dP_5NiYmh_KY42ZL5wvtNFC0PqTvkojmLnqTFrq8O9XKIo2Ozr9acZvBuSi4VNi80UpamHB9TpXSNxi4Cv6sO255lhImFsHKHofegwgE4URcYmB2HmdJnjMh833BFPrG0mMOuenuYeBRddV4MHaSNIDLacKoi3M6y6pIbRmS2b2azHuO4zrGcu54"/>
+<div class="absolute top-4 left-4">
+<span class="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full">For Sale</span>
+</div>
+<button class="absolute top-4 right-4 w-9 h-9 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-red-500 transition-colors">
+<span class="material-symbols-outlined text-xl fill-icon">favorite</span>
+</button>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-2xl font-black text-primary">$890,000</h3>
+</div>
+<h4 class="font-bold text-lg text-slate-900 leading-tight mb-2">Greenwich Village Townhouse</h4>
+<p class="text-slate-500 text-sm line-clamp-2 mb-4">Traditional brick charm meets modern luxury in this fully renovated four-story historical townhouse.</p>
+<div class="flex items-center gap-4 py-4 border-t border-slate-50">
+<div class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-lg">bed</span>
+<span class="text-sm font-semibold text-slate-900">4</span>
+</div>
+<div class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-lg">bathtub</span>
+<span class="text-sm font-semibold text-slate-900">3</span>
+</div>
+<div class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-lg">square_foot</span>
+<span class="text-sm font-semibold text-slate-900">3,100 sqft</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Property Card 3 -->
+<div class="group bg-white dark:bg-background-dark/40 rounded-xl overflow-hidden border border-slate-100 hover:shadow-2xl hover:shadow-slate-200 transition-all duration-300">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="Property 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Modern geometric mansion architecture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAG58t3UXeQ5z0ASK_C8PqNYun62uZs5ZB0qpMWqLulIrtF1F0vYmDBzsaLVltbKPx4ie3sqRJZQ-ziuN_s74BS7BzRylJHZcstB1v5jBZdjSs_yRF_CX-jTDkLdi8sXEeOdaR3tuu4wxoqf0olE8HLIgSlQYImftRPd2XY5GP76fE4sZBtidxHoqw8sw5nJN6piPyObxNvGDu3iD-DYSMqv33QqFTTZZ8jJnuVtThbDmtZ_7GuEQuHQ6TYdHlo61SS8TPnZMdnvWw"/>
+<div class="absolute top-4 left-4">
+<span class="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full">Premium Listing</span>
+</div>
+<button class="absolute top-4 right-4 w-9 h-9 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-2xl font-black text-primary">$2,100,000</h3>
+</div>
+<h4 class="font-bold text-lg text-slate-900 leading-tight mb-2">Modernist Villa, Hudson Valley</h4>
+<p class="text-slate-500 text-sm line-clamp-2 mb-4">A glass and steel masterpiece nestled in 5 acres of private woods with a private infinity pool.</p>
+<div class="flex items-center gap-4 py-4 border-t border-slate-50">
+<div class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-lg">bed</span>
+<span class="text-sm font-semibold text-slate-900">5</span>
+</div>
+<div class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-lg">bathtub</span>
+<span class="text-sm font-semibold text-slate-900">4.5</span>
+</div>
+<div class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-lg">square_foot</span>
+<span class="text-sm font-semibold text-slate-900">4,850 sqft</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Property Card 4 -->
+<div class="group bg-white dark:bg-background-dark/40 rounded-xl overflow-hidden border border-slate-100 hover:shadow-2xl hover:shadow-slate-200 transition-all duration-300">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="Property 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Beachfront property with white walls and palm trees" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCh5CLLpkDvz9bhu9274UtQrGP_weEUI3b-t7r8IROFPrmWiiz-0XtRBa7lFrja9qsBPstRZ-9ebvkCkmcFuVcvueB7izrqgxhLcwguaC_1kvSelMAB2D1Gz8TinzmASmy10lrdwbjUkU7IwIc-yT9rDzDbWVTTBt3Y3rd6Pk-fZdTDlHhi362oZO3EMfT3ZNh8DrPf8DvrwrEj4m30CtxPtGRGM7FGAKxJbgJz9vLYQofUFPbP5dIt0QYuDptNjvnbMptKI10q07o"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full">For Sale</span>
+</div>
+<button class="absolute top-4 right-4 w-9 h-9 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-2xl font-black text-primary">$1,720,000</h3>
+</div>
+<h4 class="font-bold text-lg text-slate-900 leading-tight mb-2">The Glass House, Montauk</h4>
+<p class="text-slate-500 text-sm line-clamp-2 mb-4">Stunning oceanfront property featuring sustainable materials and a private walkway to the beach.</p>
+<div class="flex items-center gap-4 py-4 border-t border-slate-50">
+<div class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-lg">bed</span>
+<span class="text-sm font-semibold text-slate-900">3</span>
+</div>
+<div class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-lg">bathtub</span>
+<span class="text-sm font-semibold text-slate-900">2</span>
+</div>
+<div class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-lg">square_foot</span>
+<span class="text-sm font-semibold text-slate-900">1,900 sqft</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Property Card 5 -->
+<div class="group bg-white dark:bg-background-dark/40 rounded-xl overflow-hidden border border-slate-100 hover:shadow-2xl hover:shadow-slate-200 transition-all duration-300">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="Property 5" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Luxury estate with long driveway and fountain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmIvheO879Bcnz49WQa0NKXQvdJb3PoJ4bDPDwl4qGLynVx4i_dJUaGXPDZi7b-pMzZV2DcWzTmyvUExsWwH8FdCw95jX3V4ZtWRTToaBiie_GtBWu37ih9nFoI3fFamWHWQDKQt4xv5wHr8raBdOciCYmud4Y1wPS5cVb0Jr4Dcp98jUPqnYYm2h-6vHQzWgXGJ_ZFwT6xr-6_upFojBIF6HOMS0PmDa1eTVKRHyosKF5jJa9QmHDhvXY6jaWT3YC7forvmJvokQ"/>
+<div class="absolute top-4 left-4">
+<span class="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full">New Build</span>
+</div>
+<button class="absolute top-4 right-4 w-9 h-9 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-2xl font-black text-primary">$3,450,000</h3>
+</div>
+<h4 class="font-bold text-lg text-slate-900 leading-tight mb-2">Bel Air Contemporary Mansion</h4>
+<p class="text-slate-500 text-sm line-clamp-2 mb-4">A sprawling 8-bedroom estate with world-class amenities including a cinema, wine cellar, and wellness spa.</p>
+<div class="flex items-center gap-4 py-4 border-t border-slate-50">
+<div class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-lg">bed</span>
+<span class="text-sm font-semibold text-slate-900">8</span>
+</div>
+<div class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-lg">bathtub</span>
+<span class="text-sm font-semibold text-slate-900">6</span>
+</div>
+<div class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-lg">square_foot</span>
+<span class="text-sm font-semibold text-slate-900">9,200 sqft</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Property Card 6 -->
+<div class="group bg-white dark:bg-background-dark/40 rounded-xl overflow-hidden border border-slate-100 hover:shadow-2xl hover:shadow-slate-200 transition-all duration-300">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="Property 6" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Small cozy cottage in the countryside" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCl_iLbV2uw59tpaHg-p6q2KjvlWf47FDiy2-H4HpAx1eSwZ08boPBgkewlEgAblOr9isRmddx_e8dkNHedUCtS1iBHDU9qsXVH9m76Ead4ZpXNMAhLkdSkGd8irRtM1Nfu63z_GYxYz5Z6PbPkwD3KKB2t3ZJDqw9RelRloOej8Tmd6zTiPRYO-51Aonb_rG98A9Lh-HKMAAXKtgefjDydPH1zw6iAFWTmoCYgwVx9x-6tlGiac4nwy9TxOfrnbzTJj3zpNvaQ8lU"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="px-3 py-1 bg-amber-500 text-white text-xs font-bold rounded-full">Reduced</span>
+</div>
+<button class="absolute top-4 right-4 w-9 h-9 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-2xl font-black text-primary">$545,000</h3>
+<span class="text-sm line-through text-slate-400">$610k</span>
+</div>
+<h4 class="font-bold text-lg text-slate-900 leading-tight mb-2">Heritage Cottage, Woodstock</h4>
+<p class="text-slate-500 text-sm line-clamp-2 mb-4">Charming 19th-century cottage with original features, updated kitchen, and beautiful rose gardens.</p>
+<div class="flex items-center gap-4 py-4 border-t border-slate-50">
+<div class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-lg">bed</span>
+<span class="text-sm font-semibold text-slate-900">2</span>
+</div>
+<div class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-lg">bathtub</span>
+<span class="text-sm font-semibold text-slate-900">1</span>
+</div>
+<div class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-lg">square_foot</span>
+<span class="text-sm font-semibold text-slate-900">1,250 sqft</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="mt-12 flex justify-center">
+<nav class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 text-slate-400 hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-white font-bold">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 text-slate-600 font-bold hover:bg-slate-50">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 text-slate-600 font-bold hover:bg-slate-50">3</button>
+<span class="px-2 text-slate-400">...</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 text-slate-600 font-bold hover:bg-slate-50">12</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 text-slate-400 hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</nav>
+</div>
+</div>
+</div>
+</main>
+<!-- Map Preview Toggle Floating Button -->
+<button class="fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 bg-primary text-white rounded-full shadow-2xl flex items-center gap-2 font-bold z-40 hover:scale-105 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">map</span> View Map
+    </button>
+<footer class="mt-20 border-t border-slate-200 py-12 bg-white">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+<div class="col-span-1 md:col-span-2">
+<div class="flex items-center gap-2 text-primary mb-6">
+<span class="material-symbols-outlined text-3xl font-bold">home_work</span>
+<h1 class="text-xl font-black tracking-tight">Home Market</h1>
+</div>
+<p class="text-slate-500 max-w-sm mb-6">Connecting homeowners and buyers with premium properties across the most desirable neighborhoods since 2010.</p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined text-xl">public</span></a>
+<a class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined text-xl">share</span></a>
+<a class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined text-xl">alternate_email</span></a>
+</div>
+</div>
+<div>
+<h4 class="font-bold mb-6">Company</h4>
+<ul class="space-y-4 text-slate-500 text-sm font-medium">
+<li><a class="hover:text-primary" href="#">About Us</a></li>
+<li><a class="hover:text-primary" href="#">Careers</a></li>
+<li><a class="hover:text-primary" href="#">Press</a></li>
+<li><a class="hover:text-primary" href="#">Investors</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-6">Support</h4>
+<ul class="space-y-4 text-slate-500 text-sm font-medium">
+<li><a class="hover:text-primary" href="#">Help Center</a></li>
+<li><a class="hover:text-primary" href="#">Contact Support</a></li>
+<li><a class="hover:text-primary" href="#">Terms of Service</a></li>
+<li><a class="hover:text-primary" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-slate-100 text-center text-slate-400 text-sm font-medium">
+            © 2024 Home Market Inc. All rights reserved. Built with precision for premium living.
+        </div>
+</footer>
+</body></html>

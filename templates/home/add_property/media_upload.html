@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000080",
+                        "background-light": "#f5f5f8",
+                        "background-dark": "#0f0f23",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.25rem", // 20px as requested
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="layout-container flex flex-col min-h-screen">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-4 lg:px-20">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-primary rounded-lg text-white">
+<span class="material-symbols-outlined block">home_work</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight text-primary dark:text-slate-100">Home Market</h2>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center rounded-xl h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
+<span class="material-symbols-outlined text-primary">person</span>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
+<div class="w-full max-w-4xl space-y-8">
+<!-- Stepper Progress -->
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<span class="text-primary font-semibold text-sm uppercase tracking-wider">Step 4 of 5</span>
+<span class="text-slate-500 text-sm font-medium">80% Completed</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-2.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full transition-all duration-500" style="width: 80%;"></div>
+</div>
+<div class="flex justify-between items-center">
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white">Property Photos</h1>
+<div class="flex items-center gap-2 text-primary font-medium text-sm">
+<span class="material-symbols-outlined text-lg">info</span>
+<span>Images help sell faster</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 gap-8">
+<!-- Upload Section -->
+<div class="bg-white dark:bg-slate-900 p-8 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm">
+<div class="mb-6">
+<p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                                High-quality photos increase buyer interest by up to 80%. Upload at least 5 clear images of the interior and exterior to showcase your property's best features.
+                            </p>
+</div>
+<!-- Drag & Drop Area -->
+<div class="relative group cursor-pointer">
+<div class="flex flex-col items-center justify-center border-2 border-dashed border-primary/30 group-hover:border-primary bg-primary/5 rounded-xl py-16 px-6 transition-colors">
+<div class="w-16 h-16 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center shadow-md mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl">cloud_upload</span>
+</div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1">Drag and drop images here</h3>
+<p class="text-slate-500 text-sm mb-6">Support: JPG, PNG, WEBP (Max 10MB per file)</p>
+<button class="px-6 py-2.5 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+                                    Select Files from Computer
+                                </button>
+</div>
+</div>
+</div>
+<!-- Preview Section -->
+<div class="space-y-4">
+<div class="flex items-center justify-between px-2">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                Preview <span class="text-sm font-normal text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">3 uploaded</span>
+</h3>
+<button class="text-sm text-primary font-semibold hover:underline">Clear all</button>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<!-- Image Card 1 -->
+<div class="relative aspect-square rounded-xl overflow-hidden group border border-slate-200 dark:border-slate-700">
+<img alt="Modern living room with large windows" class="w-full h-full object-cover" data-alt="Modern living room with large windows and white furniture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxYJJxKTqAMi5Odl0Z7hRVXk-Gga-5Uc_GxCpKP15q6Qa6kVjiTMj8qwIzXQRUE-aGVXiZsNljyBYdKbGjFH__MwBMTXg7PQvtXB2Cxchkk1BA_yDtgM7BQM63LwR-4K8iO0TdE2zKnwpurXcXRv1a7IP6wuD3IL6NpPg-6K0Sar46gop58prW6jtcE19C0fuh-SIGtrGrsiz2nBe2u_-wkacEaZfUVws8wuviWZ5lW94sqMHZes7osuO-_R7jKXKyM85B0yJ2HhU"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+<button class="p-2 bg-white rounded-full text-red-600 hover:bg-red-50">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+<button class="p-2 bg-white rounded-full text-primary hover:bg-blue-50">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+</div>
+<div class="absolute top-2 left-2 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-md uppercase">Main Photo</div>
+</div>
+<!-- Image Card 2 -->
+<div class="relative aspect-square rounded-xl overflow-hidden group border border-slate-200 dark:border-slate-700">
+<img alt="Clean minimalist kitchen" class="w-full h-full object-cover" data-alt="Clean minimalist kitchen with marble countertops" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCybmMF388oAo2T6mnkiivUWAkR-Vh5Q-Fr1IIDfs4_TfgaOx3mdv_vT3Gyul-Z5flaDDyLxUzZ_6Ohx8AKwTeFI9HfQRSwBW--1L-3qQA6bwhoee-T9LzMBOjS9-VXa6yBcZIQZZbOhq5zNJ6jym0F4yHoAs29ewQeO6A0n-vaHD3jXWZo6TLgcfLTue5UKf2ptk8gthYPcPbv21kGD7k70le9tLqjK6hMEWSYDMgf_AeDUsLwcBeHiJIu_7wc8RcDzDsEAn8TfJ8"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+<button class="p-2 bg-white rounded-full text-red-600 hover:bg-red-50">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</div>
+<!-- Image Card 3 -->
+<div class="relative aspect-square rounded-xl overflow-hidden group border border-slate-200 dark:border-slate-700">
+<img alt="Elegant bedroom decor" class="w-full h-full object-cover" data-alt="Elegant bedroom with soft lighting and neutral colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChyGyN-PT64dz5OSyIh2OC7n7kVeuvmV82092TWhOl-rBE_VPF9d-6UgJFxf7iroO9FBOx4XjC0_HNX1c77Hktpjk78VgucaP1PcguxqO_YnXnx7YeqGky8bINKpyMml_sduOvO53Ykh8z7386oCeZHWYfKV4ake_iqhnsghChtGiA8i8BplEQnjd4yD7c3RzxpOigjfXFx8gVEduxBrWbF1H18Kb1FlX-E50oVBx84u8anyPt0iwy5zXwfVnt0FPivKbkbcet4pA"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+<button class="p-2 bg-white rounded-full text-red-600 hover:bg-red-50">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</div>
+<!-- Empty Placeholder for at least 5 rule -->
+<div class="aspect-square rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center text-slate-400">
+<span class="material-symbols-outlined text-3xl mb-1">add_a_photo</span>
+<span class="text-xs font-medium">Add more</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Navigation Buttons -->
+<div class="flex items-center justify-between pt-8 border-t border-slate-200 dark:border-slate-800">
+<button class="flex items-center gap-2 px-6 py-3 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 font-bold rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+                        Back
+                    </button>
+<button class="flex items-center gap-2 px-10 py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary/90 transition-all shadow-lg shadow-primary/30">
+                        Next Step
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Footer Info -->
+<footer class="py-6 px-4 text-center text-slate-500 text-sm border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 mt-auto">
+<p>© 2024 Home Market Property Portal. Secured by Enterprise SSL.</p>
+</footer>
+</div>
+</body></html>

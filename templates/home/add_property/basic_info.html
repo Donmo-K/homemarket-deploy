@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000080",
+                        "background-light": "#f5f5f8",
+                        "background-dark": "#0f0f23",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.25rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<title>Home Market - Add Property</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="layout-container flex flex-col min-h-screen">
+<!-- Navigation Bar -->
+<header class="flex items-center justify-between border-b border-primary/10 bg-white dark:bg-slate-900 px-6 py-4 md:px-10 lg:px-40">
+<div class="flex items-center gap-3 text-primary">
+<div class="size-8 flex items-center justify-center bg-primary text-white rounded-lg">
+<span class="material-symbols-outlined">home_work</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight">Home Market</h2>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center rounded-xl h-10 w-10 bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-10 w-10 rounded-full bg-slate-200 dark:bg-slate-800 bg-cover bg-center border-2 border-primary/20" data-alt="User profile avatar placeholder" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDjizSeOQvTpCdFWpgoQOX8Q9Kc8pFVxDk2qtXhIa4jBzJM6cww4mxh7eeHVswcsVd5mN6M-74I8d4YhghmJC9c6DnaVxjIvXJRhjSK1_onJo0wyBilnXjnBHeHIL5bagygd1ezTUh-X8xFwu1VQ6riQocgX74Y4ntOwW6H4QQd0xkuRP4vQcjZkStIE_NJw6awWvtu5D1vSf4NBoQswK_NKbaefUKGv6iIt4i8qZp_VPFzhJbgkyJnry4WkNcik1M9pYFiJEXJH8w')"></div>
+</div>
+</header>
+<!-- Main Content Container -->
+<main class="flex-1 flex flex-col max-w-4xl mx-auto w-full px-4 py-8 md:px-0">
+<!-- Progress Header -->
+<div class="flex flex-col gap-4 mb-8">
+<div class="flex justify-between items-end">
+<div>
+<h1 class="text-2xl md:text-3xl font-bold">List Your Property</h1>
+<p class="text-slate-500 dark:text-slate-400 mt-1">Step 1 of 5: Basic Information</p>
+</div>
+<div class="text-right">
+<span class="text-primary font-bold text-lg">20%</span>
+<p class="text-xs text-slate-400 uppercase tracking-wider">Completed</p>
+</div>
+</div>
+<div class="h-3 w-full bg-primary/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-500" style="width: 20%;"></div>
+</div>
+</div>
+<!-- Multi-step Stepper -->
+<div class="mb-10 overflow-x-auto">
+<div class="flex border-b border-primary/10 min-w-[600px]">
+<a class="flex-1 flex flex-col items-center py-4 border-b-4 border-primary text-primary transition-all" href="#">
+<span class="material-symbols-outlined mb-1">info</span>
+<span class="text-sm font-bold">Basic Info</span>
+</a>
+<a class="flex-1 flex flex-col items-center py-4 border-b-4 border-transparent text-slate-400 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined mb-1">payments</span>
+<span class="text-sm font-medium">Pricing</span>
+</a>
+<a class="flex-1 flex flex-col items-center py-4 border-b-4 border-transparent text-slate-400 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined mb-1">location_on</span>
+<span class="text-sm font-medium">Location</span>
+</a>
+<a class="flex-1 flex flex-col items-center py-4 border-b-4 border-transparent text-slate-400 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined mb-1">photo_library</span>
+<span class="text-sm font-medium">Media</span>
+</a>
+<a class="flex-1 flex flex-col items-center py-4 border-b-4 border-transparent text-slate-400 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined mb-1">fact_check</span>
+<span class="text-sm font-medium">Review</span>
+</a>
+</div>
+</div>
+<!-- Form Content -->
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-primary/5 p-6 md:p-10">
+<h2 class="text-xl font-bold mb-8 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">edit_note</span>
+                    Property Details
+                </h2>
+<form class="space-y-8">
+<!-- Property Title -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Property Title</label>
+<input class="w-full rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 p-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none" placeholder="e.g. Modern Villa with Sea View" type="text"/>
+<p class="text-xs text-slate-400">Make it descriptive and attractive to potential buyers.</p>
+</div>
+<!-- Row: Type and Category -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Status</label>
+<div class="grid grid-cols-2 gap-3">
+<label class="cursor-pointer">
+<input checked="" class="peer hidden" name="status" type="radio"/>
+<div class="flex items-center justify-center p-4 rounded-xl border border-slate-200 dark:border-slate-700 peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:text-primary transition-all">
+<span class="font-medium">For Sale</span>
+</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer hidden" name="status" type="radio"/>
+<div class="flex items-center justify-center p-4 rounded-xl border border-slate-200 dark:border-slate-700 peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:text-primary transition-all">
+<span class="font-medium">For Rent</span>
+</div>
+</label>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Property Category</label>
+<div class="relative">
+<select class="w-full appearance-none rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 p-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none">
+<option disabled="" selected="" value="">Select category</option>
+<option value="house">House</option>
+<option value="apartment">Apartment</option>
+<option value="land">Land</option>
+<option value="commercial">Commercial</option>
+<option value="villa">Villa</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Description -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Description</label>
+<textarea class="w-full rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 p-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none resize-none" placeholder="Describe your property's features, nearby amenities, and any unique selling points..." rows="5"></textarea>
+</div>
+<!-- Navigation Buttons -->
+<div class="pt-8 flex justify-between items-center border-t border-primary/5">
+<button class="px-8 py-3 rounded-xl border border-primary/10 font-bold text-slate-400 cursor-not-allowed" disabled="" type="button">
+                            Back
+                        </button>
+<button class="px-10 py-3 rounded-xl bg-primary text-white font-bold hover:shadow-lg hover:shadow-primary/20 active:scale-[0.98] transition-all flex items-center gap-2" type="button">
+                            Next Step
+                            <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</form>
+</div>
+<!-- Tip/Note -->
+<div class="mt-8 bg-primary/5 border border-primary/10 rounded-xl p-4 flex gap-4">
+<span class="material-symbols-outlined text-primary">lightbulb</span>
+<p class="text-sm text-slate-600 dark:text-slate-400">
+<span class="font-bold text-primary">Quick Tip:</span> High-quality descriptions can increase your lead generation by up to 40%. Be sure to mention specific materials or renovations.
+                </p>
+</div>
+</main>
+<!-- Footer Footer -->
+<footer class="mt-auto py-10 px-40 border-t border-primary/5 text-center text-slate-400 text-sm">
+            © 2024 Home Market Inc. All rights reserved.
+        </footer>
+</div>
+</body></html>
