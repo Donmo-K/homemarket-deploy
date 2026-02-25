@@ -19,7 +19,7 @@ def generate_code(length=6):
 
 
 class RegisterView(View):
-    template_name = 'auth/register.html'
+    template_name = 'home/register.html'
     
     def get(self, request):
         if request.user.is_authenticated:
@@ -81,7 +81,7 @@ class RegisterView(View):
 
 
 class LoginView(View):
-    template_name = 'auth/login.html'
+    template_name = 'home/login.html'
     
     def get(self, request):
         if request.user.is_authenticated:

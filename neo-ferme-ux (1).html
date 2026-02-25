@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEO FERME — Design UX Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --g900: #0d3b1a;
+  --g700: #1B6B2F;
+  --g500: #2d8f47;
+  --g200: #b8e0c0;
+  --g100: #e8f5e9;
+  --o600: #E65100;
+  --o400: #FF7043;
+  --o100: #FFF3E0;
+  --cream: #FAFAF7;
+  --ink: #1a1a1a;
+  --muted: #6B7280;
+  --border: #E5E7EB;
+  --white: #ffffff;
+  --shadow: 0 4px 24px rgba(0,0,0,0.10);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,0.16);
+  --r: 14px;
+  --r-sm: 8px;
+  font-size: 15px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;}
+img{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;border:none;font-family:inherit;}
+
+/* ── SCREENS ── */
+.screen{display:none;min-height:100vh;animation:fadeIn .35s ease;}
+.screen.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── NAVBAR ── */
+nav{position:sticky;top:0;z-index:100;background:var(--g900);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:62px;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+.nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer;}
+.nav-logo-icon{width:36px;height:36px;background:var(--g500);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.nav-logo span{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--white);}
+.nav-logo small{color:var(--g200);font-size:10px;display:block;line-height:1;}
+.nav-links{display:flex;gap:4px;align-items:center;}
+.nav-link{padding:7px 12px;color:rgba(255,255,255,.75);font-size:13px;font-weight:500;border-radius:6px;cursor:pointer;transition:all .2s;}
+.nav-link:hover,.nav-link.active{color:white;background:rgba(255,255,255,.12);}
+.nav-cta{background:var(--o600);color:white!important;padding:7px 16px!important;border-radius:20px!important;font-weight:600!important;}
+.nav-cta:hover{background:var(--o400)!important;}
+.nav-cart{position:relative;padding:7px 10px;color:white;font-size:20px;cursor:pointer;}
+.cart-badge{position:absolute;top:2px;right:2px;background:var(--o600);color:white;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,var(--g900) 0%,var(--g700) 60%,#3a6b1f 100%);padding:60px 20px 50px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;right:-80px;top:-80px;width:350px;height:350px;background:radial-gradient(circle,rgba(255,255,255,.06) 0%,transparent 70%);pointer-events:none;}
+.hero::after{content:'🌿';position:absolute;right:20px;bottom:20px;font-size:100px;opacity:.08;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:5px 14px;color:var(--g200);font-size:12px;font-weight:500;margin-bottom:20px;}
+.hero h1{font-family:'Playfair Display',serif;font-size:38px;font-weight:900;color:white;line-height:1.15;margin-bottom:14px;}
+.hero h1 em{color:var(--o400);font-style:normal;}
+.hero p{color:rgba(255,255,255,.75);font-size:15px;line-height:1.6;margin-bottom:28px;max-width:340px;}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;}
+.btn-primary{background:var(--o600);color:white;padding:13px 24px;border-radius:25px;font-weight:600;font-size:14px;display:flex;align-items:center;gap:8px;transition:all .2s;box-shadow:0 4px 16px rgba(230,81,0,.4);}
+.btn-primary:hover{background:var(--o400);transform:translateY(-1px);}
+.btn-outline{background:rgba(255,255,255,.12);color:white;padding:13px 24px;border-radius:25px;font-weight:500;font-size:14px;border:1px solid rgba(255,255,255,.25);transition:all .2s;}
+.btn-outline:hover{background:rgba(255,255,255,.2);}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.1);border-radius:12px;margin-top:36px;overflow:hidden;}
+.hero-stat{background:rgba(0,0,0,.25);padding:16px 12px;text-align:center;}
+.hero-stat strong{display:block;color:white;font-size:22px;font-family:'Space Mono',monospace;}
+.hero-stat span{color:var(--g200);font-size:11px;}
+
+/* ── SECTIONS ── */
+.section{padding:40px 20px;}
+.section-header{margin-bottom:24px;}
+.section-header h2{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--ink);}
+.section-header p{color:var(--muted);font-size:13px;margin-top:4px;}
+.tag{display:inline-block;background:var(--g100);color:var(--g700);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;}
+
+/* ── FRESHNESS BANNER ── */
+.fresh-banner{background:linear-gradient(90deg,var(--g700),var(--g500));margin:0 20px;border-radius:var(--r);padding:16px 20px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow);}
+.fresh-banner .icon{font-size:28px;flex-shrink:0;}
+.fresh-banner strong{color:white;font-size:14px;display:block;}
+.fresh-banner span{color:rgba(255,255,255,.8);font-size:12px;}
+.fresh-dot{width:8px;height:8px;background:#4ade80;border-radius:50%;display:inline-block;margin-right:6px;box-shadow:0 0 0 3px rgba(74,222,128,.3);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(74,222,128,.3);}50%{box-shadow:0 0 0 6px rgba(74,222,128,.1);}}
+
+/* ── CATEGORIES ── */
+.cats{display:flex;gap:10px;overflow-x:auto;padding:0 20px 4px;scrollbar-width:none;}
+.cats::-webkit-scrollbar{display:none;}
+.cat-pill{flex-shrink:0;padding:9px 18px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:white;color:var(--ink);transition:all .2s;white-space:nowrap;}
+.cat-pill.active,.cat-pill:hover{background:var(--g700);color:white;border-color:var(--g700);}
+
+/* ── PRODUCT CARDS ── */
+.products-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;padding:16px 20px;}
+.product-card{background:white;border-radius:var(--r);overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);transition:transform .2s,box-shadow .2s;cursor:pointer;}
+.product-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);}
+.product-img{height:130px;background:linear-gradient(135deg,var(--g100) 0%,var(--g200) 100%);display:flex;align-items:center;justify-content:center;font-size:50px;position:relative;}
+.product-img .badge{position:absolute;top:8px;left:8px;background:var(--o600);color:white;font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;}
+.product-img .badge.fresh{background:var(--g700);}
+.product-body{padding:12px;}
+.product-name{font-size:13px;font-weight:600;color:var(--ink);line-height:1.3;}
+.product-weight{color:var(--muted);font-size:11px;margin-top:2px;}
+.product-price{font-family:'Space Mono',monospace;font-size:15px;font-weight:700;color:var(--g700);margin-top:6px;}
+.product-price span{font-size:10px;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:400;}
+.add-btn{width:28px;height:28px;background:var(--g700);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;margin-top:6px;float:right;transition:background .2s;}
+.add-btn:hover{background:var(--o600);}
+
+/* ── PROMO BANNER ── */
+.promo{background:var(--o100);border:1.5px solid #FFD1A8;border-radius:var(--r);margin:0 20px;padding:16px;display:flex;justify-content:space-between;align-items:center;}
+.promo h3{font-size:14px;font-weight:600;color:var(--o600);}
+.promo p{font-size:12px;color:#7C3A00;margin-top:2px;}
+.promo-code{background:var(--o600);color:white;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;font-family:'Space Mono',monospace;}
+
+/* ── TESTIMONIALS ── */
+.testimonials{display:flex;gap:14px;overflow-x:auto;padding:0 20px;scrollbar-width:none;}
+.testimonials::-webkit-scrollbar{display:none;}
+.testi-card{flex-shrink:0;width:250px;background:white;border-radius:var(--r);padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.testi-stars{color:#FBBF24;font-size:13px;margin-bottom:8px;}
+.testi-text{font-size:13px;color:var(--ink);line-height:1.5;font-style:italic;}
+.testi-author{margin-top:12px;display:flex;align-items:center;gap:8px;}
+.testi-avatar{width:32px;height:32px;border-radius:50%;background:var(--g200);display:flex;align-items:center;justify-content:center;font-size:14px;}
+.testi-name{font-size:12px;font-weight:600;}
+.testi-type{font-size:11px;color:var(--muted);}
+
+/* ── PRODUCT DETAIL ── */
+.product-detail-img{height:260px;background:linear-gradient(135deg,var(--g100),var(--g200));display:flex;align-items:center;justify-content:center;font-size:100px;position:relative;}
+.back-btn{position:absolute;top:16px;left:16px;background:rgba(255,255,255,.9);border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;box-shadow:var(--shadow);}
+.share-btn{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.9);border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;box-shadow:var(--shadow);}
+.product-detail-body{padding:20px;}
+.product-detail-body h2{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;}
+.product-detail-price{font-family:'Space Mono',monospace;font-size:24px;font-weight:700;color:var(--g700);margin:8px 0;}
+.product-info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0;}
+.info-chip{background:var(--g100);border-radius:var(--r-sm);padding:10px;text-align:center;}
+.info-chip strong{display:block;font-size:13px;font-weight:700;color:var(--g700);}
+.info-chip span{font-size:10px;color:var(--muted);}
+.qty-selector{display:flex;align-items:center;gap:16px;margin:16px 0;}
+.qty-selector span{font-weight:600;font-size:16px;}
+.qty-btn{width:36px;height:36px;border-radius:50%;border:2px solid var(--border);background:white;font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;transition:all .2s;}
+.qty-btn:hover{border-color:var(--g700);color:var(--g700);}
+.add-to-cart-btn{width:100%;background:var(--g700);color:white;padding:15px;border-radius:25px;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s;}
+.add-to-cart-btn:hover{background:var(--g900);transform:translateY(-1px);box-shadow:0 6px 20px rgba(27,107,47,.35);}
+.description-section{margin-top:20px;background:white;border-radius:var(--r);padding:16px;}
+.description-section h3{font-size:14px;font-weight:600;margin-bottom:8px;}
+.description-section p{font-size:13px;color:var(--muted);line-height:1.6;}
+
+/* ── CART ── */
+.cart-item{display:flex;gap:14px;background:white;border-radius:var(--r);padding:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.cart-item-img{width:60px;height:60px;background:var(--g100);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}
+.cart-item-info{flex:1;}
+.cart-item-info h4{font-size:14px;font-weight:600;}
+.cart-item-info p{font-size:12px;color:var(--muted);margin-top:2px;}
+.cart-item-price{font-family:'Space Mono',monospace;font-size:15px;font-weight:700;color:var(--g700);margin-top:4px;}
+.cart-qty{display:flex;align-items:center;gap:10px;margin-top:6px;}
+.cart-qty button{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--border);background:white;font-size:14px;font-weight:700;cursor:pointer;}
+.cart-qty span{font-size:13px;font-weight:600;}
+.cart-delete{color:var(--muted);font-size:18px;cursor:pointer;padding:4px;}
+.cart-summary{background:white;border-radius:var(--r);padding:16px;margin-top:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.cart-row{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid var(--border);}
+.cart-row:last-child{border:none;}
+.cart-row.total{font-weight:700;font-size:16px;color:var(--g700);padding-top:10px;}
+.delivery-options{display:grid;gap:10px;margin:16px 0;}
+.delivery-opt{border:2px solid var(--border);border-radius:var(--r);padding:14px;cursor:pointer;transition:all .2s;display:flex;justify-content:space-between;align-items:center;}
+.delivery-opt.selected{border-color:var(--g700);background:var(--g100);}
+.delivery-opt-label{font-size:13px;font-weight:600;}
+.delivery-opt-desc{font-size:11px;color:var(--muted);margin-top:2px;}
+.delivery-opt-price{font-size:13px;font-weight:700;color:var(--g700);}
+
+/* ── PAYMENT ── */
+.payment-methods{display:grid;gap:10px;margin:16px 0;}
+.payment-method{border:2px solid var(--border);border-radius:var(--r);padding:14px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:14px;}
+.payment-method.selected{border-color:var(--g700);background:var(--g100);}
+.payment-icon{width:42px;height:42px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:20px;}
+.payment-name{font-size:14px;font-weight:600;}
+.payment-desc{font-size:11px;color:var(--muted);}
+.phone-input{width:100%;padding:13px 16px;border:2px solid var(--border);border-radius:var(--r);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;margin-top:12px;}
+.phone-input:focus{border-color:var(--g700);}
+.step-indicator{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:20px;}
+.step{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);background:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--muted);position:relative;}
+.step.active{background:var(--g700);border-color:var(--g700);color:white;}
+.step.done{background:var(--g200);border-color:var(--g200);color:var(--g700);}
+.step-line{flex:1;height:2px;background:var(--border);max-width:40px;}
+.step-line.done{background:var(--g200);}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:4px;padding:0 20px;margin-bottom:20px;}
+.tab{padding:8px 16px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:white;color:var(--muted);transition:all .2s;}
+.tab.active{background:var(--g700);color:white;border-color:var(--g700);}
+
+/* ── PRO SECTION ── */
+.pro-hero{background:linear-gradient(135deg,var(--g900),#1a3f0d);padding:36px 20px;margin:0;}
+.pro-hero h1{font-family:'Playfair Display',serif;font-size:28px;color:white;font-weight:700;}
+.pro-hero p{color:var(--g200);font-size:14px;margin-top:8px;line-height:1.6;}
+.calculator{background:white;border-radius:var(--r);padding:20px;margin:20px;box-shadow:var(--shadow);}
+.calculator h3{font-size:15px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.calc-field{margin-bottom:14px;}
+.calc-field label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:6px;}
+.calc-input{width:100%;padding:11px 14px;border:2px solid var(--border);border-radius:var(--r-sm);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;}
+.calc-input:focus{border-color:var(--g700);}
+.calc-result{background:var(--g100);border:2px solid var(--g200);border-radius:var(--r);padding:16px;margin-top:16px;}
+.calc-result h4{color:var(--g700);font-size:13px;font-weight:700;margin-bottom:8px;}
+.calc-line{display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:1px solid var(--g200);}
+.calc-line:last-child{border:none;font-weight:700;padding-top:8px;}
+.pro-pricing-table{overflow:hidden;border-radius:var(--r);margin:0 20px;box-shadow:var(--shadow);}
+.price-header{background:var(--g900);padding:12px 16px;display:grid;grid-template-columns:1fr repeat(3,80px);gap:8px;font-size:12px;font-weight:700;color:var(--g200);}
+.price-row{background:white;padding:12px 16px;display:grid;grid-template-columns:1fr repeat(3,80px);gap:8px;font-size:13px;border-bottom:1px solid var(--border);}
+.price-row:last-child{border:none;}
+.price-row:nth-child(even){background:var(--g100);}
+.price-row strong{font-weight:600;}
+
+/* ── BLOG ── */
+.blog-featured{margin:0 20px;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);cursor:pointer;}
+.blog-featured-img{height:180px;background:linear-gradient(135deg,var(--g700) 0%,var(--g500) 50%,#5a8f2a 100%);display:flex;align-items:center;justify-content:center;font-size:60px;position:relative;}
+.blog-featured-img .category-tag{position:absolute;top:14px;left:14px;background:var(--o600);color:white;font-size:11px;font-weight:700;padding:4px 10px;border-radius:10px;}
+.blog-featured-body{background:white;padding:16px;}
+.blog-featured-body h2{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;line-height:1.3;}
+.blog-featured-body p{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5;}
+.blog-meta{display:flex;gap:12px;margin-top:10px;font-size:11px;color:var(--muted);align-items:center;}
+.blog-card{display:flex;gap:14px;background:white;border-radius:var(--r);padding:14px;margin:10px 20px;box-shadow:0 2px 8px rgba(0,0,0,.05);cursor:pointer;}
+.blog-card-img{width:70px;height:70px;border-radius:var(--r-sm);background:var(--g100);display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;}
+.blog-card-body h3{font-size:14px;font-weight:600;line-height:1.3;}
+.blog-card-body p{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4;}
+
+/* ── ACCOUNT ── */
+.account-header{background:linear-gradient(135deg,var(--g700),var(--g900));padding:30px 20px;display:flex;align-items:center;gap:16px;}
+.account-avatar{width:56px;height:56px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.account-name{color:white;font-size:18px;font-weight:700;}
+.account-type{display:inline-block;background:var(--o600);color:white;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-top:4px;}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:20px;}
+.stat-card{background:white;border-radius:var(--r);padding:14px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.stat-card strong{display:block;font-size:22px;font-weight:700;color:var(--g700);font-family:'Space Mono',monospace;}
+.stat-card span{font-size:11px;color:var(--muted);}
+.order-card{background:white;border-radius:var(--r);padding:16px;margin:10px 20px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.order-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.order-id{font-size:13px;font-weight:700;color:var(--g700);font-family:'Space Mono',monospace;}
+.order-status{font-size:11px;font-weight:600;padding:3px 10px;border-radius:10px;}
+.status-delivered{background:#D1FAE5;color:#065F46;}
+.status-progress{background:#FEF3C7;color:#92400E;}
+.order-items{font-size:12px;color:var(--muted);}
+.order-total{font-size:14px;font-weight:700;margin-top:8px;}
+.menu-items{padding:0 20px;}
+.menu-item{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border);cursor:pointer;}
+.menu-item:last-child{border:none;}
+.menu-item-left{display:flex;align-items:center;gap:12px;font-size:14px;font-weight:500;}
+.menu-item-icon{width:36px;height:36px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:16px;}
+
+/* ── NOTIFICATION TOAST ── */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--g900);color:white;padding:12px 20px;border-radius:25px;font-size:13px;font-weight:500;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+.toast.show{opacity:1;}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);display:flex;z-index:100;box-shadow:0 -4px 16px rgba(0,0,0,.08);}
+.bottom-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px 8px;cursor:pointer;transition:color .2s;color:var(--muted);font-size:10px;gap:4px;position:relative;}
+.bottom-nav-item.active{color:var(--g700);}
+.bottom-nav-item .icon{font-size:20px;}
+.bottom-nav-item .badge{position:absolute;top:6px;right:calc(50% - 14px);background:var(--o600);color:white;font-size:8px;font-weight:700;padding:1px 5px;border-radius:10px;min-width:14px;text-align:center;}
+
+/* ── WHATSAPP FAB ── */
+.whatsapp-fab{position:fixed;right:16px;bottom:76px;width:50px;height:50px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 16px rgba(37,211,102,.5);z-index:99;cursor:pointer;animation:bounce 3s infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+
+/* ── CONFIRMATION ── */
+.confirmation{padding:40px 20px;text-align:center;}
+.confirm-icon{width:80px;height:80px;background:var(--g100);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 20px;}
+.confirmation h2{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--g700);}
+.confirmation p{color:var(--muted);font-size:14px;margin-top:8px;line-height:1.6;}
+.tracking-steps{text-align:left;margin:24px 0;background:white;border-radius:var(--r);padding:16px;box-shadow:var(--shadow);}
+.track-step{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border);}
+.track-step:last-child{border:none;}
+.track-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:2px;}
+.track-dot.done{background:var(--g700);color:white;}
+.track-dot.current{background:var(--o600);color:white;}
+.track-dot.pending{background:var(--border);color:var(--muted);}
+.track-info strong{display:block;font-size:13px;font-weight:600;}
+.track-info span{font-size:12px;color:var(--muted);}
+
+/* ── MAP ZONE ── */
+.map-zone{background:white;border-radius:var(--r);margin:0 20px;overflow:hidden;box-shadow:var(--shadow);}
+.map-placeholder{height:200px;background:linear-gradient(135deg,#E8F4E8 0%,#C8E6C9 100%);display:flex;align-items:center;justify-content:center;position:relative;}
+.map-placeholder::after{content:'Carte de livraison (Douala)';position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.5);color:white;font-size:11px;padding:4px 10px;border-radius:10px;}
+.map-legend{padding:14px;display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:12px;}
+.legend-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+
+/* Utility */
+.p-20{padding:0 20px;}
+.mt-16{margin-top:16px;}
+.mt-20{margin-top:20px;}
+.mb-80{margin-bottom:80px;}
+.text-center{text-align:center;}
+.divider{height:1px;background:var(--border);margin:16px 0;}
+.label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;}
+.green-text{color:var(--g700);}
+.orange-text{color:var(--o600);}
+.section-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;padding:0 20px;margin:20px 0 12px;}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✅ Ajouté au panier !</div>
+
+<!-- WHATSAPP FAB -->
+<div class="whatsapp-fab" title="Contacter via WhatsApp" onclick="showToast('💬 Redirection vers WhatsApp Business…')">💬</div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo" onclick="goTo('home')">
+    <div class="nav-logo-icon">🐓</div>
+    <div>
+      <span>NEO FERME</span>
+      <small>Fraîcheur Garantie</small>
+    </div>
+  </div>
+  <div class="nav-links">
+    <div class="nav-link" onclick="goTo('catalogue')">Produits</div>
+    <div class="nav-link" onclick="goTo('pro')">Espace Pro</div>
+    <div class="nav-link" onclick="goTo('blog')">Blog</div>
+    <div class="nav-link nav-cta" onclick="goTo('catalogue')">Commander</div>
+    <div class="nav-cart" onclick="goTo('cart')">🛒<span class="cart-badge" id="cart-badge">2</span></div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════ HOME ═══════════════════════════════════ -->
+<div class="screen active" id="screen-home">
+  <div class="hero">
+    <div class="hero-badge"><span class="fresh-dot"></span> Abattage du jour disponible</div>
+    <h1>Le <em>Poulet Frais</em> de Douala, livré chez vous</h1>
+    <p>NEO FERME vous garantit des poulets de chair élevés en plein air, livrés dans les 3h à Douala et ses environs.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="goTo('catalogue')">🛒 Commander maintenant</button>
+      <button class="btn-outline" onclick="goTo('pro')">Espace Professionnel</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>500+</strong><span>Clients actifs</span></div>
+      <div class="hero-stat"><strong>4.9⭐</strong><span>Note moyenne</span></div>
+      <div class="hero-stat"><strong>3H</strong><span>Livraison max</span></div>
+    </div>
+  </div>
+
+  <div style="padding:20px 0 0;">
+    <div class="fresh-banner">
+      <div class="icon">🌡️</div>
+      <div>
+        <strong>Stock du jour mis à jour — Mardi 25 Fév.</strong>
+        <span><span class="fresh-dot"></span> Poulets entiers disponibles • Livraison disponible jusqu'à 18h</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="tag">Nos Produits</div>
+      <h2>Produits du moment</h2>
+      <p>Sélectionnés ce matin, livrés aujourd'hui</p>
+    </div>
+    <div class="cats" style="margin:0 -20px;padding:0 20px 8px;">
+      <div class="cat-pill active">Tout</div>
+      <div class="cat-pill">Poulets entiers</div>
+      <div class="cat-pill">Découpes</div>
+      <div class="cat-pill">Abats</div>
+      <div class="cat-pill">Promotions</div>
+    </div>
+  </div>
+
+  <div class="products-grid" style="padding:0 20px 0;">
+    <div class="product-card" onclick="goTo('product')">
+      <div class="product-img">🐔<div class="badge fresh">Disponible</div></div>
+      <div class="product-body">
+        <div class="product-name">Poulet entier standard</div>
+        <div class="product-weight">~1.8 kg • PK21</div>
+        <div class="product-price">2 500 <span>FCFA/kg</span></div>
+        <button class="add-btn" onclick="addToCart(event)">+</button>
+      </div>
+    </div>
+    <div class="product-card" onclick="goTo('product')">
+      <div class="product-img">🍗<div class="badge" style="background:var(--o600)">−15%</div></div>
+      <div class="product-body">
+        <div class="product-name">Cuisse de poulet x6</div>
+        <div class="product-weight">~1.2 kg</div>
+        <div class="product-price">1 800 <span>FCFA</span></div>
+        <button class="add-btn" onclick="addToCart(event)">+</button>
+      </div>
+    </div>
+    <div class="product-card" onclick="goTo('product')">
+      <div class="product-img">🥩<div class="badge fresh">Frais</div></div>
+      <div class="product-body">
+        <div class="product-name">Blanc de poulet désossé</div>
+        <div class="product-weight">500 g</div>
+        <div class="product-price">3 200 <span>FCFA/kg</span></div>
+        <button class="add-btn" onclick="addToCart(event)">+</button>
+      </div>
+    </div>
+    <div class="product-card" onclick="goTo('product')">
+      <div class="product-img">🐓</div>
+      <div class="product-body">
+        <div class="product-name">Poulet entier premium</div>
+        <div class="product-weight">~2.5 kg • Sélection</div>
+        <div class="product-price">3 000 <span>FCFA/kg</span></div>
+        <button class="add-btn" onclick="addToCart(event)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:16px 20px 4px;">
+    <button class="btn-outline" style="color:var(--g700);border-color:var(--g700);background:white;display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:25px;font-size:13px;font-weight:600;cursor:pointer;" onclick="goTo('catalogue')">Voir tous les produits →</button>
+  </div>
+
+  <div class="section" style="padding-top:8px;">
+    <div class="promo">
+      <div>
+        <h3>🎉 Offre Pro Resto</h3>
+        <p>−10% sur les commandes > 30kg</p>
+      </div>
+      <div class="promo-code">RESTO10</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="tag">Livraison</div>
+      <h2>Zones desservies</h2>
+    </div>
+    <div class="map-zone">
+      <div class="map-placeholder">🗺️</div>
+      <div class="map-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--g700)"></div>Zone 1 — Gratuit (PK21 ±5km)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--o600)"></div>Zone 2 — 500 FCFA</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#64B5F6"></div>Zone 3 — 1 000 FCFA</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#CE93D8)"></div>Zone 4 — Sur devis</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="tag">Avis Clients</div>
+      <h2>Ce qu'ils disent</h2>
+    </div>
+    <div class="testimonials" style="margin:0 -20px;padding:0 20px;">
+      <div class="testi-card">
+        <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+        <div class="testi-text">"Qualité irréprochable, livraison rapide ! Je commande toutes les semaines pour mon restaurant."</div>
+        <div class="testi-author"><div class="testi-avatar">👨‍🍳</div><div><div class="testi-name">Patrick N.</div><div class="testi-type">Restaurant Akwa</div></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+        <div class="testi-text">"Je ne vais plus au marché ! Les poulets arrivent frais, propres, le matin même."</div>
+        <div class="testi-author"><div class="testi-avatar">👩</div><div><div class="testi-name">Marie T.</div><div class="testi-type">Cliente particulière</div></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+        <div class="testi-text">"Les tarifs gros sont très compétitifs. L'équipe est réactive et professionnelle."</div>
+        <div class="testi-author"><div class="testi-avatar">🏨</div><div><div class="testi-name">Hôtel Sawa</div><div class="testi-type">Partenaire B2B</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="tag">Blog & Conseils</div>
+      <h2>Derniers articles</h2>
+    </div>
+    <div class="blog-card" onclick="goTo('blog')">
+      <div class="blog-card-img">🥘</div>
+      <div class="blog-card-body">
+        <h3>Comment conserver votre poulet frais 3 jours ?</h3>
+        <p>Conseils pratiques de notre éleveur pour une fraîcheur maximale...</p>
+      </div>
+    </div>
+    <div class="blog-card" onclick="goTo('blog')">
+      <div class="blog-card-img">🐣</div>
+      <div class="blog-card-body">
+        <h3>5 recettes camerounaises au poulet à essayer</h3>
+        <p>Poulet DG, Ndolé au poulet, sauce arachide...</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-80"></div>
+</div>
+
+<!-- ════════════════════════════ CATALOGUE ════════════════════════════ -->
+<div class="screen" id="screen-catalogue">
+  <div style="background:var(--g900);padding:20px;display:flex;align-items:center;gap:12px;">
+    <div>
+      <div style="color:var(--g200);font-size:12px;font-weight:500;">Catalogue</div>
+      <div style="color:white;font-size:18px;font-family:'Playfair Display',serif;font-weight:700;">Tous nos produits</div>
+    </div>
+    <div style="margin-left:auto;background:rgba(255,255,255,.1);border-radius:25px;padding:8px 14px;color:white;font-size:12px;display:flex;align-items:center;gap:6px;cursor:pointer;">🔍 Rechercher</div>
+  </div>
+
+  <div style="padding:12px 0 0;">
+    <div class="cats" style="margin:0;padding:0 20px 8px;">
+      <div class="cat-pill active">Tout</div>
+      <div class="cat-pill" onclick="this.parentElement.querySelectorAll('.cat-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active');">Poulets entiers</div>
+      <div class="cat-pill" onclick="this.parentElement.querySelectorAll('.cat-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active');">Découpes</div>
+      <div class="cat-pill" onclick="this.parentElement.querySelectorAll('.cat-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active');">Abats</div>
+      <div class="cat-pill" onclick="this.parentElement.querySelectorAll('.cat-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active');">Promos</div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 20px;">
+    <div style="font-size:12px;color:var(--muted);">12 produits disponibles</div>
+    <div style="font-size:12px;color:var(--g700);font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;">⇅ Trier</div>
+  </div>
+
+  <div class="products-grid">
+    <div class="product-card" onclick="goTo('product')"><div class="product-img">🐔<div class="badge fresh">Dispo</div></div><div class="product-body"><div class="product-name">Poulet entier standard</div><div class="product-weight">~1.8 kg</div><div class="product-price">2 500 <span>FCFA/kg</span></div><button class="add-btn" onclick="addToCart(event)">+</button></div></div>
+    <div class="product-card" onclick="goTo('product')"><div class="product-img">🐓</div><div class="product-body"><div class="product-name">Poulet premium sélection</div><div class="product-weight">~2.5 kg</div><div class="product-price">3 000 <span>FCFA/kg</span></div><button class="add-btn" onclick="addToCart(event)">+</button></div></div>
+    <div class="product-card" onclick="goTo('product')"><div class="product-img">🍗<div class="badge" style="background:var(--o600)">−15%</div></div><div class="product-body"><div class="product-name">Cuisses x6</div><div class="product-weight">~1.2 kg</div><div class="product-price">1 800 <span>FCFA</span></div><button class="add-btn" onclick="addToCart(event)">+</button></div></div>
+    <div class="product-card" onclick="goTo('product')"><div class="product-img">🥩</div><div class="product-body"><div class="product-name">Blancs désossés</div><div class="product-weight">500 g</div><div class="product-price">3 200 <span>FCFA/kg</span></div><button class="add-btn" onclick="addToCart(event)">+</button></div></div>
+    <div class="product-card" onclick="goTo('product')"><div class="product-img">🫀</div><div class="product-body"><div class="product-name">Foies de poulet</div><div class="product-weight">500 g</div><div class="product-price">900 <span>FCFA</span></div><button class="add-btn" onclick="addToCart(event)">+</button></div></div>
+    <div class="product-card" onclick="goTo('product')"><div class="product-img">🐔<div class="badge fresh">Gros</div></div><div class="product-body"><div class="product-name">Lot 10 poulets (gros)</div><div class="product-weight">~20 kg</div><div class="product-price">2 200 <span>FCFA/kg</span></div><button class="add-btn" onclick="addToCart(event)">+</button></div></div>
+  </div>
+  <div class="mb-80"></div>
+</div>
+
+<!-- ════════════════════════════ PRODUCT DETAIL ════════════════════════════ -->
+<div class="screen" id="screen-product">
+  <div class="product-detail-img">
+    🐔
+    <div class="back-btn" onclick="history.back();goTo('catalogue')">←</div>
+    <div class="share-btn">↗</div>
+  </div>
+  <div class="product-detail-body">
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <div class="tag">Poulets entiers</div>
+      <div style="display:flex;gap:4px;font-size:13px;color:#FBBF24;">⭐⭐⭐⭐⭐ <span style="color:var(--muted);margin-left:4px;">(24)</span></div>
+    </div>
+    <h2>Poulet entier standard</h2>
+    <div class="product-detail-price">2 500 FCFA <span style="font-size:14px;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:400;">/ kg</span></div>
+    <div class="product-info-grid">
+      <div class="info-chip"><strong>~1.8 kg</strong><span>Poids moyen</span></div>
+      <div class="info-chip"><strong>J0</strong><span>Fraîcheur</span></div>
+      <div class="info-chip"><strong>PK21</strong><span>Origine</span></div>
+    </div>
+    <div class="divider"></div>
+    <div class="label">Quantité</div>
+    <div class="qty-selector">
+      <button class="qty-btn" id="qty-minus" onclick="changeQty(-1)">−</button>
+      <span id="qty-value">1</span>
+      <button class="qty-btn" id="qty-plus" onclick="changeQty(1)">+</button>
+      <span style="font-size:13px;color:var(--muted);margin-left:8px;">≈ 1.8 kg</span>
+      <div style="margin-left:auto;font-family:'Space Mono',monospace;font-size:16px;font-weight:700;color:var(--g700);">4 500 FCFA</div>
+    </div>
+    <button class="add-to-cart-btn" onclick="showToast('🛒 Ajouté au panier !');goTo('cart')">🛒 Ajouter au panier</button>
+    <div class="description-section">
+      <h3>📋 Description</h3>
+      <p>Poulet de chair élevé en plein air à NEO FERME (PK21, Douala). Alimentation naturelle sans hormones. Abattu le matin même de la commande pour garantir une fraîcheur maximale.</p>
+    </div>
+    <div class="description-section" style="margin-top:10px;">
+      <h3>🧊 Conservation</h3>
+      <p>À consommer dans les 24h si non congelé. Réfrigérateur : 0-4°C. Congélateur : jusqu'à 3 mois à −18°C.</p>
+    </div>
+  </div>
+  <div class="mb-80"></div>
+</div>
+
+<!-- ════════════════════════════ PANIER ════════════════════════════ -->
+<div class="screen" id="screen-cart">
+  <div style="background:var(--g900);padding:20px;">
+    <div style="color:var(--g200);font-size:12px;">Mon Panier</div>
+    <div style="color:white;font-size:18px;font-family:'Playfair Display',serif;font-weight:700;">2 articles</div>
+  </div>
+  <div style="padding:16px 20px 0;">
+    <div class="cart-item">
+      <div class="cart-item-img">🐔</div>
+      <div class="cart-item-info">
+        <h4>Poulet entier standard</h4>
+        <p>~1.8 kg • PK21</p>
+        <div class="cart-item-price">4 500 FCFA</div>
+        <div class="cart-qty"><button onclick="showToast('Quantité modifiée')">−</button><span>2</span><button onclick="showToast('Quantité modifiée')">+</button></div>
+      </div>
+      <div class="cart-delete" onclick="showToast('Article supprimé')">🗑</div>
+    </div>
+    <div class="cart-item">
+      <div class="cart-item-img">🍗</div>
+      <div class="cart-item-info">
+        <h4>Cuisses de poulet x6</h4>
+        <p>~1.2 kg</p>
+        <div class="cart-item-price">1 530 FCFA</div>
+        <div class="cart-qty"><button>−</button><span>1</span><button>+</button></div>
+      </div>
+      <div class="cart-delete" onclick="showToast('Article supprimé')">🗑</div>
+    </div>
+    <div class="cart-summary">
+      <div class="cart-row"><span>Sous-total</span><span>7 530 FCFA</span></div>
+      <div class="cart-row"><span>Livraison (Zone 2)</span><span>500 FCFA</span></div>
+      <div class="cart-row total"><span>Total</span><span>8 030 FCFA</span></div>
+    </div>
+    <div style="margin-top:16px;">
+      <div class="label">Mode de livraison</div>
+      <div class="delivery-options">
+        <div class="delivery-opt selected" onclick="this.parentElement.querySelectorAll('.delivery-opt').forEach(o=>o.classList.remove('selected'));this.classList.add('selected');">
+          <div><div class="delivery-opt-label">🚚 Livraison à domicile</div><div class="delivery-opt-desc">Demain avant 12h</div></div>
+          <div class="delivery-opt-price">500 FCFA</div>
+        </div>
+        <div class="delivery-opt" onclick="this.parentElement.querySelectorAll('.delivery-opt').forEach(o=>o.classList.remove('selected'));this.classList.add('selected');">
+          <div><div class="delivery-opt-label">🏠 Retrait à la ferme</div><div class="delivery-opt-desc">PK21 — Dès 7h</div></div>
+          <div class="delivery-opt-price">Gratuit</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:8px;">
+      <div class="label">Code promo</div>
+      <div style="display:flex;gap:8px;">
+        <input style="flex:1;padding:11px 14px;border:2px solid var(--border);border-radius:var(--r-sm);font-size:14px;outline:none;" placeholder="RESTO10…" />
+        <button style="background:var(--g700);color:white;padding:11px 18px;border-radius:var(--r-sm);font-size:13px;font-weight:600;" onclick="showToast('✅ Code appliqué ! −10%')">Appliquer</button>
+      </div>
+    </div>
+    <button class="add-to-cart-btn" style="margin-top:20px;" onclick="goTo('payment')">Procéder au paiement →</button>
+  </div>
+  <div class="mb-80"></div>
+</div>
+
+<!-- ════════════════════════════ PAIEMENT ════════════════════════════ -->
+<div class="screen" id="screen-payment">
+  <div style="background:var(--g900);padding:20px;">
+    <div style="color:var(--g200);font-size:12px;">Commande</div>
+    <div style="color:white;font-size:18px;font-family:'Playfair Display',serif;font-weight:700;">Paiement sécurisé</div>
+  </div>
+  <div style="padding:20px 20px 0;">
+    <div class="step-indicator">
+      <div class="step done">✓</div><div class="step-line done"></div>
+      <div class="step done">✓</div><div class="step-line done"></div>
+      <div class="step active">3</div><div class="step-line"></div>
+      <div class="step">4</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;text-align:center;margin-bottom:24px;">
+      <div style="font-size:10px;color:var(--g700);font-weight:600;">Panier</div>
+      <div style="font-size:10px;color:var(--g700);font-weight:600;">Livraison</div>
+      <div style="font-size:10px;color:var(--o600);font-weight:700;">Paiement</div>
+      <div style="font-size:10px;color:var(--muted);">Confirmation</div>
+    </div>
+
+    <div class="label">Choisir un mode de paiement</div>
+    <div class="payment-methods">
+      <div class="payment-method selected" id="pay-mtn" onclick="selectPay('mtn')">
+        <div class="payment-icon" style="background:#FFF9C4;">💛</div>
+        <div><div class="payment-name">MTN Mobile Money</div><div class="payment-desc">Paiement instantané via MoMo</div></div>
+        <div style="margin-left:auto;color:var(--g700);font-size:18px;">✓</div>
+      </div>
+      <div class="payment-method" id="pay-orange" onclick="selectPay('orange')">
+        <div class="payment-icon" style="background:#FFE0B2;">🟠</div>
+        <div><div class="payment-name">Orange Money</div><div class="payment-desc">Paiement via Orange Money CM</div></div>
+      </div>
+      <div class="payment-method" id="pay-card" onclick="selectPay('card')">
+        <div class="payment-icon" style="background:#E3F2FD;">💳</div>
+        <div><div class="payment-name">Carte bancaire</div><div class="payment-desc">Visa / Mastercard sécurisé</div></div>
+      </div>
+      <div class="payment-method" id="pay-cash" onclick="selectPay('cash')">
+        <div class="payment-icon" style="background:var(--g100);">💵</div>
+        <div><div class="payment-name">Paiement à la livraison</div><div class="payment-desc">Vérification téléphonique requise</div></div>
+      </div>
+    </div>
+    <div id="phone-field">
+      <div class="label">Numéro MTN MoMo</div>
+      <input class="phone-input" placeholder="6XX XXX XXX" type="tel" />
+    </div>
+    <div class="cart-summary" style="margin-top:16px;">
+      <div class="cart-row"><span>Commande</span><span>7 530 FCFA</span></div>
+      <div class="cart-row"><span>Livraison</span><span>500 FCFA</span></div>
+      <div class="cart-row total"><span>Total à payer</span><span style="color:var(--o600);">8 030 FCFA</span></div>
+    </div>
+    <button class="add-to-cart-btn" style="margin-top:20px;background:var(--o600);" onclick="goTo('confirmation')">🔒 Confirmer le paiement — 8 030 FCFA</button>
+    <div style="text-align:center;margin-top:10px;font-size:11px;color:var(--muted);">🔒 Paiement sécurisé • Vos données sont protégées</div>
+  </div>
+  <div class="mb-80"></div>
+</div>
+
+<!-- ════════════════════════════ CONFIRMATION ════════════════════════════ -->
+<div class="screen" id="screen-confirmation">
+  <div class="confirmation">
+    <div class="confirm-icon">✅</div>
+    <h2>Commande Confirmée !</h2>
+    <p>Merci pour votre commande. Vous recevrez un SMS de confirmation au <strong>6XX XXX XXX</strong> dans les prochaines minutes.</p>
+    <div style="background:var(--g100);border-radius:var(--r);padding:14px;margin:16px 0;text-align:left;">
+      <div style="font-size:12px;color:var(--muted);">N° Commande</div>
+      <div style="font-family:'Space Mono',monospace;font-size:18px;font-weight:700;color:var(--g700);">#NF-2026-0847</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:8px;">Livraison estimée</div>
+      <div style="font-size:14px;font-weight:600;">Demain, 25 Fév. entre 8h et 12h</div>
+    </div>
+    <div class="tracking-steps">
+      <h3 style="font-size:14px;font-weight:700;margin-bottom:4px;">📦 Suivi de commande</h3>
+      <div class="track-step">
+        <div class="track-dot done">✓</div>
+        <div class="track-info"><strong>Commande reçue</strong><span>Aujourd'hui, 14h32 — Paiement validé</span></div>
+      </div>
+      <div class="track-step">
+        <div class="track-dot current">🔄</div>
+        <div class="track-info"><strong>En préparation</strong><span>Demain matin, abattage et découpe</span></div>
+      </div>
+      <div class="track-step">
+        <div class="track-dot pending">🚚</div>
+        <div class="track-info"><strong>En route</strong><span>Notification SMS à l'envoi</span></div>
+      </div>
+      <div class="track-step">
+        <div class="track-dot pending">🏠</div>
+        <div class="track-info"><strong>Livraison effectuée</strong><span>Confirmation par SMS</span></div>
+      </div>
+    </div>
+    <button class="btn-primary" style="width:100%;justify-content:center;margin-top:8px;" onclick="goTo('home')">🏠 Retour à l'accueil</button>
+    <button class="btn-outline" style="width:100%;justify-content:center;margin-top:10px;color:var(--g700);border-color:var(--g700);background:white;padding:13px;border-radius:25px;font-size:14px;font-weight:500;cursor:pointer;" onclick="goTo('account')">Voir mes commandes</button>
+  </div>
+  <div class="mb-80"></div>
+</div>
+
+<!-- ════════════════════════════ PRO ════════════════════════════ -->
+<div class="screen" id="screen-pro">
+  <div class="pro-hero">
+    <div style="display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;color:var(--g200);font-size:12px;margin-bottom:12px;">🏢 Espace Professionnel</div>
+    <h1>Solutions pour les Professionnels</h1>
+    <p>Tarifs négociés, livraison planifiée, facturation dédiée. NEO FERME accompagne restaurants, hôtels et revendeurs.</p>
+    <button class="btn-primary" style="margin-top:16px;" onclick="showToast('📝 Formulaire d\'inscription Pro ouvert')">Créer un compte Pro</button>
+  </div>
+
+  <div style="padding:20px 0 0;">
+    <div class="tabs">
+      <div class="tab active" onclick="switchProTab(this,'calc')">🧮 Calculateur</div>
+      <div class="tab" onclick="switchProTab(this,'pricing')">💰 Tarifs Gros</div>
+      <div class="tab" onclick="switchProTab(this,'perks')">⭐ Avantages</div>
+    </div>
+
+    <!-- CALCULATEUR -->
+    <div id="pro-calc" class="calculator">
+      <h3>🧮 Calculateur de Besoins</h3>
+      <div class="calc-field">
+        <label>Type d'établissement</label>
+        <select class="calc-input" onchange="calcBesoins()">
+          <option>Restaurant (service du midi + soir)</option>
+          <option>Hôtel (petit-déjeuner inclus)</option>
+          <option>Traiteur / événementiel</option>
+          <option>Revendeur / grossiste</option>
+        </select>
+      </div>
+      <div class="calc-field">
+        <label>Nombre de couverts / jour</label>
+        <input class="calc-input" type="number" value="80" id="nb-couverts" oninput="calcBesoins()" />
+      </div>
+      <div class="calc-field">
+        <label>Jours d'activité / semaine</label>
+        <input class="calc-input" type="number" value="6" id="nb-jours" oninput="calcBesoins()" min="1" max="7" />
+      </div>
+      <div class="calc-result" id="calc-result">
+        <h4>📊 Estimation de vos besoins hebdomadaires</h4>
+        <div class="calc-line"><span>Volume estimé</span><strong>96 kg / semaine</strong></div>
+        <div class="calc-line"><span>Fréquence recommandée</span><strong>3 livraisons / semaine</strong></div>
+        <div class="calc-line"><span>Tarif applicable</span><strong>2 000 FCFA / kg</strong></div>
+        <div class="calc-line"><span>Économie vs tarif public</span><strong style="color:var(--g700);">−20%</strong></div>
+        <div class="calc-line"><span>Coût estimé / semaine</span><strong>192 000 FCFA</strong></div>
+      </div>
+      <button class="add-to-cart-btn" style="margin-top:14px;background:var(--o600);" onclick="showToast('📄 Devis PDF généré et envoyé par email !')">📄 Générer le devis PDF</button>
+    </div>
+
+    <!-- TARIFS GROS -->
+    <div id="pro-pricing" style="display:none;padding:0 20px;">
+      <div style="background:var(--g100);border:1.5px solid var(--g200);border-radius:var(--r);padding:14px;margin-bottom:16px;font-size:13px;color:var(--g700);">
+        🔒 Les tarifs professionnels sont réservés aux comptes Pro validés. <strong>Créez un compte pour accéder.</strong>
+      </div>
+      <div class="pro-pricing-table">
+        <div class="price-header"><span>Produit</span><span>5-20kg</span><span>20-50kg</span><span>+50kg</span></div>
+        <div class="price-row"><strong>Poulet entier std</strong><span>2 300</span><span>2 100</span><span>2 000</span></div>
+        <div class="price-row"><strong>Poulet premium</strong><span>2 800</span><span>2 600</span><span>2 400</span></div>
+        <div class="price-row"><strong>Cuisses x6</strong><span>1 600</span><span>1 500</span><span>1 400</span></div>
+        <div class="price-row"><strong>Blancs désossés</strong><span>3 000</span><span>2 800</span><span>2 600</span></div>
+        <div class="price-row"><strong>Foies 500g</strong><span>800</span><span>700</span><span>650</span></div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px;">Prix en FCFA/kg ou FCFA/unité • HT • Négociable sur contrat annuel</div>
+    </div>
+
+    <!-- AVANTAGES -->
+    <div id="pro-perks" style="display:none;padding:0 20px;">
+      <div style="display:grid;gap:10px;">
+        <div style="background:white;border-radius:var(--r);padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;gap:14px;align-items:flex-start;">
+          <div style="font-size:28px;flex-shrink:0;">💰</div>
+          <div><strong style="font-size:14px;">Tarifs préférentiels</strong><p style="font-size:12px;color:var(--muted);margin-top:4px;">Jusqu'à −25% sur les prix publics selon le volume commandé</p></div>
+        </div>
+        <div style="background:white;border-radius:var(--r);padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;gap:14px;align-items:flex-start;">
+          <div style="font-size:28px;flex-shrink:0;">📅</div>
+          <div><strong style="font-size:14px;">Commandes planifiées</strong><p style="font-size:12px;color:var(--muted);margin-top:4px;">Programmez vos livraisons hebdomadaires en avance, sans ressaisie</p></div>
+        </div>
+        <div style="background:white;border-radius:var(--r);padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;gap:14px;align-items:flex-start;">
+          <div style="font-size:28px;flex-shrink:0;">🧾</div>
+          <div><strong style="font-size:14px;">Facturation dédiée</strong><p style="font-size:12px;color:var(--muted);margin-top:4px;">Factures PDF automatiques, option paiement différé sur contrat</p></div>
+        </div>
+        <div style="background:white;border-radius:var(--r);padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;gap:14px;align-items:flex-start;">
+          <div style="font-size:28px;flex-shrink:0;">📞</div>
+          <div><strong style="font-size:14px;">Account Manager dédié</strong><p style="font-size:12px;color:var(--muted);margin-top:4px;">Un interlocuteur unique WhatsApp pour toutes vos demandes</p></div>
+        </div>
+      </div>
+      <button class="add-to-cart-btn" style="margin-top:20px;" onclick="showToast('📝 Formulaire d\'inscription Pro')">Devenir partenaire Pro →</button>
+    </div>
+  </div>
+  <div class="mb-80"></div>
+</div>
+
+<!-- ════════════════════════════ BLOG ════════════════════════════ -->
+<div class="screen" id="screen-blog">
+  <div style="background:var(--g900);padding:20px;">
+    <div style="color:var(--g200);font-size:12px;">NEO FERME</div>
+    <div style="color:white;font-size:18px;font-family:'Playfair Display',serif;font-weight:700;">Conseils & Blog</div>
+  </div>
+
+  <div style="padding:16px 0 0;">
+    <div class="blog-featured" style="margin:0 20px;">
+      <div class="blog-featured-img">🥘<div class="category-tag">Recettes</div></div>
+      <div class="blog-featured-body">
+        <h2>Poulet DG à la camerounaise : la recette authentique de NEO FERME</h2>
+        <p>Découvrez comment préparer le plat national avec notre poulet frais pour un résultat savoureux...</p>
+        <div class="blog-meta">📅 22 Fév. 2026 · ⏱ 5 min · 👁 1.2k vues</div>
+      </div>
+    </div>
+
+    <div class="tabs" style="margin-top:16px;">
+      <div class="tab active">Tous</div>
+      <div class="tab">Recettes</div>
+      <div class="tab">Élevage</div>
+      <div class="tab">Hygiène</div>
+      <div class="tab">Promo</div>
+    </div>
+
+    <div class="blog-card"><div class="blog-card-img">🧊</div><div class="blog-card-body"><h3>Comment conserver votre poulet frais 3 jours ?</h3><p>Conseils pratiques de notre éleveur pour une fraîcheur maximale à la maison...</p><div style="font-size:11px;color:var(--muted);margin-top:6px;">🕐 3 min · Hygiène & Conservation</div></div></div>
+    <div class="blog-card"><div class="blog-card-img">🐣</div><div class="blog-card-body"><h3>Comment nous élevons nos poulets à PK21</h3><p>Visite guidée de notre ferme, de l'élevage jusqu'à l'abattage du jour...</p><div style="font-size:11px;color:var(--muted);margin-top:6px;">🕐 6 min · Notre ferme</div></div></div>
+    <div class="blog-card"><div class="blog-card-img">🍲</div><div class="blog-card-body"><h3>Ndolé au poulet : 3 astuces de chef</h3><p>Magnifiez ce plat traditionnel avec les bons morceaux et les bonnes cuissons...</p><div style="font-size:11px;color:var(--muted);margin-top:6px;">🕐 4 min · Recettes</div></div></div>
+    <div class="blog-card"><div class="blog-card-img">🎉</div><div class="blog-card-body"><h3>Promo Ramadan — −20% sur commandes > 20kg</h3><p>Offre spéciale valable du 1er au 31 mars 2026 pour nos clients professionnels...</p><div style="font-size:11px;color:var(--o600);margin-top:6px;font-weight:600;">🕐 1 min · Promotion</div></div></div>
+  </div>
+
+  <div class="mb-80"></div>
+</div>
+
+<!-- ════════════════════════════ COMPTE ════════════════════════════ -->
+<div class="screen" id="screen-account">
+  <div class="account-header">
+    <div class="account-avatar">👤</div>
+    <div>
+      <div class="account-name">Jean Paul SIEFFEU</div>
+      <div class="account-type">🏢 CLIENT PRO</div>
+      <div style="color:var(--g200);font-size:12px;margin-top:6px;">Membre depuis Jan. 2025</div>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><strong>12</strong><span>Commandes</span></div>
+    <div class="stat-card"><strong>4.9</strong><span>Note moyenne</span></div>
+    <div class="stat-card"><strong>850</strong><span>Points fidélité</span></div>
+  </div>
+
+  <div class="section-title">Mes commandes récentes</div>
+  <div class="order-card">
+    <div class="order-header">
+      <div class="order-id">#NF-2026-0847</div>
+      <div class="order-status status-progress">🔄 En préparation</div>
+    </div>
+    <div class="order-items">Poulet entier x2 · Cuisses x1</div>
+    <div class="order-total">8 030 FCFA · Livraison demain 8h-12h</div>
+  </div>
+  <div class="order-card">
+    <div class="order-header">
+      <div class="order-id">#NF-2026-0791</div>
+      <div class="order-status status-delivered">✅ Livrée</div>
+    </div>
+    <div class="order-items">Poulet entier x5 · Foies x2</div>
+    <div class="order-total">18 500 FCFA · 18 Fév. 2026</div>
+    <div style="margin-top:8px;display:flex;gap:8px;">
+      <button style="background:var(--g100);color:var(--g700);padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;" onclick="showToast('📄 Facture téléchargée !')">📄 Facture</button>
+      <button style="background:var(--g100);color:var(--g700);padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;" onclick="showToast('🔄 Commande réordonnée !')">🔁 Renouveler</button>
+    </div>
+  </div>
+
+  <div class="section-title">Mon espace</div>
+  <div class="menu-items">
+    <div class="menu-item" onclick="showToast('📍 Mes adresses')"><div class="menu-item-left"><div class="menu-item-icon" style="background:var(--g100);">📍</div>Mes adresses de livraison</div><span style="color:var(--muted);">›</span></div>
+    <div class="menu-item" onclick="showToast('🧾 Mes factures')"><div class="menu-item-left"><div class="menu-item-icon" style="background:var(--g100);">🧾</div>Mes factures</div><span style="color:var(--muted);">›</span></div>
+    <div class="menu-item" onclick="showToast('⭐ Programme fidélité')"><div class="menu-item-left"><div class="menu-item-icon" style="background:#FFF9C4;">⭐</div>Points fidélité (850 pts)</div><span style="color:var(--muted);">›</span></div>
+    <div class="menu-item" onclick="showToast('🔔 Notifications')"><div class="menu-item-left"><div class="menu-item-icon" style="background:#E3F2FD;">🔔</div>Notifications</div><span style="color:var(--muted);">›</span></div>
+    <div class="menu-item" onclick="goTo('pro')"><div class="menu-item-left"><div class="menu-item-icon" style="background:var(--g100);">🏢</div>Espace Pro & Calculateur</div><span style="color:var(--g700);font-size:12px;font-weight:600;">Pro ›</span></div>
+    <div class="menu-item" onclick="showToast('🚪 Déconnexion')"><div class="menu-item-left" style="color:#E53935;"><div class="menu-item-icon" style="background:#FFEBEE;">🚪</div>Se déconnecter</div></div>
+  </div>
+
+  <div class="mb-80"></div>
+</div>
+
+<!-- BOTTOM NAVIGATION -->
+<div class="bottom-nav">
+  <div class="bottom-nav-item active" id="nav-home" onclick="goTo('home')">
+    <span class="icon">🏠</span><span>Accueil</span>
+  </div>
+  <div class="bottom-nav-item" id="nav-catalogue" onclick="goTo('catalogue')">
+    <span class="icon">🐔</span><span>Produits</span>
+  </div>
+  <div class="bottom-nav-item" id="nav-cart" onclick="goTo('cart')">
+    <span class="icon">🛒</span><span class="badge">2</span><span>Panier</span>
+  </div>
+  <div class="bottom-nav-item" id="nav-pro" onclick="goTo('pro')">
+    <span class="icon">🏢</span><span>Pro</span>
+  </div>
+  <div class="bottom-nav-item" id="nav-account" onclick="goTo('account')">
+    <span class="icon">👤</span><span>Compte</span>
+  </div>
+</div>
+
+<script>
+let cartCount = 2;
+
+function goTo(page) {
+  // Hide all screens
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.bottom-nav-item').forEach(n => n.classList.remove('active'));
+
+  // Show target screen
+  const screen = document.getElementById('screen-' + page);
+  if (screen) screen.classList.add('active');
+
+  // Update nav
+  const nav = document.getElementById('nav-' + page);
+  if (nav) nav.classList.add('active');
+
+  // Scroll to top
+  window.scrollTo(0, 0);
+}
+
+function addToCart(e) {
+  e.stopPropagation();
+  cartCount++;
+  document.getElementById('cart-badge').textContent = cartCount;
+  document.querySelectorAll('.bottom-nav-item .badge').forEach(b => b.textContent = cartCount);
+  showToast('✅ Ajouté au panier !');
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2200);
+}
+
+let qty = 1;
+function changeQty(delta) {
+  qty = Math.max(1, qty + delta);
+  document.getElementById('qty-value').textContent = qty;
+}
+
+function selectPay(method) {
+  document.querySelectorAll('.payment-method').forEach(m => {
+    m.classList.remove('selected');
+    m.querySelector('div:last-child')?.remove?.();
+  });
+  const sel = document.getElementById('pay-' + method);
+  sel.classList.add('selected');
+  document.getElementById('phone-field').style.display = (method === 'card' || method === 'cash') ? 'none' : 'block';
+}
+
+function switchProTab(el, tab) {
+  document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('pro-calc').style.display = tab === 'calc' ? 'block' : 'none';
+  document.getElementById('pro-pricing').style.display = tab === 'pricing' ? 'block' : 'none';
+  document.getElementById('pro-perks').style.display = tab === 'perks' ? 'block' : 'none';
+}
+
+function calcBesoins() {
+  const couverts = parseInt(document.getElementById('nb-couverts').value) || 80;
+  const jours = parseInt(document.getElementById('nb-jours').value) || 6;
+  const kgParCouvert = 0.2; // 200g per person
+  const weekly = Math.round(couverts * jours * kgParCouvert);
+  const tarif = weekly > 100 ? 1900 : weekly > 50 ? 2100 : 2300;
+  const freq = weekly > 100 ? '4 livraisons / semaine' : weekly > 50 ? '3 livraisons / semaine' : '2 livraisons / semaine';
+  const econ = Math.round((2500 - tarif) / 2500 * 100);
+  const total = (weekly * tarif).toLocaleString('fr-FR');
+
+  document.getElementById('calc-result').innerHTML = `
+    <h4>📊 Estimation de vos besoins hebdomadaires</h4>
+    <div class="calc-line"><span>Volume estimé</span><strong>${weekly} kg / semaine</strong></div>
+    <div class="calc-line"><span>Fréquence recommandée</span><strong>${freq}</strong></div>
+    <div class="calc-line"><span>Tarif applicable</span><strong>${tarif.toLocaleString()} FCFA / kg</strong></div>
+    <div class="calc-line"><span>Économie vs tarif public</span><strong style="color:var(--g700);">−${econ}%</strong></div>
+    <div class="calc-line"><span>Coût estimé / semaine</span><strong>${total} FCFA</strong></div>
+  `;
+}
+
+// Cat pill toggle
+document.querySelectorAll('.cat-pill').forEach(pill => {
+  pill.addEventListener('click', function() {
+    this.closest('.cats').querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
