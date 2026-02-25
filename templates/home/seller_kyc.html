@@ -3,10 +3,9 @@
 <html lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Home Market - Seller Dashboard</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
@@ -24,295 +23,201 @@
                     borderRadius: {
                         "DEFAULT": "0.5rem",
                         "lg": "1rem",
-                        "xl": "1.25rem", // 20px
+                        "xl": "1.5rem",
                         "full": "9999px"
                     },
                 },
             },
         }
     </script>
-<style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .soft-shadow {
-            box-shadow: 0 4px 20px -2px rgba(0, 0, 128, 0.05);
-        }
-    </style>
+<title>Seller Verification | Home Market</title>
 </head>
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
-<div class="flex h-screen overflow-hidden">
-<aside class="w-72 bg-primary flex flex-col shrink-0">
-<div class="p-8">
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="layout-container flex flex-col min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-16">
 <div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-primary">
-<span class="material-symbols-outlined font-bold">home_work</span>
+<div class="bg-primary text-white p-2 rounded-lg">
+<span class="material-symbols-outlined text-2xl">storefront</span>
 </div>
-<div class="flex flex-col">
-<h1 class="text-white text-lg font-bold leading-tight">Home Market</h1>
-<p class="text-white/60 text-xs font-medium uppercase tracking-wider">Seller Portal</p>
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Home Market</h1>
 </div>
-</div>
-</div>
-<nav class="flex-1 px-4 space-y-2 overflow-y-auto">
-<a class="flex items-center gap-4 px-4 py-3 bg-white/10 text-white rounded-xl transition-colors" href="#">
-<span class="material-symbols-outlined">dashboard</span>
-<span class="font-medium">Dashboard</span>
-</a>
-<a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="#">
-<span class="material-symbols-outlined">list_alt</span>
-<span class="font-medium">My Listings</span>
-</a>
-<a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="#">
-<span class="material-symbols-outlined">add_circle</span>
-<span class="font-medium">Add Property</span>
-</a>
-<a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="#">
-<span class="material-symbols-outlined">chat_bubble</span>
-<span class="font-medium">Messages</span>
-</a>
-<a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="#">
-<span class="material-symbols-outlined">analytics</span>
-<span class="font-medium">Analytics</span>
-</a>
-<a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="#">
-<span class="material-symbols-outlined">account_balance_wallet</span>
-<span class="font-medium">Wallet</span>
-</a>
-<a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="#">
-<span class="material-symbols-outlined">verified_user</span>
-<span class="font-medium">Verification</span>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary" href="#">Dashboard</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary" href="#">Listings</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary" href="#">Orders</a>
+<a class="text-sm font-medium text-primary flex items-center gap-1" href="#">
+                            Verification <span class="size-1.5 rounded-full bg-primary"></span>
 </a>
 </nav>
-<div class="p-6 border-t border-white/10">
-<div class="bg-white/5 rounded-xl p-4 flex items-center gap-3">
-<div class="size-10 rounded-full bg-slate-300 overflow-hidden" data-alt="User profile avatar portrait" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB4hJf6ZtF8Azvo65U3DM17g1kdMZCIejDW71JBk-O0MBmkD8nD1HQbNpUud2ZCFW34iU1ncCeWOZsUfIiGcGpnalbxHjeGRyzgqlpcUZFfz7LoNhiRugR5MRjPlEpL7X4cCScq6zbFG4WpIukNjvZQREfmreZpWwxelgwEJq5Uv8GzlfVKQbvfuJ0EKSn14zg8mv4TDYpLPVzrMaFXKaecx1PrgM7K5nh7l4QQG_IkzZ8JF6OuiBFiAAav0mCuIy8-pltQYAFCavs')"></div>
-<div class="flex-1 min-w-0">
-<p class="text-white text-sm font-semibold truncate">Alex Rivera</p>
-<p class="text-white/40 text-xs truncate">Verified Seller</p>
-</div>
-<span class="material-symbols-outlined text-white/40 text-lg">settings</span>
-</div>
-</div>
-</aside>
-<main class="flex-1 flex flex-col overflow-hidden">
-<header class="h-20 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-8 shrink-0">
 <div class="flex items-center gap-4">
-<h2 class="text-xl font-bold">Dashboard</h2>
-<span class="text-slate-400 text-sm hidden sm:inline">|</span>
-<span class="text-slate-400 text-sm hidden sm:inline">Monday, Oct 23 2023</span>
+<div class="h-10 w-10 rounded-full bg-slate-200 dark:bg-slate-800 bg-cover bg-center border border-slate-200 dark:border-slate-700" data-alt="User profile avatar placeholder" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBue3XXa6bOFH10lvCY5PUFRE4bfxnFA2YkJg3p4GFIM4mdOMn8Slw6EVxqZ3o2vmFkhfTvovgWs3rBr_kT-c7KtXdPigwDhWkkGBUE7aNQgpQPF_1I7lEMVy4S4Z9orJe67CHPSk_TGfwUBQVeDwPVfWiYwhK4fbz62XtbwZlFG4iCaWrjn1sKw4prNMDw5Sa5abnnT-QpTFQ6pyUvH1Ejc-L--Hc4Vlx0BYwbcFk-WRPzceCNMo3cb1wWywISm-fIXvVITqNDzYI')"></div>
 </div>
-<div class="flex items-center gap-6">
-<div class="relative max-w-xs hidden md:block">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
-<input class="pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-xl focus:ring-2 focus:ring-primary w-64 text-sm" placeholder="Search analytics..." type="text"/>
-</div>
-<div class="flex gap-2">
-<button class="w-10 h-10 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-xl hover:bg-primary/10 hover:text-primary transition-colors">
-<span class="material-symbols-outlined">notifications</span>
-</button>
-<button class="w-10 h-10 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-xl hover:bg-primary/10 hover:text-primary transition-colors">
-<span class="material-symbols-outlined">help_outline</span>
-</button>
 </div>
 </div>
 </header>
-<div class="flex-1 overflow-y-auto p-8">
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-<div class="bg-white dark:bg-slate-900 p-6 rounded-xl soft-shadow border border-slate-100 dark:border-slate-800">
-<div class="flex items-center justify-between mb-4">
-<div class="p-2 bg-blue-100 text-blue-600 rounded-lg">
-<span class="material-symbols-outlined">inventory_2</span>
+<main class="max-w-5xl mx-auto w-full px-4 py-8 lg:py-12">
+<!-- Header Section -->
+<div class="mb-10">
+<h2 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Seller Identity Verification</h2>
+<p class="mt-2 text-slate-600 dark:text-slate-400 max-w-2xl">To ensure the safety of our marketplace, we require all sellers to complete the Know Your Customer (KYC) verification process.</p>
 </div>
-<span class="text-emerald-500 text-sm font-semibold flex items-center">+12% <span class="material-symbols-outlined text-xs">trending_up</span></span>
-</div>
-<p class="text-slate-500 text-sm font-medium">Total Listings</p>
-<h3 class="text-2xl font-bold mt-1">24</h3>
-</div>
-<div class="bg-white dark:bg-slate-900 p-6 rounded-xl soft-shadow border border-slate-100 dark:border-slate-800">
-<div class="flex items-center justify-between mb-4">
-<div class="p-2 bg-purple-100 text-purple-600 rounded-lg">
-<span class="material-symbols-outlined">visibility</span>
-</div>
-<span class="text-emerald-500 text-sm font-semibold flex items-center">+18% <span class="material-symbols-outlined text-xs">trending_up</span></span>
-</div>
-<p class="text-slate-500 text-sm font-medium">Views</p>
-<h3 class="text-2xl font-bold mt-1">45.8K</h3>
-</div>
-<div class="bg-white dark:bg-slate-900 p-6 rounded-xl soft-shadow border border-slate-100 dark:border-slate-800">
-<div class="flex items-center justify-between mb-4">
-<div class="p-2 bg-orange-100 text-orange-600 rounded-lg">
-<span class="material-symbols-outlined">sell</span>
-</div>
-<span class="text-emerald-500 text-sm font-semibold flex items-center">+5% <span class="material-symbols-outlined text-xs">trending_up</span></span>
-</div>
-<p class="text-slate-500 text-sm font-medium">Sales</p>
-<h3 class="text-2xl font-bold mt-1">12</h3>
-</div>
-<div class="bg-white dark:bg-slate-900 p-6 rounded-xl soft-shadow border border-slate-100 dark:border-slate-800">
-<div class="flex items-center justify-between mb-4">
-<div class="p-2 bg-emerald-100 text-emerald-600 rounded-lg">
-<span class="material-symbols-outlined">payments</span>
-</div>
-<span class="text-rose-500 text-sm font-semibold flex items-center">-2% <span class="material-symbols-outlined text-xs">trending_down</span></span>
-</div>
-<p class="text-slate-500 text-sm font-medium">Revenue</p>
-<h3 class="text-2xl font-bold mt-1">$1.2M</h3>
-</div>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-<div class="bg-white dark:bg-slate-900 p-8 rounded-xl soft-shadow border border-slate-100 dark:border-slate-800">
-<div class="flex items-center justify-between mb-6">
+<!-- Status & Stepper Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+<!-- Status Card -->
+<div class="lg:col-span-1 bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
 <div>
-<h4 class="text-lg font-bold">Views Performance</h4>
-<p class="text-slate-400 text-sm">Last 30 days visualization</p>
+<span class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Current Status</span>
+<div class="mt-3 flex items-center gap-3">
+<div class="size-10 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-600 dark:text-amber-400">
+<span class="material-symbols-outlined">pending_actions</span>
 </div>
-<select class="bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm font-medium px-4 py-2 ring-0 focus:ring-2 focus:ring-primary">
-<option>Weekly</option>
-<option>Monthly</option>
-</select>
-</div>
-<div class="h-64 flex flex-col gap-4">
-<div class="flex-1 relative">
-<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 400 150">
-<defs>
-<lineargradient id="gradient" x1="0%" x2="0%" y1="0%" y2="100%">
-<stop offset="0%" style="stop-color:rgba(0, 0, 128, 0.1)"></stop>
-<stop offset="100%" style="stop-color:rgba(0, 0, 128, 0)"></stop>
-</lineargradient>
-</defs>
-<path d="M0,120 Q50,110 80,60 T160,80 T240,30 T320,100 T400,20 V150 H0 Z" fill="url(#gradient)"></path>
-<path d="M0,120 Q50,110 80,60 T160,80 T240,30 T320,100 T400,20" fill="none" stroke="#000080" stroke-linecap="round" stroke-width="3"></path>
-</svg>
-</div>
-<div class="flex justify-between text-xs text-slate-400 font-bold uppercase tracking-widest px-1">
-<span>Mon</span>
-<span>Tue</span>
-<span>Wed</span>
-<span>Thu</span>
-<span>Fri</span>
-<span>Sat</span>
-<span>Sun</span>
-</div>
-</div>
-</div>
-<div class="bg-white dark:bg-slate-900 p-8 rounded-xl soft-shadow border border-slate-100 dark:border-slate-800">
-<div class="flex items-center justify-between mb-6">
 <div>
-<h4 class="text-lg font-bold">Sales Volume</h4>
-<p class="text-slate-400 text-sm">Historical comparison</p>
-</div>
-<div class="flex gap-2">
-<div class="flex items-center gap-1.5">
-<span class="w-3 h-3 rounded-full bg-primary"></span>
-<span class="text-xs text-slate-500 font-medium">2023</span>
-</div>
-<div class="flex items-center gap-1.5">
-<span class="w-3 h-3 rounded-full bg-slate-200 dark:bg-slate-700"></span>
-<span class="text-xs text-slate-500 font-medium">2022</span>
+<h3 class="font-bold text-lg leading-none">Not Verified</h3>
+<p class="text-sm text-slate-500 mt-1">Action Required</p>
 </div>
 </div>
 </div>
-<div class="h-64 flex items-end justify-between gap-4">
-<div class="flex-1 flex flex-col justify-end gap-2 group">
-<div class="relative w-full">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg h-32"></div>
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-24 transition-all group-hover:h-28"></div>
+<div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800">
+<p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed italic flex gap-2">
+<span class="material-symbols-outlined text-sm">info</span>
+                            Your shop visibility is limited until verification is completed.
+                        </p>
 </div>
-<span class="text-center text-xs text-slate-400 font-medium">Jan</span>
 </div>
-<div class="flex-1 flex flex-col justify-end gap-2 group">
-<div class="relative w-full">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg h-32"></div>
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-16 transition-all group-hover:h-20"></div>
+<!-- Progress Stepper Card -->
+<div class="lg:col-span-2 bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="relative flex justify-between items-start">
+<!-- Line behind -->
+<div class="absolute top-5 left-8 right-8 h-0.5 bg-slate-100 dark:bg-slate-800 z-0"></div>
+<div class="absolute top-5 left-8 w-1/3 h-0.5 bg-primary z-0"></div>
+<!-- Step 1 -->
+<div class="relative z-10 flex flex-col items-center text-center max-w-[120px]">
+<div class="size-10 rounded-full bg-primary text-white flex items-center justify-center shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-xl">upload_file</span>
 </div>
-<span class="text-center text-xs text-slate-400 font-medium">Feb</span>
+<span class="mt-3 text-sm font-bold text-slate-900 dark:text-white">Submit</span>
+<span class="text-xs text-primary font-medium">In Progress</span>
 </div>
-<div class="flex-1 flex flex-col justify-end gap-2 group">
-<div class="relative w-full">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg h-32"></div>
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-28 transition-all group-hover:h-30"></div>
+<!-- Step 2 -->
+<div class="relative z-10 flex flex-col items-center text-center max-w-[120px]">
+<div class="size-10 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">fact_check</span>
 </div>
-<span class="text-center text-xs text-slate-400 font-medium">Mar</span>
+<span class="mt-3 text-sm font-medium text-slate-500 dark:text-slate-400">Review</span>
+<span class="text-xs text-slate-400">Pending submission</span>
 </div>
-<div class="flex-1 flex flex-col justify-end gap-2 group">
-<div class="relative w-full">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg h-32"></div>
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-12 transition-all group-hover:h-16"></div>
+<!-- Step 3 -->
+<div class="relative z-10 flex flex-col items-center text-center max-w-[120px]">
+<div class="size-10 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">verified</span>
 </div>
-<span class="text-center text-xs text-slate-400 font-medium">Apr</span>
-</div>
-<div class="flex-1 flex flex-col justify-end gap-2 group">
-<div class="relative w-full">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg h-32"></div>
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-20 transition-all group-hover:h-24"></div>
-</div>
-<span class="text-center text-xs text-slate-400 font-medium">May</span>
-</div>
-<div class="flex-1 flex flex-col justify-end gap-2 group">
-<div class="relative w-full">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg h-32"></div>
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-30 transition-all group-hover:h-32"></div>
-</div>
-<span class="text-center text-xs text-slate-400 font-medium">Jun</span>
+<span class="mt-3 text-sm font-medium text-slate-500 dark:text-slate-400">Approval</span>
+<span class="text-xs text-slate-400">Upcoming</span>
 </div>
 </div>
 </div>
 </div>
-<div class="bg-white dark:bg-slate-900 rounded-xl soft-shadow border border-slate-100 dark:border-slate-800 overflow-hidden">
-<div class="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
-<h4 class="text-lg font-bold">Recent Inquiries</h4>
-<button class="text-primary text-sm font-semibold hover:underline">View All Messages</button>
+<!-- Upload Section -->
+<div class="space-y-8">
+<div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-4">
+<span class="material-symbols-outlined text-primary">description</span>
+<h3 class="text-xl font-bold">Required Documents</h3>
 </div>
-<div class="overflow-x-auto">
-<table class="w-full text-left">
-<thead class="bg-slate-50 dark:bg-slate-800/50">
-<tr>
-<th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Buyer</th>
-<th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Property</th>
-<th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Date</th>
-<th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Status</th>
-<th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest text-right">Action</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-<td class="px-6 py-4">
-<div class="flex items-center gap-3">
-<div class="size-8 rounded-full bg-slate-200" data-alt="Avatar of a potential buyer" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuASJ_Mar5_vkSjUIhYL0eXHJbqs1d0_fGOKQwKP5VeniakWhS5r0rt295wrsK8zGFqwxIb-gywZI-9XabZu2XXFzczT1MbCVHxqS0c0Tx_y4GesITYTvfAZKwbdtwmoQhD4YNYSGjTN7cTw4IxTr-BpERVzEqquMC4mJrX4RqA6ynuKRCXazBkBXbVXS-r7obnmSS29taTvpbTywvnn6SuQu4nU1I2mAjqS9vwzdiW4seBYgls8QbNmRVLmCSuZSBwE4tz22JFw4w0')"></div>
-<span class="font-medium text-sm">Sarah Jenkins</span>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- ID Front -->
+<div class="group cursor-pointer">
+<label class="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Government ID (Front)</label>
+<div class="border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl p-8 flex flex-col items-center justify-center bg-white dark:bg-slate-900 hover:border-primary/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all">
+<div class="size-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 group-hover:bg-primary/10 group-hover:text-primary mb-4 transition-colors">
+<span class="material-symbols-outlined text-3xl">add_photo_alternate</span>
 </div>
-</td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Luxury Villa, Beverly Hills</td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Oct 24, 2023</td>
-<td class="px-6 py-4">
-<span class="px-2.5 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">Active</span>
-</td>
-<td class="px-6 py-4 text-right">
-<button class="text-primary font-bold text-sm">Reply</button>
-</td>
-</tr>
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-<td class="px-6 py-4">
-<div class="flex items-center gap-3">
-<div class="size-8 rounded-full bg-slate-200" data-alt="Avatar of a potential buyer" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAr--fMHcJRKIHq10ZbQXH7jTXQAblaBn0I-2FnOB-PGUm6WvEmlXvByUbKrCaJh22FL6qJ6vLL1ny4tzkMvsRLrkTowgeRhMnS0p5g5vhIEjQMhMPHa271ZACxpwLxG6mhOvTFaEonwXBKGLmmJHJWVM8r2G84YEu3FyFa0ZqRpRHAjpw3fKJdSBD5dCNL_1ld2y3wjUxMktLhMDKJJLfp5pnOnAl5sPMa4inMUmGUrj9e2_UvdVxPnxJabQoc3lA6_vKPwcy_sec')"></div>
-<span class="font-medium text-sm">Michael Ross</span>
+<p class="text-sm font-medium text-slate-900 dark:text-white">Drag &amp; drop or click to upload</p>
+<p class="text-xs text-slate-500 mt-1">PNG, JPG or PDF up to 5MB</p>
 </div>
-</td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Modern Loft, Downtown</td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Oct 23, 2023</td>
-<td class="px-6 py-4">
-<span class="px-2.5 py-1 bg-orange-100 text-orange-700 text-xs font-bold rounded-full">Pending</span>
-</td>
-<td class="px-6 py-4 text-right">
-<button class="text-primary font-bold text-sm">Reply</button>
-</td>
-</tr>
-</tbody>
-</table>
 </div>
+<!-- ID Back -->
+<div class="group cursor-pointer">
+<label class="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Government ID (Back)</label>
+<div class="border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl p-8 flex flex-col items-center justify-center bg-white dark:bg-slate-900 hover:border-primary/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all">
+<div class="size-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 group-hover:bg-primary/10 group-hover:text-primary mb-4 transition-colors">
+<span class="material-symbols-outlined text-3xl">add_photo_alternate</span>
+</div>
+<p class="text-sm font-medium text-slate-900 dark:text-white">Drag &amp; drop or click to upload</p>
+<p class="text-xs text-slate-500 mt-1">PNG, JPG or PDF up to 5MB</p>
+</div>
+</div>
+<!-- Selfie with ID -->
+<div class="group cursor-pointer">
+<label class="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Selfie holding ID</label>
+<div class="border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl p-8 flex flex-col items-center justify-center bg-white dark:bg-slate-900 hover:border-primary/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all">
+<div class="size-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 group-hover:bg-primary/10 group-hover:text-primary mb-4 transition-colors">
+<span class="material-symbols-outlined text-3xl">face</span>
+</div>
+<p class="text-sm font-medium text-slate-900 dark:text-white">Drag &amp; drop or click to upload</p>
+<p class="text-xs text-slate-500 mt-1">Make sure your face and ID are clear</p>
+</div>
+</div>
+<!-- Proof of Address -->
+<div class="group cursor-pointer">
+<label class="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Proof of Address</label>
+<div class="border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl p-8 flex flex-col items-center justify-center bg-white dark:bg-slate-900 hover:border-primary/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all">
+<div class="size-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 group-hover:bg-primary/10 group-hover:text-primary mb-4 transition-colors">
+<span class="material-symbols-outlined text-3xl">home_pin</span>
+</div>
+<p class="text-sm font-medium text-slate-900 dark:text-white">Drag &amp; drop or click to upload</p>
+<p class="text-xs text-slate-500 mt-1">Utility bill or bank statement (max 3 months old)</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Security Notice Section -->
+<div class="mt-12 bg-primary/5 dark:bg-primary/10 border border-primary/20 rounded-xl p-6 flex gap-5">
+<div class="flex-shrink-0 text-primary">
+<span class="material-symbols-outlined text-3xl">shield_lock</span>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white">Your data is safe and encrypted</h4>
+<p class="mt-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Home Market uses industry-leading encryption to protect your sensitive documents. We will never share your identity documents with third parties without your explicit consent. Your information is used strictly for regulatory compliance and fraud prevention.
+                    </p>
+<div class="mt-4 flex flex-wrap gap-4">
+<div class="flex items-center gap-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+<span class="material-symbols-outlined text-sm">lock</span>
+                            256-bit AES Encryption
+                        </div>
+<div class="flex items-center gap-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+<span class="material-symbols-outlined text-sm">gpp_good</span>
+                            GDPR Compliant
+                        </div>
+</div>
+</div>
+</div>
+<!-- Footer Action -->
+<div class="mt-10 flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-slate-200 dark:border-slate-800 pt-8">
+<div class="flex items-center gap-2">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-5 w-5 cursor-pointer" id="terms" type="checkbox"/>
+<label class="text-sm text-slate-600 dark:text-slate-400" for="terms">
+                        I confirm that the documents provided are authentic and belong to me.
+                    </label>
+</div>
+<div class="flex gap-4 w-full sm:w-auto">
+<button class="flex-1 sm:flex-none px-8 py-3 rounded-xl border border-slate-200 dark:border-slate-800 font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                        Cancel
+                    </button>
+<button class="flex-1 sm:flex-none px-10 py-3 rounded-xl bg-primary text-white font-semibold hover:bg-blue-900 shadow-lg shadow-primary/20 transition-all">
+                        Submit for Review
+                    </button>
 </div>
 </div>
 </main>
+<!-- Footer -->
+<footer class="mt-auto py-8 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-4 text-center">
+<p class="text-sm text-slate-500 dark:text-slate-400">© 2024 Home Market Inc. All rights reserved. Professional Seller Central.</p>
+</div>
+</footer>
 </div>
 </body></html>

@@ -157,7 +157,7 @@ class VerificationView(View):
         else:
             messages.error(request, "Invalid verification code")
             return redirect('users:verify_otp')
-class SellerVerificationView(LoginRequiredMixin, View):
+class SellerVerificationView(View):
     template_name = "auth/seller_verification.html"
 
     def get(self, request):
@@ -214,7 +214,7 @@ class LogoutView(View):
         logout(request)
         return redirect('users:login')
 
-class SellerDashboardView(LoginRequiredMixin, TemplateView):
+class SellerDashboardView(TemplateView):
     template_name = "seller/dashboard.html"
 
     def dispatch(self, request, *args, **kwargs):

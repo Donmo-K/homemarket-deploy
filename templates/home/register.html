@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 
 <html lang="en"><head>
 <meta charset="utf-8"/>
@@ -37,17 +38,15 @@
 <div class="layout-container flex h-full grow flex-col">
 <!-- Navigation -->
 <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-6 md:px-10 py-4 bg-white dark:bg-slate-900">
-<div class="flex items-center gap-3 text-primary">
-<div class="size-8 flex items-center justify-center bg-primary text-white rounded-lg">
-<span class="material-symbols-outlined !text-2xl">home_work</span>
-</div>
+<a href="{% url 'core:home' %}" class="flex items-center gap-3 text-primary">
+<img src="{% static 'images/logo/logo.webp' %}" alt="Home Market Logo" class="h-8 w-auto">
 <h2 class="text-slate-900 dark:text-white text-xl font-black leading-tight tracking-tight">Home Market</h2>
-</div>
+</a>
 <div class="flex items-center gap-4">
 <span class="hidden md:inline text-slate-500 dark:text-slate-400 text-sm">Already have an account?</span>
-<button class="flex min-w-[100px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-5 bg-primary/10 text-primary hover:bg-primary/20 transition-colors text-sm font-bold">
+<a href="{% url 'users:login' %}" class="flex min-w-[100px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-5 bg-primary/10 text-primary hover:bg-primary/20 transition-colors text-sm font-bold">
                     Log in
-                </button>
+                </a>
 </div>
 </header>
 <!-- Main Content -->

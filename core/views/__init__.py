@@ -4,5 +4,8 @@ from .main_views import (
     PropertyDetailView,
     CheckoutView,
     MessageView,
-    PaymentMethodView
+    PaymentMethodView,
+    AboutView,
+    ExplorePropertyView,
+    InvestmentOpportunityView
 )
