@@ -1,37 +1,36 @@
 <!DOCTYPE html>
 {% load static %}
-
-<html lang="en"><head>
+<html lang="en">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Home Market - Seller Dashboard</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#000080",
-                        "background-light": "#f5f5f8",
-                        "background-dark": "#0f0f23",
+tailwind.config = {
+darkMode: "class",
+theme: {
+extend: {
+colors: {
+"primary": "#000080",
+"background-light": "#f5f5f8",
+"background-dark": "#0f0f23",
                     },
-                    fontFamily: {
-                        "display": ["Inter", "sans-serif"]
+fontFamily: {
+"display": ["Inter", "sans-serif"]
                     },
-                    borderRadius: {
-                        "DEFAULT": "0.5rem",
-                        "lg": "1rem",
-                        "xl": "1.25rem", // 20px
-                        "full": "9999px"
+borderRadius: {
+"DEFAULT": "0.5rem",
+"lg": "1rem",
+"xl": "1.25rem",
+"full": "9999px"
                     },
                 },
             },
         }
-    </script>
+</script>
 <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -39,7 +38,7 @@
         .soft-shadow {
             box-shadow: 0 4px 20px -2px rgba(0, 0, 128, 0.05);
         }
-    </style>
+</style>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
 <div class="flex h-screen overflow-hidden">
@@ -87,10 +86,10 @@
 </nav>
 <div class="p-6 border-t border-white/10">
 <div class="bg-white/5 rounded-xl p-4 flex items-center gap-3">
-<div class="size-10 rounded-full bg-slate-300 overflow-hidden" data-alt="User profile avatar portrait" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB4hJf6ZtF8Azvo65U3DM17g1kdMZCIejDW71JBk-O0MBmkD8nD1HQbNpUud2ZCFW34iU1ncCeWOZsUfIiGcGpnalbxHjeGRyzgqlpcUZFfz7LoNhiRugR5MRjPlEpL7X4cCScq6zbFG4WpIukNjvZQREfmreZpWwxelgwEJq5Uv8GzlfVKQbvfuJ0EKSn14zg8mv4TDYpLPVzrMaFXKaecx1PrgM7K5nh7l4QQG_IkzZ8JF6OuiBFiAAav0mCuIy8-pltQYAFCavs')"></div>
+<div class="size-10 rounded-full bg-cover bg-center" style="background-image: url('{{ user.profile.avatar.url|default:'https://via.placeholder.com/40' }}')"></div>
 <div class="flex-1 min-w-0">
-<p class="text-white text-sm font-semibold truncate">Alex Rivera</p>
-<p class="text-white/40 text-xs truncate">Verified Seller</p>
+<p class="text-white text-sm font-semibold truncate">{{ user.get_full_name|default:user.email }}</p>
+<p class="text-white/40 text-xs truncate">{% if user.is_verified %}Verified Seller{% else %}Seller{% endif %}</p>
 </div>
 <span class="material-symbols-outlined text-white/40 text-lg">settings</span>
 </div>
@@ -101,7 +100,7 @@
 <div class="flex items-center gap-4">
 <h2 class="text-xl font-bold">Dashboard</h2>
 <span class="text-slate-400 text-sm hidden sm:inline">|</span>
-<span class="text-slate-400 text-sm hidden sm:inline">Monday, Oct 23 2023</span>
+<span class="text-slate-400 text-sm hidden sm:inline">{{ today|date:"l, M d Y" }}</span>
 </div>
 <div class="flex items-center gap-6">
 <div class="relative max-w-xs hidden md:block">
@@ -125,40 +124,40 @@
 <div class="p-2 bg-blue-100 text-blue-600 rounded-lg">
 <span class="material-symbols-outlined">inventory_2</span>
 </div>
-<span class="text-emerald-500 text-sm font-semibold flex items-center">+12% <span class="material-symbols-outlined text-xs">trending_up</span></span>
+<span class="text-emerald-500 text-sm font-semibold flex items-center">+{{ new_listings_percent }}% <span class="material-symbols-outlined text-xs">trending_up</span></span>
 </div>
 <p class="text-slate-500 text-sm font-medium">Total Listings</p>
-<h3 class="text-2xl font-bold mt-1">24</h3>
+<h3 class="text-2xl font-bold mt-1">{{ total_listings }}</h3>
 </div>
 <div class="bg-white dark:bg-slate-900 p-6 rounded-xl soft-shadow border border-slate-100 dark:border-slate-800">
 <div class="flex items-center justify-between mb-4">
 <div class="p-2 bg-purple-100 text-purple-600 rounded-lg">
 <span class="material-symbols-outlined">visibility</span>
 </div>
-<span class="text-emerald-500 text-sm font-semibold flex items-center">+18% <span class="material-symbols-outlined text-xs">trending_up</span></span>
+<span class="text-emerald-500 text-sm font-semibold flex items-center">+{{ views_percent }}% <span class="material-symbols-outlined text-xs">trending_up</span></span>
 </div>
 <p class="text-slate-500 text-sm font-medium">Views</p>
-<h3 class="text-2xl font-bold mt-1">45.8K</h3>
+<h3 class="text-2xl font-bold mt-1">{{ total_views|default:"0" }}</h3>
 </div>
 <div class="bg-white dark:bg-slate-900 p-6 rounded-xl soft-shadow border border-slate-100 dark:border-slate-800">
 <div class="flex items-center justify-between mb-4">
 <div class="p-2 bg-orange-100 text-orange-600 rounded-lg">
 <span class="material-symbols-outlined">sell</span>
 </div>
-<span class="text-emerald-500 text-sm font-semibold flex items-center">+5% <span class="material-symbols-outlined text-xs">trending_up</span></span>
+<span class="text-emerald-500 text-sm font-semibold flex items-center">+{{ sales_percent }}% <span class="material-symbols-outlined text-xs">trending_up</span></span>
 </div>
 <p class="text-slate-500 text-sm font-medium">Sales</p>
-<h3 class="text-2xl font-bold mt-1">12</h3>
+<h3 class="text-2xl font-bold mt-1">{{ total_sales|default:"0" }}</h3>
 </div>
 <div class="bg-white dark:bg-slate-900 p-6 rounded-xl soft-shadow border border-slate-100 dark:border-slate-800">
 <div class="flex items-center justify-between mb-4">
 <div class="p-2 bg-emerald-100 text-emerald-600 rounded-lg">
 <span class="material-symbols-outlined">payments</span>
 </div>
-<span class="text-rose-500 text-sm font-semibold flex items-center">-2% <span class="material-symbols-outlined text-xs">trending_down</span></span>
+<span class="text-rose-500 text-sm font-semibold flex items-center">{{ revenue_change_percent }}% <span class="material-symbols-outlined text-xs">trending_down</span></span>
 </div>
 <p class="text-slate-500 text-sm font-medium">Revenue</p>
-<h3 class="text-2xl font-bold mt-1">$1.2M</h3>
+<h3 class="text-2xl font-bold mt-1">${{ total_revenue|floatformat:1 }}</h3>
 </div>
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
@@ -175,12 +174,13 @@
 </div>
 <div class="h-64 flex flex-col gap-4">
 <div class="flex-1 relative">
-<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 400 150">
+<!-- Graphique dynamique (simulé avec SVG simple, tu peux remplacer par Chart.js plus tard) -->
+<svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 400 150">
 <defs>
-<lineargradient id="gradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<linearGradient id="gradient" x1="0%" x2="0%" y1="0%" y2="100%">
 <stop offset="0%" style="stop-color:rgba(0, 0, 128, 0.1)"></stop>
 <stop offset="100%" style="stop-color:rgba(0, 0, 128, 0)"></stop>
-</lineargradient>
+</linearGradient>
 </defs>
 <path d="M0,120 Q50,110 80,60 T160,80 T240,30 T320,100 T400,20 V150 H0 Z" fill="url(#gradient)"></path>
 <path d="M0,120 Q50,110 80,60 T160,80 T240,30 T320,100 T400,20" fill="none" stroke="#000080" stroke-linecap="round" stroke-width="3"></path>
@@ -206,64 +206,34 @@
 <div class="flex gap-2">
 <div class="flex items-center gap-1.5">
 <span class="w-3 h-3 rounded-full bg-primary"></span>
-<span class="text-xs text-slate-500 font-medium">2023</span>
+<span class="text-xs text-slate-500 font-medium">This Year</span>
 </div>
 <div class="flex items-center gap-1.5">
 <span class="w-3 h-3 rounded-full bg-slate-200 dark:bg-slate-700"></span>
-<span class="text-xs text-slate-500 font-medium">2022</span>
+<span class="text-xs text-slate-500 font-medium">Last Year</span>
 </div>
 </div>
 </div>
 <div class="h-64 flex items-end justify-between gap-4">
+<!-- Barres dynamiques (exemple avec 6 mois, tu peux boucler sur des données réelles) -->
+{% for month in sales_data %}
 <div class="flex-1 flex flex-col justify-end gap-2 group">
 <div class="relative w-full">
 <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg h-32"></div>
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-24 transition-all group-hover:h-28"></div>
+<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-{{ month.height }} transition-all group-hover:h-{{ month.hover_height }}"></div>
 </div>
-<span class="text-center text-xs text-slate-400 font-medium">Jan</span>
+<span class="text-center text-xs text-slate-400 font-medium">{{ month.name }}</span>
 </div>
-<div class="flex-1 flex flex-col justify-end gap-2 group">
-<div class="relative w-full">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg h-32"></div>
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-16 transition-all group-hover:h-20"></div>
-</div>
-<span class="text-center text-xs text-slate-400 font-medium">Feb</span>
-</div>
-<div class="flex-1 flex flex-col justify-end gap-2 group">
-<div class="relative w-full">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg h-32"></div>
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-28 transition-all group-hover:h-30"></div>
-</div>
-<span class="text-center text-xs text-slate-400 font-medium">Mar</span>
-</div>
-<div class="flex-1 flex flex-col justify-end gap-2 group">
-<div class="relative w-full">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg h-32"></div>
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-12 transition-all group-hover:h-16"></div>
-</div>
-<span class="text-center text-xs text-slate-400 font-medium">Apr</span>
-</div>
-<div class="flex-1 flex flex-col justify-end gap-2 group">
-<div class="relative w-full">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg h-32"></div>
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-20 transition-all group-hover:h-24"></div>
-</div>
-<span class="text-center text-xs text-slate-400 font-medium">May</span>
-</div>
-<div class="flex-1 flex flex-col justify-end gap-2 group">
-<div class="relative w-full">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg h-32"></div>
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-30 transition-all group-hover:h-32"></div>
-</div>
-<span class="text-center text-xs text-slate-400 font-medium">Jun</span>
-</div>
+{% empty %}
+<div class="flex-1 text-center text-slate-500 py-20">No sales data yet</div>
+{% endfor %}
 </div>
 </div>
 </div>
 <div class="bg-white dark:bg-slate-900 rounded-xl soft-shadow border border-slate-100 dark:border-slate-800 overflow-hidden">
 <div class="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
 <h4 class="text-lg font-bold">Recent Inquiries</h4>
-<button class="text-primary text-sm font-semibold hover:underline">View All Messages</button>
+<a href="{% url 'core:message' %}" class="text-primary text-sm font-semibold hover:underline">View All Messages</a>
 </div>
 <div class="overflow-x-auto">
 <table class="w-full text-left">
@@ -277,38 +247,30 @@
 </tr>
 </thead>
 <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+{% for inquiry in recent_inquiries %}
 <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
 <td class="px-6 py-4">
 <div class="flex items-center gap-3">
-<div class="size-8 rounded-full bg-slate-200" data-alt="Avatar of a potential buyer" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuASJ_Mar5_vkSjUIhYL0eXHJbqs1d0_fGOKQwKP5VeniakWhS5r0rt295wrsK8zGFqwxIb-gywZI-9XabZu2XXFzczT1MbCVHxqS0c0Tx_y4GesITYTvfAZKwbdtwmoQhD4YNYSGjTN7cTw4IxTr-BpERVzEqquMC4mJrX4RqA6ynuKRCXazBkBXbVXS-r7obnmSS29taTvpbTywvnn6SuQu4nU1I2mAjqS9vwzdiW4seBYgls8QbNmRVLmCSuZSBwE4tz22JFw4w0')"></div>
-<span class="font-medium text-sm">Sarah Jenkins</span>
+<div class="size-8 rounded-full bg-cover bg-center" style="background-image: url('{{ inquiry.buyer.profile.avatar.url|default:'https://via.placeholder.com/32' }}')"></div>
+<span class="font-medium text-sm">{{ inquiry.buyer.get_full_name|default:inquiry.buyer.email }}</span>
 </div>
 </td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Luxury Villa, Beverly Hills</td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Oct 24, 2023</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">{{ inquiry.property.title }}</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">{{ inquiry.created|date:"M d, Y" }}</td>
 <td class="px-6 py-4">
 <span class="px-2.5 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">Active</span>
 </td>
 <td class="px-6 py-4 text-right">
-<button class="text-primary font-bold text-sm">Reply</button>
+<a href="{% url 'core:message' %}" class="text-primary font-bold text-sm">Reply</a>
 </td>
 </tr>
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-<td class="px-6 py-4">
-<div class="flex items-center gap-3">
-<div class="size-8 rounded-full bg-slate-200" data-alt="Avatar of a potential buyer" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAr--fMHcJRKIHq10ZbQXH7jTXQAblaBn0I-2FnOB-PGUm6WvEmlXvByUbKrCaJh22FL6qJ6vLL1ny4tzkMvsRLrkTowgeRhMnS0p5g5vhIEjQMhMPHa271ZACxpwLxG6mhOvTFaEonwXBKGLmmJHJWVM8r2G84YEu3FyFa0ZqRpRHAjpw3fKJdSBD5dCNL_1ld2y3wjUxMktLhMDKJJLfp5pnOnAl5sPMa4inMUmGUrj9e2_UvdVxPnxJabQoc3lA6_vKPwcy_sec')"></div>
-<span class="font-medium text-sm">Michael Ross</span>
-</div>
-</td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Modern Loft, Downtown</td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Oct 23, 2023</td>
-<td class="px-6 py-4">
-<span class="px-2.5 py-1 bg-orange-100 text-orange-700 text-xs font-bold rounded-full">Pending</span>
-</td>
-<td class="px-6 py-4 text-right">
-<button class="text-primary font-bold text-sm">Reply</button>
+{% empty %}
+<tr>
+<td colspan="5" class="px-6 py-10 text-center text-slate-500">
+No recent inquiries yet
 </td>
 </tr>
+{% endfor %}
 </tbody>
 </table>
 </div>
@@ -316,4 +278,5 @@
 </div>
 </main>
 </div>
-</body></html>
+</body>
+</html>

@@ -28,17 +28,19 @@ class UserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 class User(AbstractUser, HomeMarketBase):
-    username = None
+
+    username = None  # 🔥 On supprime complètement username
+
     email = models.EmailField(_('email address'), unique=True)
     user_type = models.CharField(max_length=10, choices=UserType.choices, default=UserType.BUYER)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
-    
+
     objects = UserManager()
-    
+
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = [] # Only email and password required for superuser
-    
+    REQUIRED_FIELDS = []
+
     def __str__(self):
         return self.email
 

@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 {% load static %}
-
-<html class="light" lang="en"><head>
+<html class="light" lang="en">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#ec5b13",
-                        "background-light": "#f8f6f6",
-                        "background-dark": "#221610",
+tailwind.config = {
+darkMode: "class",
+theme: {
+extend: {
+colors: {
+"primary": "#ec5b13",
+"background-light": "#f8f6f6",
+"background-dark": "#221610",
                     },
-                    fontFamily: {
-                        "display": ["Public Sans"]
+fontFamily: {
+"display": ["Public Sans"]
                     },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
                 },
             },
         }
-    </script>
+</script>
 <title>My Bookings | Home Market</title>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
@@ -81,7 +81,7 @@
 <button class="bg-primary text-white px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2">
 <span class="material-symbols-outlined text-sm">add</span>
                     Book New Visit
-                </button>
+</button>
 </div>
 </header>
 <div class="p-8 max-w-6xl mx-auto">
@@ -111,7 +111,7 @@
 <p class="text-slate-500 text-sm flex items-center gap-1">
 <span class="material-symbols-outlined text-xs">location_on</span>
                                         123 Malibu Drive, CA
-                                    </p>
+</p>
 </div>
 <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-xs font-bold uppercase tracking-wider">Confirmed</span>
 </div>
@@ -147,7 +147,7 @@
 <p class="text-slate-500 text-sm flex items-center gap-1">
 <span class="material-symbols-outlined text-xs">location_on</span>
                                         742 Broadway St, NY
-                                    </p>
+</p>
 </div>
 <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 text-xs font-bold uppercase tracking-wider">Pending</span>
 </div>
@@ -183,7 +183,7 @@
 <p class="text-slate-500 text-sm flex items-center gap-1">
 <span class="material-symbols-outlined text-xs">location_on</span>
                                         55 Maple Ave, NJ
-                                    </p>
+</p>
 </div>
 <span class="px-3 py-1 rounded-full bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Completed</span>
 </div>
@@ -210,7 +210,7 @@
 </div>
 </div>
 <!-- Empty State Illustration Placeholder (Hidden) -->
-<!-- 
+<!--
             <div class="flex flex-col items-center justify-center py-20 text-center">
                 <div class="size-20 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-4">
                     <span class="material-symbols-outlined text-4xl text-slate-400">event_busy</span>
@@ -218,9 +218,10 @@
                 <h3 class="text-xl font-bold">No bookings found</h3>
                 <p class="text-slate-500">You don't have any property visits scheduled for this period.</p>
                 <button class="mt-6 bg-primary text-white px-6 py-2 rounded-lg font-bold">Find a Property</button>
-            </div> 
+            </div>
             -->
 </div>
 </main>
 </div>
-</body></html>
+</body>
+</html>

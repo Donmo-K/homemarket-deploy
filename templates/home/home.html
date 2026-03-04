@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 {% load static %}
-
-<html class="light" lang="en"><head>
+<html class="light" lang="en">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#000080",
-                        "accent": "#D4AF37",
-                        "background-light": "#f5f5f8",
-                        "background-dark": "#0f0f23",
+tailwind.config = {
+darkMode: "class",
+theme: {
+extend: {
+colors: {
+"primary": "#000080",
+"accent": "#D4AF37",
+"background-light": "#f5f5f8",
+"background-dark": "#0f0f23",
                     },
-                    fontFamily: {
-                        "display": ["Inter", "sans-serif"]
+fontFamily: {
+"display": ["Inter", "sans-serif"]
                     },
-                    borderRadius: {
-                        "DEFAULT": "0.5rem",
-                        "lg": "1rem",
-                        "xl": "1.25rem", // 20px
-                        "full": "9999px"
+borderRadius: {
+"DEFAULT": "0.5rem",
+"lg": "1rem",
+"xl": "1.25rem",
+"full": "9999px"
                     },
                 },
             },
         }
-    </script>
+</script>
 <style>
         .gold-glow {
             box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
@@ -43,7 +43,7 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-    </style>
+</style>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
 <!-- Top Navigation -->
@@ -52,7 +52,7 @@
 <div class="flex items-center justify-between h-20">
 <a href="{% url 'core:home' %}" class="flex items-center gap-3">
 <div class="bg-primary p-2 rounded-lg text-white">
-    <img src="{% static 'images/logo/logo.webp' %}" alt="Home Market Logo" class="h-8 w-auto">
+<img src="{% static 'images/logo/logo.webp' %}" alt="Home Market Logo" class="h-8 w-auto">
 </div>
 <h1 class="text-2xl font-black tracking-tight text-primary dark:text-white uppercase italic">Home Market</h1>
 </a>
@@ -84,6 +84,19 @@
 <div class="relative z-20 max-w-4xl w-full px-4 text-center">
 <h2 class="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">Find Your <span class="text-accent">Dream</span> Property</h2>
 <p class="text-white/90 text-lg mb-10 max-w-2xl mx-auto">Discover premium real estate listings in prime locations across Central and West Africa.</p>
+
+<!-- Compteurs dynamiques -->
+<div class="flex justify-center gap-16 mb-10">
+  <div class="text-center">
+    <h3 class="text-5xl md:text-6xl font-black text-white">{{ total_properties|default:"0" }}</h3>
+    <p class="text-white/80 text-lg">Annonces disponibles</p>
+  </div>
+  <div class="text-center">
+    <h3 class="text-5xl md:text-6xl font-black text-white">{{ total_users|default:"0" }}</h3>
+    <p class="text-white/80 text-lg">Utilisateurs actifs</p>
+  </div>
+</div>
+
 <div class="bg-white dark:bg-background-dark p-2 rounded-xl shadow-2xl flex flex-col md:flex-row gap-2">
 <div class="flex-1 flex items-center px-4 border-b md:border-b-0 md:border-r border-slate-200 dark:border-slate-700 py-3 md:py-0">
 <span class="material-symbols-outlined text-primary/60 mr-2">location_on</span>
@@ -108,7 +121,8 @@
 </div>
 </div>
 </section>
-<!-- Categories -->
+
+<!-- Categories (inchangé) -->
 <section class="max-w-7xl mx-auto px-4 py-16">
 <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
 <a href="{% url 'core:search' %}" class="bg-white dark:bg-slate-800 p-6 rounded-xl text-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all border border-primary/5 cursor-pointer">
@@ -133,7 +147,8 @@
 </a>
 </div>
 </section>
-<!-- Flash Deals -->
+
+<!-- Flash Deals (inchangé pour l'instant, tu peux le dynamiser plus tard) -->
 <section class="bg-primary py-16 overflow-hidden">
 <div class="max-w-7xl mx-auto px-4">
 <div class="flex items-center justify-between mb-10">
@@ -209,205 +224,119 @@
 </div>
 </div>
 </section>
-<!-- Featured Properties -->
+
+<!-- Featured Properties - DYNAMIQUE -->
 <section class="max-w-7xl mx-auto px-4 py-20">
-<div class="flex justify-between items-end mb-12">
-<div>
-<h2 class="text-3xl font-black text-primary">Featured Properties</h2>
-<p class="text-slate-500 mt-2">Handpicked quality listings just for you</p>
-</div>
-<a href="{% url 'core:search' %}" class="text-primary font-bold flex items-center gap-1 hover:gap-2 transition-all">
-                    View All <span class="material-symbols-outlined">chevron_right</span>
-</a>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-<!-- Property Card 1 -->
-<div class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-xl border border-primary/5 group">
-<div class="relative h-64 overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Minimalist modern house with large windows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_DymQgV7s5C3SMgXE9CjMYMXSRgppQRYcxeLfBU2T9PRZimx468SV4yPmQvGvQr0zqg8uRKM9nXffcb4Kbd95S4r2EqvewV92rs6F4pAUieEHn5oK0pO28Ka3COCXJz4ot-Fp5OWnlRgkW5glto3WeNGyh3JFBCTNSDo0B_M1RyhNRkSN0N6Fk_F-FPAw3SxhHbkRkuGr2BtIe_Dk5RKJ0TTRmNpdzshUgFUK1cJ7CLZ05x0cQ5mqVR1pm1HV7kNEYnf2U8rTq30"/>
-<div class="absolute top-4 left-4 flex gap-2">
-<span class="bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">For Sale</span>
-</div>
-<button class="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-md text-white rounded-full flex items-center justify-center hover:bg-white hover:text-red-500 transition-all">
-<span class="material-symbols-outlined">favorite</span>
-</button>
-</div>
-<div class="p-6">
-<h3 class="text-xl font-bold mb-1">Starlight Manor</h3>
-<p class="text-slate-500 text-sm mb-4 flex items-center gap-1">
-<span class="material-symbols-outlined text-sm">location_on</span> Bastos, Yaoundé
-                        </p>
-<div class="flex justify-between items-center">
-<span class="text-2xl font-black text-primary">$550,000</span>
-<div class="flex gap-3 text-slate-500">
-<span class="flex items-center gap-1 text-xs font-bold"><span class="material-symbols-outlined text-sm">bed</span> 5</span>
-<span class="flex items-center gap-1 text-xs font-bold"><span class="material-symbols-outlined text-sm">bathtub</span> 4</span>
-</div>
-</div>
-</div>
-</div>
-<!-- Property Card 2 -->
-<div class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-xl border border-primary/5 group">
-<div class="relative h-64 overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Spacious villa with private driveway" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqFGdelZjTdLTCJbo9-xrvYOnPbPyYTwhzNE4RorIn-RoEfQ03zkyULiiacoQr1GQ1vmUpgrNZd5sm-tsenLMOQzLop2QG5f1n7OG5OHQAnfMrWYhrP9tJcMr5AWubl-NBpEbbxzvqsH7FQ3WMZPMcNo6jyoFUMFxt7Q7K6DywRLJW-SIU_tFbbJw9-sM603-Qao8SUBM_pPAcrcBj3N3SQN5E09mOLihf_Q2UUGLn30VZBA8oeYz_OvzmLiOv90nc8aQt5KmtPI0"/>
-<div class="absolute top-4 left-4 flex gap-2">
-<span class="bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">For Sale</span>
-</div>
-<button class="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-md text-white rounded-full flex items-center justify-center hover:bg-white hover:text-red-500 transition-all">
-<span class="material-symbols-outlined">favorite</span>
-</button>
-</div>
-<div class="p-6">
-<h3 class="text-xl font-bold mb-1">The Oasis Villa</h3>
-<p class="text-slate-500 text-sm mb-4 flex items-center gap-1">
-<span class="material-symbols-outlined text-sm">location_on</span> GRA, Buea
-                        </p>
-<div class="flex justify-between items-center">
-<span class="text-2xl font-black text-primary">$285,000</span>
-<div class="flex gap-3 text-slate-500">
-<span class="flex items-center gap-1 text-xs font-bold"><span class="material-symbols-outlined text-sm">bed</span> 4</span>
-<span class="flex items-center gap-1 text-xs font-bold"><span class="material-symbols-outlined text-sm">bathtub</span> 3</span>
-</div>
-</div>
-</div>
-</div>
-<!-- Property Card 3 -->
-<div class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-xl border border-primary/5 group">
-<div class="relative h-64 overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Ultra modern interior of a luxury condo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBI8WbonQsPMfKrsuJNG6e-GKagolUOFpb8-pmrq5WomGBnMVUIxgFAR-mRsyWD7A1-gS6NleA5sygsfeKekPUnCtK-L-liDRjXjAIorCZNxTYA_au5ze7hEapAEMj91_5fswi6EcBqydYWkXLowG7Ym6k3YPwcvn0COSS4iFk71Rd8MfKeUIljTir8ZuGcPEPyo-Cgmv-WjOIbrXQo_8xfpq6-Ul4PHmqNXNU5XJvuRmL78-t4qyDmsrBUHoRkOICRTdJoevMfuNs"/>
-<div class="absolute top-4 left-4 flex gap-2">
-<span class="bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">For Sale</span>
-</div>
-<button class="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-md text-white rounded-full flex items-center justify-center hover:bg-white hover:text-red-500 transition-all">
-<span class="material-symbols-outlined">favorite</span>
-</button>
-</div>
-<div class="p-6">
-<h3 class="text-xl font-bold mb-1">Urban Zenith Loft</h3>
-<p class="text-slate-500 text-sm mb-4 flex items-center gap-1">
-<span class="material-symbols-outlined text-sm">location_on</span> Lekki, Lagos
-                        </p>
-<div class="flex justify-between items-center">
-<span class="text-2xl font-black text-primary">$410,000</span>
-<div class="flex gap-3 text-slate-500">
-<span class="flex items-center gap-1 text-xs font-bold"><span class="material-symbols-outlined text-sm">bed</span> 3</span>
-<span class="flex items-center gap-1 text-xs font-bold"><span class="material-symbols-outlined text-sm">bathtub</span> 3</span>
-</div>
-</div>
-</div>
-</div>
-</div>
+  <div class="flex justify-between items-end mb-12">
+    <div>
+      <h2 class="text-3xl font-black text-primary">Featured Properties</h2>
+      <p class="text-slate-500 mt-2">Handpicked quality listings just for you</p>
+    </div>
+    <a href="{% url 'core:search' %}" class="text-primary font-bold flex items-center gap-1 hover:gap-2 transition-all">
+      View All <span class="material-symbols-outlined">chevron_right</span>
+    </a>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    {% for prop in featured_properties %}
+      <div class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-xl border border-primary/5 group">
+        <div class="relative h-64 overflow-hidden">
+          {% if prop.images.exists %}
+            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="{{ prop.images.first.image.url }}" alt="{{ prop.title }}">
+          {% else %}
+            <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+              <span class="material-symbols-outlined text-6xl text-gray-400">image</span>
+            </div>
+          {% endif %}
+          <div class="absolute top-4 left-4 flex gap-2">
+            <span class="bg-primary text-white text-[10px] font-black px-3 py-1 rounded-full uppercase">Featured</span>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-1">{{ prop.title }}</h3>
+          <p class="text-slate-500 text-sm mb-4 flex items-center gap-1">
+            <span class="material-symbols-outlined text-sm">location_on</span> {{ prop.location|default:"Non spécifié" }}
+          </p>
+          <div class="flex justify-between items-center">
+            <span class="text-2xl font-black text-primary">{{ prop.price|floatformat:0 }} FCFA</span>
+            <div class="flex gap-3 text-slate-500 text-xs">
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">bed</span> {{ prop.bedrooms|default:"-" }}</span>
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">square_foot</span> {{ prop.area_sqm|default:"-" }} m²</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-center col-span-3 text-slate-500">Aucune annonce en vedette pour le moment</p>
+    {% endfor %}
+  </div>
 </section>
-<!-- Premium Listings -->
-<section class="bg-slate-50 dark:bg-slate-900/50 py-20">
-<div class="max-w-7xl mx-auto px-4">
-<div class="text-center mb-16">
-<span class="text-accent font-black tracking-widest text-xs uppercase">Curated Excellence</span>
-<h2 class="text-4xl font-black text-primary mt-2">Premium Listings</h2>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-<!-- Premium 1 -->
-<div class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-2xl flex flex-col md:flex-row border-2 border-accent/20">
-<div class="md:w-1/2 relative h-64 md:h-auto">
-<img class="w-full h-full object-cover" data-alt="Stunning white luxury mansion pool" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCu-7F29uQpF8cnXMfAemjy_N6JUYjZyn5HG6gUzCOgdRgMEkvcoy5u0kfoIVNtClP1PbR7qUMTFbRMMB4z3vaypNMTChEKWm1QG2nBx-dX8EfkfF2Xj1jCiyOllYbOIm4v1oxaw44fzx_b3d7lJ7OfQagyJmGYSCpxW8idlTfImxhHOufmojfw6jZOU6TzH0hkF5Jifxg8XQ8bXi6LOH46RfFJlSrKW797TAW_pqZP8ZI0RtwdqlB-sy3PA10xCQOU4ypO4p8Phw"/>
-<div class="absolute top-4 left-4 flex gap-2">
-<span class="bg-accent text-primary text-[10px] font-black px-3 py-1 rounded-full uppercase flex items-center gap-1">
-<span class="material-symbols-outlined text-xs">verified</span> Premium
-                                </span>
-</div>
-</div>
-<div class="md:w-1/2 p-8 flex flex-col justify-center">
-<span class="text-accent font-bold text-xs uppercase mb-2">Exclusive Offer</span>
-<h3 class="text-2xl font-black text-primary mb-4">The Royal Palace Estate</h3>
-<p class="text-slate-600 dark:text-slate-400 text-sm mb-6 leading-relaxed">
-                                Experience ultimate luxury in this sprawling estate featuring smart home technology, private cinema, and Olympic-sized pool.
-                            </p>
-<div class="flex items-center justify-between">
-<span class="text-3xl font-black text-primary">$2,450,000</span>
-<button class="bg-primary text-white p-3 rounded-lg"><span class="material-symbols-outlined">arrow_forward</span></button>
-</div>
-</div>
-</div>
-<!-- Premium 2 -->
-<div class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-2xl flex flex-col md:flex-row border-2 border-accent/20">
-<div class="md:w-1/2 relative h-64 md:h-auto">
-<img class="w-full h-full object-cover" data-alt="Ocean view luxury terrace" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxyp9EYZ6hr6znZBxHKepA1aCETikBzJHZdta1sGstoCfRPE7c7jBpo-P29qFvA3n0o7YPrElpBdMInIafYtckAw7Scu4Y_rQz4-rw_iobhLXqCcdixah4p1lZyhIaueh2JtH76QFi3JA4344a2w7hW9t58U0w10CHGrxKQkRAuhy8qI1FZQSN9kh_lculNuvlHLaMqoPnUTt9i8PRma5dd9mYIrwUdc_Ev-NUfdV3up3qavDlmCSGpFq7mHLdTkQszKEqbbpXJ2g"/>
-<div class="absolute top-4 left-4 flex gap-2">
-<span class="bg-accent text-primary text-[10px] font-black px-3 py-1 rounded-full uppercase flex items-center gap-1">
-<span class="material-symbols-outlined text-xs">verified</span> Premium
-                                </span>
-</div>
-</div>
-<div class="md:w-1/2 p-8 flex flex-col justify-center">
-<span class="text-accent font-bold text-xs uppercase mb-2">Verified Agent</span>
-<h3 class="text-2xl font-black text-primary mb-4">Ocean View Heights</h3>
-<p class="text-slate-600 dark:text-slate-400 text-sm mb-6 leading-relaxed">
-                                Panoramic ocean views with contemporary design. This penthouse offers the finest lifestyle in the heart of the city.
-                            </p>
-<div class="flex items-center justify-between">
-<span class="text-3xl font-black text-primary">$1,200,000</span>
-<button class="bg-primary text-white p-3 rounded-lg"><span class="material-symbols-outlined">arrow_forward</span></button>
-</div>
-</div>
-</div>
-</div>
-</div>
+
+<!-- Latest Properties - NOUVELLE SECTION DYNAMIQUE -->
+<section class="max-w-7xl mx-auto px-4 py-20 bg-slate-50 dark:bg-slate-900/30">
+  <div class="flex justify-between items-end mb-12">
+    <div>
+      <h2 class="text-3xl font-black text-primary">Latest Properties</h2>
+      <p class="text-slate-500 mt-2">Freshly added listings</p>
+    </div>
+    <a href="{% url 'core:search' %}" class="text-primary font-bold flex items-center gap-1 hover:gap-2 transition-all">
+      View All <span class="material-symbols-outlined">chevron_right</span>
+    </a>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    {% for prop in latest_properties %}
+      <div class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-xl border border-primary/5 group">
+        <div class="relative h-64 overflow-hidden">
+          {% if prop.images.exists %}
+            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="{{ prop.images.first.image.url }}" alt="{{ prop.title }}">
+          {% else %}
+            <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+              <span class="material-symbols-outlined text-6xl text-gray-400">image</span>
+            </div>
+          {% endif %}
+          <div class="absolute top-4 left-4 flex gap-2">
+            <span class="bg-accent text-primary text-[10px] font-black px-3 py-1 rounded-full uppercase">New</span>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-1">{{ prop.title }}</h3>
+          <p class="text-slate-500 text-sm mb-4 flex items-center gap-1">
+            <span class="material-symbols-outlined text-sm">location_on</span> {{ prop.location|default:"Non spécifié" }}
+          </p>
+          <div class="flex justify-between items-center">
+            <span class="text-2xl font-black text-primary">{{ prop.price|floatformat:0 }} FCFA</span>
+            <div class="flex gap-3 text-slate-500 text-xs">
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">bed</span> {{ prop.bedrooms|default:"-" }}</span>
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">square_foot</span> {{ prop.area_sqm|default:"-" }} m²</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-center col-span-3 text-slate-500">Aucune nouvelle annonce pour le moment</p>
+    {% endfor %}
+  </div>
 </section>
-<!-- Popular Locations -->
+
+<!-- Popular Locations - DYNAMIQUE -->
 <section class="max-w-7xl mx-auto px-4 py-20">
-<h2 class="text-3xl font-black text-primary mb-12 text-center">Popular Locations</h2>
-<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-<div class="relative h-64 rounded-xl overflow-hidden group cursor-pointer">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Cityscape of Douala Cameroon" data-location="Douala" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANOb1BMlzQPJMOdcIDSLM_VYh3_xBQ9R3o1L697MJxlEM6ILCeF5OcmN2DxwFkI38GUrZ4QXMfcIQwaPkjxw3s7EwXDml15zWWEz1B3yx4qKd7vxCA64Bati6hm_uOvQB0hFGRK3WLkbeH2pLlg5OK5H9IJU9fKOWlkiH5bLPqABWUkiu88MB1nwHKZLANTvGIgA6NEoncWBNgoV5813WjNcEaDw_wP_9cBE9HqP25K7sSHpCcOqr7KlY7m0w-a2lST2dVsHghVoM"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-<div class="absolute bottom-4 left-4">
-<h4 class="text-white font-bold">Douala</h4>
-<p class="text-white/70 text-xs">120 Properties</p>
-</div>
-</div>
-<div class="relative h-64 rounded-xl overflow-hidden group cursor-pointer">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Yaounde hills and greenery" data-location="Yaoundé" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAg90RkllN0XHUzLntx9vSJ5nx383IhiWW7bixLJUw9sdW3g25ORI6klXzvXO9er9_uXGzRxeGxx8YiiiD48bXBzcnhgEkqHjqaKuxHZ6Rv969u7KGIb_yhpvB0Mke9E3sd0VagsA6n7kZX0G8lNnHUTdQakNgCg4K8_B4YByoqQejOIMXhGoCyx5rv5MwBxmVIZwy7SCchp-5hPNCATCKQS1E-9niIrKDaIdhfiKkcBwsgsv5hccdsfVH-41Dz3uduOyx1AuCJFjs"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-<div class="absolute bottom-4 left-4">
-<h4 class="text-white font-bold">Yaoundé</h4>
-<p class="text-white/70 text-xs">85 Properties</p>
-</div>
-</div>
-<div class="relative h-64 rounded-xl overflow-hidden group cursor-pointer">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Bamenda scenic mountains" data-location="Bamenda" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGQ5T1twBAzPLV_XGFsMM1X9vJrpeEduSdm429p4j-1AxVhlApf7Bp2BNsGvp0DfZdJjNAPtRv5btn64p0DiMcC8_ddYke2o3AV_BowS7ZWR_HaeuQ0SNa-MkEHvJYJZy8G56YVwDpVl5rTsiE9ptHbNcBFU_f8TX48Hl_SPAXRJuLR0DD_-8a5CQwPt-ogaMKA4ZKEiqaPTNEesqi7A3r9kIxXRDbzcxTAlJgeUm7Mu-X2jjmjLYu7xX14vzuT2uJkYeQAjnjG9c"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-<div class="absolute bottom-4 left-4">
-<h4 class="text-white font-bold">Bamenda</h4>
-<p class="text-white/70 text-xs">42 Properties</p>
-</div>
-</div>
-<div class="relative h-64 rounded-xl overflow-hidden group cursor-pointer">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Mount Cameroon Buea" data-location="Buea" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhZcmuAYg8I5PVNN8rcyGWbgGwPc-eh8tu3PRYGMDauAfjM5PrFR1w2qi-DcZA50iViRbAyPpWkAW-Q4wDzFA1BxGhiDwiJWDCykVMZ2fNwicdNxjzkS6dh2M7_A9Ii-Pccb3Nm-QuhovwjhsR1zJOPzzYZNdlVnMlXC-Zm886Gfj-azhlDof-6KwEmSGzIZl5s6koinYfOSIyxgC-2Rt1KQm2Wl6WYn20tBsyAl9RGTAU16KzuLK2fKRRsSGR_JSQZ70KJ-SswCw"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-<div class="absolute bottom-4 left-4">
-<h4 class="text-white font-bold">Buea</h4>
-<p class="text-white/70 text-xs">64 Properties</p>
-</div>
-</div>
-<div class="relative h-64 rounded-xl overflow-hidden group cursor-pointer">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Abuja city architecture" data-location="Abuja" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtekCcbn_ruZtvoARURDtQhf7v3caX0amijfYVjEM1VPHf6iuji6fwRHNgUuy3aiWNM8IkF8FOT66Qjw0-TM-296gUcVn6pkJfqjWRXw3zuDz8rkbld6xHwgn7xrwo4_Ty83ldUynjutPLBLfmT-q9PMFrQ3g_aKXF0l2wQtdi0UEB6IXc2y5kvwBlRtjgqzcPTU6U6ATZTIKQZhJmLhGJsNoU5RtZ7zszwRlkz9gsXLLo0IR2rW50T4YVQ46erNTMHEkE8KMlRpI"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-<div class="absolute bottom-4 left-4">
-<h4 class="text-white font-bold">Abuja</h4>
-<p class="text-white/70 text-xs">210 Properties</p>
-</div>
-</div>
-<div class="relative h-64 rounded-xl overflow-hidden group cursor-pointer">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Lagos skyline and ocean" data-location="Lagos" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHtL-R2f3SYa-jd7flzTYMAFsuw2zhsFlybMYUo1htOs1M-Wxv2aH29tYALEXdyE6GVIS9uaal6TwHNLKf36SEcQ07jbItcijtDAv7Gy32IRlAiPvfy0jTLUS53mZG1oGIS676HVingGxXcWhwzt67aJlc8t4XkI_b4U_XdnfmOk1Z_5buHRF07F4UOSrQO9K15-XqwOfOIbizMn1f7G6v8DPPyOmnXndw9-ds-EVMEjnTAhUvXkbSt9c4T6jLMdOgXq8JWewb8sg"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-<div class="absolute bottom-4 left-4">
-<h4 class="text-white font-bold">Lagos</h4>
-<p class="text-white/70 text-xs">340 Properties</p>
-</div>
-</div>
-</div>
+  <h2 class="text-3xl font-black text-primary mb-12 text-center">Popular Locations</h2>
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+    {% for loc in popular_locations %}
+      <div class="relative h-64 rounded-xl overflow-hidden group cursor-pointer">
+        <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="{% static 'images/locations/default.jpg' %}" alt="{{ loc.location }}">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+        <div class="absolute bottom-4 left-4">
+          <h4 class="text-white font-bold">{{ loc.location }}</h4>
+          <p class="text-white/70 text-xs">{{ loc.count }} Properties</p>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-center col-span-6 text-slate-500">Aucune localisation populaire pour le moment</p>
+    {% endfor %}
+  </div>
 </section>
-<!-- Why Choose Us -->
+
+<!-- Why Choose Us (inchangé) -->
 <section class="bg-primary text-white py-20">
 <div class="max-w-7xl mx-auto px-4">
 <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
@@ -435,7 +364,8 @@
 </div>
 </div>
 </section>
-<!-- Newsletter & Testimonials -->
+
+<!-- Newsletter & Testimonials (inchangé) -->
 <section class="max-w-7xl mx-auto px-4 py-20">
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 <div>
@@ -444,7 +374,7 @@
 <span class="material-symbols-outlined absolute top-4 right-4 text-accent/20 text-6xl">format_quote</span>
 <p class="italic text-slate-600 dark:text-slate-400 mb-6 relative z-10">
                             "Finding a property in Lagos was daunting until I used Home Market. Their verified badge gave me the confidence to proceed with my dream penthouse purchase."
-                        </p>
+</p>
 <div class="flex items-center gap-4">
 <div class="w-12 h-12 rounded-full overflow-hidden">
 <img class="w-full h-full object-cover" data-alt="Professional man profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzI1LkZhpWuhM3phAHLuAIN51DLkOUvSkt0dWShN8wTyoLeZqbpSLhBboDTGDJbtG_b_zuaAUTpUWm63nkdoWmqw7PxsbsD3qlURz1y-5hWLv0MVo1IShoRmI2jLsElJmNUALK3R6bJwp77XH5Iv8tV8p-Ih4B6jNEBOS1cVAi13_Delne1bnqjx4IKZ5cEr0v3ndhcw0XrOWjxgynxHfgJwUzvbUvyyYgE5aeAwrIDGgIddQtkL20DlisUnqcvZq72TNFy8UjZ1I"/>
@@ -468,6 +398,7 @@
 </div>
 </section>
 </main>
+
 <!-- Footer -->
 <footer class="bg-primary text-white py-16">
 <div class="max-w-7xl mx-auto px-4">
@@ -481,7 +412,7 @@
 </div>
 <p class="text-white/60 text-sm leading-relaxed mb-6">
                         The leading premium marketplace for luxury real estate, apartments, and commercial properties.
-                    </p>
+</p>
 <div class="flex gap-4">
 <a class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition-all" href="#">
 <span class="material-symbols-outlined text-lg">share</span>
@@ -518,13 +449,14 @@
                         123 Luxury Lane, Bonanjo<br/>
                         Douala, Cameroon<br/>
                         +237 600 000 000
-                    </p>
+</p>
 <p class="text-sm text-white/70">info@homemarket.com</p>
 </div>
 </div>
 <div class="border-t border-white/10 pt-8 text-center text-xs text-white/40">
                 © 2024 Home Market Marketplace. All rights reserved.
-            </div>
+</div>
 </div>
 </footer>
-</body></html>
+</body>
+</html>

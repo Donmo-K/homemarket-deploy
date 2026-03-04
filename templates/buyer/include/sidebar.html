@@ -1,0 +1,79 @@
+{% load static %}
+
+<!-- Sidebar -->
+<aside class="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark flex flex-col">
+  <a href="{% url 'core:home' %}" class="p-6 flex items-center gap-3">
+    <img src="{% static 'images/logo/logo.webp' %}" alt="Home Market Logo" class="h-8 w-auto">
+    <h2 class="text-xl font-bold tracking-tight">Home Market</h2>
+  </a>
+
+  <!-- Navigation avec toggle orange au clic -->
+  <nav class="flex-1 px-4 space-y-2" x-data="{ active: 'bookings' }">
+    <!-- Dashboard -->
+    <a href="{% url 'users:buyer_dashboard' %}"
+       @click="active = 'dashboard'"
+       :class="active === 'dashboard' 
+         ? 'bg-[#ec5b13]/10 text-[#ec5b13] font-semibold border-l-4 border-[#ec5b13]' 
+         : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'"
+       class="flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200">
+      <span class="material-symbols-outlined" :class="active === 'dashboard' ? 'text-[#ec5b13]' : ''">dashboard</span>
+      <span class="font-medium">Dashboard</span>
+    </a>
+
+    <!-- Search -->
+    <a href="{% url 'core:search' %}"
+       @click="active = 'search'"
+       :class="active === 'search' 
+         ? 'bg-[#ec5b13]/10 text-[#ec5b13] font-semibold border-l-4 border-[#ec5b13]' 
+         : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'"
+       class="flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200">
+      <span class="material-symbols-outlined" :class="active === 'search' ? 'text-[#ec5b13]' : ''">search</span>
+      <span class="font-medium">Search</span>
+    </a>
+
+    <!-- My Bookings (actif par défaut ici) -->
+    <a href="{% url 'users:buyer_bookings' %}"
+       @click="active = 'bookings'"
+       :class="active === 'bookings' 
+         ? 'bg-[#ec5b13]/10 text-[#ec5b13] font-semibold border-l-4 border-[#ec5b13]' 
+         : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'"
+       class="flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200">
+      <span class="material-symbols-outlined" :class="active === 'bookings' ? 'text-[#ec5b13]' : ''">calendar_today</span>
+      <span class="font-medium">My Bookings</span>
+    </a>
+
+    <!-- Saved -->
+    <a href="{% url 'users:buyer_saved_properties' %}"
+       @click="active = 'saved'"
+       :class="active === 'saved' 
+         ? 'bg-[#ec5b13]/10 text-[#ec5b13] font-semibold border-l-4 border-[#ec5b13]' 
+         : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'"
+       class="flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200">
+      <span class="material-symbols-outlined" :class="active === 'saved' ? 'text-[#ec5b13]' : ''">favorite</span>
+      <span class="font-medium">Saved</span>
+    </a>
+
+    <!-- Settings -->
+    <a href="{% url 'users:buyer_profile' %}"
+       @click="active = 'profile'"
+       :class="active === 'profile' 
+         ? 'bg-[#ec5b13]/10 text-[#ec5b13] font-semibold border-l-4 border-[#ec5b13]' 
+         : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'"
+       class="flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200">
+      <span class="material-symbols-outlined" :class="active === 'profile' ? 'text-[#ec5b13]' : ''">settings</span>
+      <span class="font-medium">Settings</span>
+    </a>
+  </nav>
+
+  <!-- Profil utilisateur -->
+  <div class="p-4 border-t border-slate-200 dark:border-slate-800">
+    <div class="flex items-center gap-3 p-2">
+      <div class="size-10 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover bg-center" 
+           style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDHihycMrEpAGXf0FJqG_jau2S57iNGbafrA9Aigf-Yw4icXbbJUyEUZ_jkp5wVgm97E4awlxLyz2J_SurLXHFVIDsuRpi7csDqpfI4a19vqVpqYGorq0iPwclwEUSpF20_aymK-o3g-XfNaPqpSculB0N-8mxWEGszZy30lT1_-59ny2ckdVPeHZcx-uAB5c_T-KBlpB9vMLRThJOand9qolz0p15COJ9T-uqE3-5EiRSpgVPy4Q9oHEeqVIt5j0NTYgLb66Ph3UA')"></div>
+      <div class="flex flex-col">
+        <span class="text-sm font-bold">Alex Johnson</span>
+        <span class="text-xs text-slate-500">Premium Buyer</span>
+      </div>
+    </div>
+  </div>
+</aside>
