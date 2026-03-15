@@ -12,9 +12,11 @@
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.4",
+    "autoprefixer": "^10.4.27",
     "flowbite-typography": "^1.0.5",
+    "postcss": "^8.5.8",
     "rimraf": "^6.0.1",
-    "tailwindcss": "^4.1.4"
+    "tailwindcss": "^4.2.1"
   },
   "dependencies": {
     "@parcel/watcher": "^2.5.1",
