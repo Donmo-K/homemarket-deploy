@@ -1,0 +1,174 @@
+{% extends 'buyer/buyer_base.html' %}
+
+{% block content %}
+
+<!-- Welcome Section -->
+<div>
+<h1 class="text-3xl font-bold tracking-tight">Welcome back, {{ request.user.first_name }}!</h1>
+<p class="text-slate-500 dark:text-slate-400 mt-1">Here's what's happening with your property search today.</p>
+</div>
+
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined">calendar_today</span>
+</div>
+<span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Active Bookings</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold">{{ total_visits }}</span>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined">favorite</span>
+</div>
+<span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Saved Items</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold">{{ total_saved }}</span>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Total Committed</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold">${{ total_committed|floatformat:0 }}</span>
+<span class="text-xs text-slate-400 font-medium">Pending closing</span>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined">mail</span>
+</div>
+<span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Messages</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold">{{ unread_messages }}</span>
+{% if unread_messages > 0 %}<span class="text-xs text-primary font-medium">New replies</span>{% endif %}
+</div>
+</div>
+</div>
+
+<!-- Recommended Section (Horizontal Scroll) -->
+<div>
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-xl font-bold">Recommended for You</h2>
+<a class="text-primary text-sm font-semibold flex items-center gap-1 hover:underline" href="#">
+                            View All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<div class="flex gap-6 overflow-x-auto pb-4 hide-scrollbar">
+{% for listing in recommended_listings %}
+<div class="min-w-[300px] w-[300px] bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden group">
+<div class="relative h-48">
+  {% with img=listing.property.images.first %}
+  {% if img %}
+  <img alt="{{ listing.property.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="{{ img.image.url }}"/>
+  {% else %}
+  <div class="w-full h-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+    <span class="material-symbols-outlined text-4xl text-slate-300">home</span>
+  </div>
+  {% endif %}
+  {% endwith %}
+<button class="absolute top-3 right-3 p-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md rounded-full text-slate-400 hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined text-sm">favorite</span>
+</button>
+</div>
+<div class="p-4">
+<h3 class="font-bold text-lg truncate">{{ listing.property.title }}</h3>
+<p class="text-slate-500 text-sm flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-sm">location_on</span>
+{% if listing.property.location %}{{ listing.property.location.city }}, {{ listing.property.location.country }}{% endif %}
+</p>
+<div class="flex items-center justify-between mt-4">
+<span class="text-xl font-bold text-primary">${{ listing.price|floatformat:0 }}</span>
+<div class="flex gap-3 text-slate-400">
+<div class="flex items-center gap-1 text-xs">
+<span class="material-symbols-outlined text-xs">bed</span> {{ listing.property.bedrooms }}
+</div>
+<div class="flex items-center gap-1 text-xs">
+<span class="material-symbols-outlined text-xs">bathtub</span> {{ listing.property.bathrooms }}
+</div>
+</div>
+</div>
+</div>
+</div>
+{% empty %}
+<p class="text-slate-400 text-sm py-8">No recommended properties at the moment.</p>
+{% endfor %}
+</div>
+</div>
+
+<!-- Recent Activity -->
+<div>
+<h2 class="text-xl font-bold mb-6">Recent Activity</h2>
+<div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700">
+<th class="px-6 py-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Property</th>
+<th class="px-6 py-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Location</th>
+<th class="px-6 py-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Status</th>
+<th class="px-6 py-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Last Update</th>
+<th class="px-6 py-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+{% for visit in recent_visits %}
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-700/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-slate-100 overflow-hidden shrink-0">
+  {% with img=visit.property.images.first %}
+  {% if img %}
+  <img alt="{{ visit.property.title }}" src="{{ img.image.url }}" class="w-full h-full object-cover"/>
+  {% else %}
+  <div class="w-full h-full flex items-center justify-center">
+    <span class="material-symbols-outlined text-slate-300 text-sm">home</span>
+  </div>
+  {% endif %}
+  {% endwith %}
+</div>
+<span class="font-medium">{{ visit.property.title }}</span>
+</div>
+</td>
+<td class="px-6 py-4 text-slate-500 dark:text-slate-400">
+  {% if visit.property.location %}{{ visit.property.location.city }}, {{ visit.property.location.country }}{% else %}—{% endif %}
+</td>
+<td class="px-6 py-4">
+  {% if visit.confirmed %}
+  <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">Confirmed</span>
+  {% else %}
+  <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">Pending</span>
+  {% endif %}
+</td>
+<td class="px-6 py-4 text-slate-500 dark:text-slate-400 text-sm">{{ visit.modified|date:"M d, Y" }}</td>
+<td class="px-6 py-4">
+<a href="{% url 'core:property_detail' visit.property.id %}" class="text-primary hover:text-primary/80 font-medium text-sm">View Details</a>
+</td>
+</tr>
+{% empty %}
+<tr>
+<td colspan="5" class="px-6 py-8 text-center text-slate-400 text-sm">No recent activity yet.</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 flex justify-between items-center">
+<span class="text-sm text-slate-500">Showing {{ recent_visits|length }} of {{ total_visits }} activities</span>
+</div>
+</div>
+</div>
+
+{% endblock content %}

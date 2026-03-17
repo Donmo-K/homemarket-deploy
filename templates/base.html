@@ -1,15 +1,244 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}HomeMarket{% endblock %}</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>{% block title %}{% endblock %}</title>
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/project.css' %}">
+
 </head>
+
 <body>
 
-    {% block content %}
-    {% endblock %}
 
-</body>
-</html>
+<!-- NAVBAR -->
+
+<header class="bg-white border-b">
+<div class="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
+
+<div class="flex items-center gap-3">
+<h1 class="text-xl font-black uppercase italic text-primary">
+Home Market
+</h1>
+</div>
+
+
+<nav class="hidden md:flex items-center gap-8">
+
+<a class="text-sm font-semibold hover:text-accent transition-colors" href="{% url 'core:search' %}">
+Properties
+</a>
+
+<a class="text-sm font-semibold hover:text-accent transition-colors" href="{% url 'core:explore' %}">
+Categories
+</a>
+
+<a class="text-sm font-semibold hover:text-accent transition-colors" href="{% url 'core:investment' %}">
+Premium
+</a>
+
+<a class="text-sm font-semibold hover:text-accent transition-colors" href="{% url 'core:search' %}">
+Locations
+</a>
+
+<a class="text-sm font-semibold hover:text-accent transition-colors" href="{% url 'core:about' %}">
+About
+</a>
+
+</nav>
+
+
+<div class="flex items-center gap-4">
+
+<a href="{% url 'users:login' %}"
+class="hidden sm:flex items-center gap-2 text-primary font-bold text-sm">
+
+<span class="material-symbols-outlined">person</span>
+
+Sign In
+
+</a>
+
+</div>
+
+</div>
+</header>
+
+
+
+<!-- CONTENU DES PAGES -->
+
+<main>
+
+{% block content %}
+
+{% endblock %}{% load static %}
+<!DOCTYPE html>
+< lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Real Estate{% endblock %}</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+< class="bg-gray-100 flex flex-col min-h-screen">
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="bg-white shadow">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center h-16">
+
+            <!-- Logo -->
+            <div class="flex items-center">
+                <a href="{% url 'home' %}" class="text-xl font-bold text-blue-600">
+                    LOGO
+                </a>
+            </div>
+
+            <!-- Menu -->
+            <div class="hidden md:flex space-x-6">
+
+                <a href="{% url 'home' %}" class="text-gray-700 hover:text-blue-600">Home</a>
+
+                <a href="#" class="text-gray-700 hover:text-blue-600">Rent</a>
+
+                <a href="#" class="text-gray-700 hover:text-blue-600">Buy</a>
+
+                <a href="#" class="text-gray-700 hover:text-blue-600">Properties</a>
+
+                <a href="#" class="text-gray-700 hover:text-blue-600">About</a>
+
+                <a href="#" class="text-gray-700 hover:text-blue-600">Contact</a>
+
+            </div>
+
+            <!-- Auth buttons -->
+            <div class="flex items-center space-x-4">
+
+                {% if user.is_authenticated %}
+
+                <!-- Dropdown -->
+                <div class="relative group">
+
+                    <button class="text-gray-700 font-medium">
+                        {{ user.username }}
+                    </button>
+
+                    <div class="absolute right-0 hidden group-hover:block bg-white shadow rounded mt-2 w-40">
+
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">
+                            My Profile
+                        </a>
+
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">
+                            Dashboard
+                        </a>
+
+                        <a href="{% url 'logout' %}" class="block px-4 py-2 hover:bg-gray-100">
+                            Logout
+                        </a>
+
+                    </div>
+
+                </div>
+
+                {% else %}
+
+                <a href="{% url 'login' %}" class="text-gray-700 hover:text-blue-600">
+                    Login
+                </a>
+
+                <a href="{% url 'register' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    Register
+                </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+
+<!-- ================= PAGE CONTENT ================= -->
+
+<main class="flex-grow">
+
+{% block content %}
+
+{% endblock %}
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="bg-primary text-white py-16">
+<div class="max-w-7xl mx-auto px-4">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+<div class="col-span-1 md:col-span-1">
+<div class="flex items-center gap-3 mb-6">
+<div class="bg-white p-2 rounded-lg text-primary">
+<span class="material-symbols-outlined block">domain</span>
+</div>
+<h1 class="text-xl font-black uppercase italic">Home Market</h1>
+</div>
+<p class="text-white/60 text-sm leading-relaxed mb-6">
+                        The leading premium marketplace for luxury real estate, apartments, and commercial properties.
+                    </p>
+<div class="flex gap-4">
+<a class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition-all" href="#">
+<span class="material-symbols-outlined text-lg">share</span>
+</a>
+<a class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition-all" href="#">
+<span class="material-symbols-outlined text-lg">public</span>
+</a>
+<a class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition-all" href="#">
+<span class="material-symbols-outlined text-lg">mail</span>
+</a>
+</div>
+</div>
+<div>
+<h4 class="font-bold mb-6 text-accent uppercase tracking-widest text-xs">Quick Links</h4>
+<ul class="space-y-4 text-sm text-white/70">
+<li><a class="hover:text-white transition-colors" href="{% url 'core:search' %}">Properties</a></li>
+<li><a class="hover:text-white transition-colors" href="{% url 'users:register' %}">Agents</a></li>
+<li><a class="hover:text-white transition-colors" href="{% url 'core:investment' %}">Pricing</a></li>
+<li><a class="hover:text-white transition-colors" href="{% url 'core:about' %}">Careers</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-6 text-accent uppercase tracking-widest text-xs">Support</h4>
+<ul class="space-y-4 text-sm text-white/70">
+<li><a class="hover:text-white transition-colors" href="#">Help Center</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Contact Us</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-6 text-accent uppercase tracking-widest text-xs">Office</h4>
+<p class="text-sm text-white/70 leading-relaxed mb-4">
+                        123 Luxury Lane, Bonanjo<br/>
+                        Douala, Cameroon<br/>
+                        +237 600 000 000
+                    </p>
+<p class="text-sm text-white/70">info@homemarket.com</p>
+</div>
+</div>
+<div class="border-t border-white/10 pt-8 text-center text-xs text-white/40">
+                © 2024 Home Market Marketplace. All rights reserved.
+            </div>
+</div>
+</footer>

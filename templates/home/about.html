@@ -41,7 +41,8 @@
 <div class="flex flex-1 justify-end gap-8 items-center">
 <nav class="hidden md:flex items-center gap-9">
 <a class="text-slate-700 dark:text-slate-300 text-sm font-medium hover:text-primary dark:hover:text-accent transition-colors" href="{% url 'core:home' %}">Home</a>
-<a class="text-slate-700 dark:text-slate-300 text-sm font-medium hover:text-primary dark:hover:text-accent transition-colors" href="{% url 'core:search' %}">Market</a>
+<a class="text-slate-700 dark:text-slate-300 text-sm font-medium hover:text-primary dark:hover:text-accent transition-colors" href="{% url 'core:search' %}">Buy</a>
+<a class="text-slate-700 dark:text-slate-300 text-sm font-medium hover:text-primary dark:hover:text-accent transition-colors" href="{% url 'core:search' %}">Rent</a>
 <a class="text-primary dark:text-accent text-sm font-bold border-b-2 border-primary dark:border-accent" href="{% url 'core:about' %}">About</a>
 <a class="text-slate-700 dark:text-slate-300 text-sm font-medium hover:text-primary dark:hover:text-accent transition-colors" href="{% url 'core:about' %}">Contact</a>
 </nav>
@@ -185,54 +186,118 @@
 </section>
 </main>
 <!-- Footer -->
-<footer class="bg-white dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 px-10 py-12">
-<div class="flex flex-col md:flex-row justify-between gap-8">
-<div class="max-w-xs">
-<div class="flex items-center gap-2 text-primary dark:text-accent mb-6">
-<span class="material-symbols-outlined text-2xl">home_work</span>
-<span class="text-xl font-bold text-slate-900 dark:text-slate-100">Home Market</span>
-</div>
-<p class="text-slate-500 text-sm leading-relaxed">
-                        Redefining the standard for modern living. Curated with care, built to last.
-                    </p>
-</div>
-<div class="grid grid-cols-2 sm:grid-cols-3 gap-12">
+<footer class="bg-primary text-white py-10">
+
+<div class="max-w-7xl mx-auto px-4">
+
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+
+<!-- Brand -->
 <div>
-<h5 class="text-slate-900 dark:text-slate-100 font-bold mb-4">Shop</h5>
-<ul class="text-slate-500 text-sm flex flex-col gap-2">
-<li><a class="hover:text-primary transition-colors" href="#">Furniture</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">Lighting</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">Decor</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">New Arrivals</a></li>
+
+<div class="flex items-center gap-3 mb-4">
+
+<div class="bg-white p-2 rounded-lg text-primary">
+<span class="material-symbols-outlined">domain</span>
+</div>
+
+<h1 class="text-lg font-black uppercase italic text-white">
+Home Market
+</h1>
+
+</div>
+
+<p class="text-sm text-white leading-relaxed mb-4">
+The leading premium marketplace for luxury real estate, apartments and commercial properties.
+</p>
+
+<div class="flex gap-3">
+
+<a class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition">
+<span class="material-symbols-outlined text-base text-white">share</span>
+</a>
+
+<a class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition">
+<span class="material-symbols-outlined text-base text-white">public</span>
+</a>
+
+<a class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition">
+<span class="material-symbols-outlined text-base text-white">mail</span>
+</a>
+
+</div>
+
+</div>
+
+<!-- Quick Links -->
+<div>
+
+<h4 class="font-bold mb-4 text-accent uppercase tracking-widest text-xs">
+Quick Links
+</h4>
+
+<ul class="space-y-2 text-sm text-white">
+
+<li><a class="hover:text-accent transition" href="{% url 'core:home' %}">Home</a></li>
+
+<li><a class="hover:text-accent transition" href="{% url 'core:search' %}?type=buy">Buy</a></li>
+
+<li><a class="hover:text-accent transition" href="{% url 'core:search' %}?type=rent">Rent</a></li>
+
+<li><a class="hover:text-accent transition" href="{% url 'core:about' %}">About</a></li>
+
 </ul>
+
 </div>
+
+<!-- Property Types -->
 <div>
-<h5 class="text-slate-900 dark:text-slate-100 font-bold mb-4">Company</h5>
-<ul class="text-slate-500 text-sm flex flex-col gap-2">
-<li><a class="hover:text-primary transition-colors font-bold text-primary dark:text-accent" href="#">About Us</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">Sustainability</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">Careers</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">News</a></li>
+
+<h4 class="font-bold mb-4 text-accent uppercase tracking-widest text-xs">
+Property Types
+</h4>
+
+<ul class="space-y-2 text-sm text-white">
+
+<li><a class="hover:text-accent transition" href="{% url 'core:search' %}?category=house">Houses</a></li>
+
+<li><a class="hover:text-accent transition" href="{% url 'core:search' %}?category=apartment">Apartments</a></li>
+
+<li><a class="hover:text-accent transition" href="{% url 'core:search' %}?category=land">Land</a></li>
+
+<li><a class="hover:text-accent transition" href="{% url 'core:search' %}?category=commercial">Commercial</a></li>
+
 </ul>
+
 </div>
+
+<!-- Office -->
 <div>
-<h5 class="text-slate-900 dark:text-slate-100 font-bold mb-4">Social</h5>
-<div class="flex gap-4">
-<a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
-<a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">alternate_email</span></a>
-<a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">location_on</span></a>
+
+<h4 class="font-bold mb-4 text-accent uppercase tracking-widest text-xs">
+Office
+</h4>
+
+<p class="text-sm text-white leading-relaxed">
+Banengo, Bafoussam<br>
+Cameroon<br>
++237 654 25 29 90
+</p>
+
+<p class="text-sm text-white mt-2">
+homemarket952@gmail.com
+</p>
+
 </div>
+
 </div>
+
+<div class="border-t border-white/20 pt-5 text-center text-sm text-white">
+
+© 2026 Home Market Marketplace. All rights reserved.
+
 </div>
+
 </div>
-<div class="mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4">
-<p class="text-slate-400 text-xs">© 2024 Home Market Inc. All rights reserved.</p>
-<div class="flex gap-6 text-xs text-slate-400">
-<a class="hover:underline" href="#">Privacy Policy</a>
-<a class="hover:underline" href="#">Terms of Service</a>
-</div>
-</div>
+
 </footer>
-</div>
-</div>
-</body></html>

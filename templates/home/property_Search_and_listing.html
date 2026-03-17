@@ -54,11 +54,11 @@ borderRadius: {
 </div>
 </a>
 <nav class="hidden md:flex items-center gap-6">
-<a class="text-sm font-semibold text-primary" href="{% url 'core:search' %}">Buy</a>
-<a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="{% url 'core:search' %}">Rent</a>
-<a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="{% url 'users:register' %}">Sell</a>
-<a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="{% url 'users:register' %}">Agents</a>
+<a class="text-slate-700 dark:text-slate-300 text-sm font-medium hover:text-primary dark:hover:text-accent transition-colors" href="{% url 'core:home' %}">Home</a>
+<a href="{% url 'core:search' %}?type=buy" class="text-sm font-medium {% if request.GET.type == 'buy' %}text-primary underline underline-offset-4{% else %}text-slate-600 hover:text-primary{% endif %} transition-colors">Buy</a>
+<a href="{% url 'core:search' %}?type=rent" class="text-sm font-medium {% if request.GET.type == 'rent' %}text-primary underline underline-offset-4{% else %}text-slate-600 hover:text-primary{% endif %} transition-colors">Rent</a>
 <a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="{% url 'core:about' %}">About</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="{% url 'core:message' %}">Contact</a>
 </nav>
 <div class="flex items-center gap-4">
 <div class="hidden lg:flex relative">
@@ -267,42 +267,127 @@ borderRadius: {
 <span class="material-symbols-outlined">map</span> View Map
 </button>
 
-<footer class="mt-20 border-t border-slate-200 py-12 bg-white">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
-<div class="col-span-1 md:col-span-2">
-<a href="{% url 'core:home' %}" class="flex items-center gap-2 text-primary mb-6">
-<img src="{% static 'images/logo/logo.webp' %}" alt="Home Market Logo" class="h-8 w-auto">
-<h1 class="text-xl font-black tracking-tight">Home Market</h1>
+<!-- Message Agent Floating Button -->
+<a href="{% url 'core:message' %}"
+class="fixed bottom-24 left-1/2 -translate-x-1/2 px-6 py-3 bg-primary text-white rounded-full shadow-2xl flex items-center gap-2 font-bold z-40 hover:scale-105 active:scale-95 transition-transform">
+
+<span class="material-symbols-outlined">chat</span> Message Agent
+
 </a>
-<p class="text-slate-500 max-w-sm mb-6">Connecting homeowners and buyers with premium properties across the most desirable neighborhoods since 2010.</p>
-<div class="flex gap-4">
-<a class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined text-xl">public</span></a>
-<a class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined text-xl">share</span></a>
-<a class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined text-xl">alternate_email</span></a>
-</div>
-</div>
+
+<!-- Footer -->
+<footer class="bg-primary text-white py-10">
+
+<div class="max-w-7xl mx-auto px-4">
+
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+
+<!-- Brand -->
 <div>
-<h4 class="font-bold mb-6">Company</h4>
-<ul class="space-y-4 text-slate-500 text-sm font-medium">
-<li><a class="hover:text-primary" href="#">About Us</a></li>
-<li><a class="hover:text-primary" href="#">Careers</a></li>
-<li><a class="hover:text-primary" href="#">Press</a></li>
-<li><a class="hover:text-primary" href="#">Investors</a></li>
-</ul>
+
+<div class="flex items-center gap-3 mb-4">
+
+<div class="bg-white p-2 rounded-lg text-primary">
+<span class="material-symbols-outlined">domain</span>
 </div>
+
+<h1 class="text-lg font-black uppercase italic text-white">
+Home Market
+</h1>
+
+</div>
+
+<p class="text-sm text-white leading-relaxed mb-4">
+The leading premium marketplace for luxury real estate, apartments and commercial properties.
+</p>
+
+<div class="flex gap-3">
+
+<a class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition">
+<span class="material-symbols-outlined text-base text-white">share</span>
+</a>
+
+<a class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition">
+<span class="material-symbols-outlined text-base text-white">public</span>
+</a>
+
+<a class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition">
+<span class="material-symbols-outlined text-base text-white">mail</span>
+</a>
+
+</div>
+
+</div>
+
+<!-- Quick Links -->
 <div>
-<h4 class="font-bold mb-6">Support</h4>
-<ul class="space-y-4 text-slate-500 text-sm font-medium">
-<li><a class="hover:text-primary" href="#">Help Center</a></li>
-<li><a class="hover:text-primary" href="#">Contact Support</a></li>
-<li><a class="hover:text-primary" href="#">Terms of Service</a></li>
-<li><a class="hover:text-primary" href="#">Privacy Policy</a></li>
+
+<h4 class="font-bold mb-4 text-yellow-400 uppercase tracking-widest text-xs">
+Quick Links
+</h4>
+
+<ul class="space-y-2 text-sm text-white">
+
+<li><a class="hover:text-accent transition" href="{% url 'core:home' %}">Home</a></li>
+
+<li><a class="hover:text-accent transition" href="{% url 'core:search' %}?type=buy">Buy</a></li>
+
+<li><a class="hover:text-accent transition" href="{% url 'core:search' %}?type=rent">Rent</a></li>
+
+<li><a class="hover:text-accent transition" href="{% url 'core:about' %}">About</a></li>
+
 </ul>
+
 </div>
+
+<!-- Property Types -->
+<div>
+
+<h4 class="font-bold mb-4 text-yellow-400 uppercase tracking-widest text-xs">
+Property Types
+</h4>
+
+<ul class="space-y-2 text-sm text-white">
+
+<li><a class="hover:text-accent transition" href="{% url 'core:search' %}?category=house">Houses</a></li>
+
+<li><a class="hover:text-accent transition" href="{% url 'core:search' %}?category=apartment">Apartments</a></li>
+
+<li><a class="hover:text-accent transition" href="{% url 'core:search' %}?category=land">Land</a></li>
+
+<li><a class="hover:text-accent transition" href="{% url 'core:search' %}?category=commercial">Commercial</a></li>
+
+</ul>
+
 </div>
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-slate-100 text-center text-slate-400 text-sm font-medium">
-            © 2024 Home Market Inc. All rights reserved. Built with precision for premium living.
+
+<!-- Office -->
+<div>
+
+<h4 class="font-bold mb-4 text-yellow-400 uppercase tracking-widest text-xs">
+Office
+</h4>
+
+<p class="text-sm text-white leading-relaxed">
+Banengo, Bafoussam<br>
+Cameroon<br>
++237 654 25 29 90
+</p>
+
+<p class="text-sm text-white mt-2">
+homemarket952@gmail.com
+</p>
+
 </div>
+
+</div>
+
+<div class="border-t border-white/20 pt-5 text-center text-sm text-white">
+
+© 2026 Home Market Marketplace. All rights reserved.
+
+</div>
+
+</div>
+
 </footer>
-</body>
-</html>
