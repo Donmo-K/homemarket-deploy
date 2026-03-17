@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 
 <html lang="en"><head>
@@ -125,14 +126,14 @@
 </div>
 <!-- Action Buttons -->
 <div class="flex items-center justify-between mt-8 px-4 border-t border-primary/10 pt-8 pb-12">
-<button class="flex items-center gap-2 px-8 h-14 rounded-xl border-2 border-primary/20 text-primary font-bold hover:bg-primary/5 transition-all">
+<a href="{% url 'users:add_property_step2' %}" class="flex items-center gap-2 px-8 h-14 rounded-xl border-2 border-primary/20 text-primary font-bold hover:bg-primary/5 transition-all">
 <span class="material-symbols-outlined">arrow_back</span>
                             Back
-                        </button>
-<button class="flex items-center gap-2 px-12 h-14 rounded-xl bg-primary text-white font-bold shadow-lg shadow-primary/30 hover:opacity-90 transition-all">
+                        </a>
+<a href="{% url 'users:add_property_step4' %}" class="flex items-center gap-2 px-12 h-14 rounded-xl bg-primary text-white font-bold shadow-lg shadow-primary/30 hover:opacity-90 transition-all">
                             Next Step
                             <span class="material-symbols-outlined">arrow_forward</span>
-</button>
+</a>
 </div>
 </div>
 </main>

@@ -10,6 +10,11 @@ from .views import (
     AboutView,
     ExplorePropertyView,
     InvestmentOpportunityView,
+    AddPropertyStep1View,
+    AddPropertyStep2View,
+    AddPropertyStep3View,
+    AddPropertyStep4View,
+    AddPropertyStep5View,
 )
 from .message_views import MessageView, SendMessageView, PollMessagesView
 
@@ -27,4 +32,10 @@ urlpatterns = [
     path('about/', AboutView.as_view(), name='about'),
     path('explore/', ExplorePropertyView.as_view(), name='explore'),
     path('investment/', InvestmentOpportunityView.as_view(), name='investment'),
+    # Seller Dashboard - Add Property (multi-step)
+    path('seller/add-property/', AddPropertyStep1View.as_view(), name='add_property_step1'),
+    path('seller/add-property/pricing/', AddPropertyStep2View.as_view(), name='add_property_step2'),
+    path('seller/add-property/location/', AddPropertyStep3View.as_view(), name='add_property_step3'),
+    path('seller/add-property/media/', AddPropertyStep4View.as_view(), name='add_property_step4'),
+    path('seller/add-property/review/', AddPropertyStep5View.as_view(), name='add_property_step5'),
 ]

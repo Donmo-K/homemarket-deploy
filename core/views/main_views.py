@@ -86,14 +86,7 @@ class CheckoutView(TemplateView):
         return context
 
 
-class MessageView(TemplateView):
-    template_name = 'home/message.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # À remplacer plus tard par tes vrais messages
-        context['messages'] = []  # ou Message.objects.filter(user=request.user)
-        return context
 
 
 class PaymentMethodView(TemplateView):

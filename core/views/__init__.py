@@ -3,9 +3,16 @@ from .main_views import (
     PropertySearchView,
     PropertyDetailView,
     CheckoutView,
-    MessageView,
     PaymentMethodView,
     AboutView,
     ExplorePropertyView,
     InvestmentOpportunityView
+)
+from ..message_views import MessageView, SendMessageView, PollMessagesView
+from .property_views import (
+    AddPropertyStep1View,
+    AddPropertyStep2View,
+    AddPropertyStep3View,
+    AddPropertyStep4View,
+    AddPropertyStep5View,
 )
