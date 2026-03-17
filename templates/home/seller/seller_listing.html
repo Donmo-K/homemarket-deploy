@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000080",
+                        "accent-gold": "#D4AF37",
+                        "background-light": "#f5f5f8",
+                        "background-dark": "#0f0f23",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>Seller Hub - Home Market</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Header -->
+<header class="sticky top-0 z-50 flex items-center justify-between border-b border-primary/10 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md px-6 py-4 md:px-12 lg:px-24">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-10 rounded-lg bg-primary text-accent-gold">
+<span class="material-symbols-outlined">home_work</span>
+</div>
+<h2 class="text-primary dark:text-white text-xl font-black leading-tight tracking-tight">Home Market</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-600 dark:text-slate-400 text-sm font-semibold hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-primary dark:text-accent-gold text-sm font-bold border-b-2 border-primary dark:border-accent-gold" href="#">My Listings</a>
+<a class="text-slate-600 dark:text-slate-400 text-sm font-semibold hover:text-primary transition-colors" href="#">Inbox</a>
+<a class="text-slate-600 dark:text-slate-400 text-sm font-semibold hover:text-primary transition-colors" href="#">Analytics</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center rounded-full size-10 bg-primary/5 hover:bg-primary/10 text-primary transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="flex items-center gap-3 border-l border-slate-200 dark:border-slate-800 pl-4">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-bold leading-tight">Alex Sterling</p>
+<p class="text-xs text-primary/60 dark:text-slate-400 font-medium">Premium Seller</p>
+</div>
+<div class="size-10 rounded-full bg-primary/10 border-2 border-accent-gold overflow-hidden ring-2 ring-white dark:ring-background-dark">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Professional user profile portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdLEGR0AJ1i7jURF7P8AlS4ykBXzhe2LhbjS5i7TlwPmq4RReIu9YbHpRirYQfRZaBr7yGy5gZjaZsuUWEhAL9qaDBNSYShtpDkCM7KuljQxX7f5QFphJJFI_6aA1WQ-Bv55iCOKXc1IEQZPP9vDBR_eWvynejAJa633pCpbcXcnfhGRoiMrtnYPNlKKqLWx_AOcrxYmJazZll_LR8fV1x7-S46826Qe6BfupHpCmpDrqtmFsFUPgoIS21bpBEzga3oSdgyoqIFfI"/>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 px-6 py-8 md:px-12 lg:px-24 max-w-[1440px] mx-auto w-full">
+<!-- Dashboard Intro -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-10">
+<div class="flex flex-col gap-2">
+<h1 class="text-primary dark:text-white text-4xl font-black tracking-tight">Property Listings</h1>
+<p class="text-slate-500 dark:text-slate-400 text-lg">Manage your high-performance property portfolio.</p>
+</div>
+<button class="flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-white font-bold hover:shadow-lg hover:shadow-primary/20 transition-all active:scale-95 group">
+<span class="material-symbols-outlined text-accent-gold">add_circle</span>
+<span>Create New Listing</span>
+</button>
+</div>
+<!-- Filters and Search -->
+<div class="flex flex-col lg:flex-row gap-4 mb-8">
+<div class="flex-1 relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400 group-focus-within:text-primary transition-colors">search</span>
+</div>
+<input class="w-full bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-xl py-3 pl-12 pr-4 text-slate-900 dark:text-white focus:outline-none focus:border-primary transition-all placeholder:text-slate-400" placeholder="Search by property name, ID, or location..." type="text"/>
+</div>
+<div class="flex flex-wrap items-center gap-3">
+<div class="flex p-1 bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-xl shrink-0">
+<button class="px-5 py-2 rounded-lg text-sm font-bold bg-primary text-white">All</button>
+<button class="px-5 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-primary transition-colors">Active</button>
+<button class="px-5 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-primary transition-colors">Sold</button>
+<button class="px-5 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-primary transition-colors">Pending</button>
+</div>
+<button class="flex items-center gap-2 bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm font-bold text-slate-700 dark:text-slate-300 hover:border-primary transition-all">
+<span class="material-symbols-outlined text-primary">filter_list</span>
+<span>More Filters</span>
+</button>
+</div>
+</div>
+<!-- Grid of Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+<!-- Card 1 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-accent-gold/50 transition-all hover:shadow-2xl group">
+<div class="relative h-64 overflow-hidden">
+<div class="absolute top-4 left-4 z-10 px-3 py-1 bg-emerald-500 text-white text-[10px] uppercase font-black tracking-widest rounded-full flex items-center gap-1">
+<span class="size-2 rounded-full bg-white animate-pulse"></span> Active
+                    </div>
+<div class="absolute top-4 right-4 z-10 px-3 py-1 bg-white/90 dark:bg-background-dark/90 backdrop-blur rounded-lg text-primary font-bold text-sm">
+                        $1,250,000
+                    </div>
+<img alt="Property" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Modern glass luxury villa at sunset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1LmaYU7cySa07PQc4NLr6wU5mCUZ8XCFS-RWYyY7xXWhPGnTiwlCwpDOx4MOoRmI5gXPpvdVnKk6XjQbISZbtoSsGoyii2mA7n1tP6x0KJRCWwxt0a3yKhdY4cNEejvXRhTKFm6kW7GRgA0NIHuNNX_kERpgKpzAGSTvpbCaIaElgb_Z0JD1D6cLGEpb2bfvpk2IK_ir4n-cDZ-6CmIl5x15zxUdCLjQQQjh2LqTfTLg1bhdckTE0d22N_t3ZMiBf10e65THYxhM"/>
+</div>
+<div class="p-6">
+<div class="flex flex-col gap-1 mb-6">
+<h3 class="text-xl font-bold text-primary dark:text-white leading-tight">Azure Waterfront Heights</h3>
+<div class="flex items-center text-slate-400 text-sm gap-1">
+<span class="material-symbols-outlined text-xs">location_on</span>
+<span>Biscayne Bay, Miami FL</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-4 border-y border-slate-100 dark:border-slate-800 py-6 mb-6">
+<div class="flex flex-col items-center text-center">
+<p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">Views</p>
+<p class="text-lg font-black text-primary dark:text-accent-gold">2.4k</p>
+</div>
+<div class="flex flex-col items-center text-center border-x border-slate-100 dark:border-slate-800 px-2">
+<p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">Inquiries</p>
+<p class="text-lg font-black text-primary dark:text-accent-gold">42</p>
+</div>
+<div class="flex flex-col items-center text-center">
+<p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">Saves</p>
+<p class="text-lg font-black text-primary dark:text-accent-gold">158</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 bg-primary text-white py-2.5 rounded-lg font-bold text-sm hover:bg-primary/90 transition-colors">Manage Listing</button>
+<button class="px-3 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-accent-gold/50 transition-all hover:shadow-2xl group">
+<div class="relative h-64 overflow-hidden">
+<div class="absolute inset-0 bg-primary/40 z-0"></div>
+<div class="absolute top-4 left-4 z-10 px-3 py-1 bg-primary text-accent-gold text-[10px] uppercase font-black tracking-widest rounded-full">
+                        Pending
+                    </div>
+<div class="absolute top-4 right-4 z-10 px-3 py-1 bg-white/90 dark:bg-background-dark/90 backdrop-blur rounded-lg text-primary font-bold text-sm">
+                        $890,000
+                    </div>
+<img alt="Property" class="w-full h-full object-cover" data-alt="Traditional suburban family home exterior" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbw6frSU3ttgQV5n2J_x4OF_DOwtjbGm564OBtwPe5InkdlgFlguPUPt6qWH23Y4QZg9x0eW7MxTW99iBDyAMhHVjq2hf8P2J0tgq2Lt7kvjWOnrOxBRNmbTMwA9FchXtA7fqlyka6x3zyevjZY_-7IF1rAeO-2XAIQkdvBU9Mze0Mi7ILdl1K4oKDwxVTXBSsHFzxDnyLqVUEFXXNsy83TbgWUidkRLfx718haIyD2T58AVwwcvX3zUevJnPqAjiNZupfWXoM8ZU"/>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<span class="bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 text-white font-black uppercase tracking-[0.2em] text-sm">Offer in Review</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex flex-col gap-1 mb-6">
+<h3 class="text-xl font-bold text-primary dark:text-white leading-tight">Heritage Oak Estates</h3>
+<div class="flex items-center text-slate-400 text-sm gap-1">
+<span class="material-symbols-outlined text-xs">location_on</span>
+<span>Austin, TX</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-4 border-y border-slate-100 dark:border-slate-800 py-6 mb-6">
+<div class="flex flex-col items-center text-center">
+<p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">Views</p>
+<p class="text-lg font-black text-primary dark:text-accent-gold">890</p>
+</div>
+<div class="flex flex-col items-center text-center border-x border-slate-100 dark:border-slate-800 px-2">
+<p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">Inquiries</p>
+<p class="text-lg font-black text-primary dark:text-accent-gold">18</p>
+</div>
+<div class="flex flex-col items-center text-center">
+<p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">Offers</p>
+<p class="text-lg font-black text-primary dark:text-accent-gold">3</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 bg-primary text-white py-2.5 rounded-lg font-bold text-sm hover:bg-primary/90 transition-colors">Review Offers</button>
+<button class="px-3 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 opacity-80 hover:opacity-100 transition-all group">
+<div class="relative h-64 overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700">
+<div class="absolute top-4 left-4 z-10 px-3 py-1 bg-slate-700 text-white text-[10px] uppercase font-black tracking-widest rounded-full">
+                        Sold
+                    </div>
+<div class="absolute top-4 right-4 z-10 px-3 py-1 bg-white/90 dark:bg-background-dark/90 backdrop-blur rounded-lg text-primary font-bold text-sm line-through">
+                        $2,100,000
+                    </div>
+<img alt="Property" class="w-full h-full object-cover" data-alt="Brutalist concrete architecture in nature" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHoj3JMHRLKdJJh8LOjW_qM-EhtEG-4ZpQ2nvtDRuDjCXvuwRfAFxIx8zQN7I0-RbhjuY7ZAIv8TWsZiaOGp44E9vNS5h3jBeGTFk9Mz_j2KeBvtbfYf6jQqhrdDns4u8Omla8-U7DMl18HX1EdlmGHBoPIa4YQ42kCzte_Z_ViM4CersGwb8bPiNtvK3hJqSCpA7aCXQOt4bz3BmoYcree0wBQFw3wUJS_pR9mBSKWY0_J4T0fPmZ_66rHkvuZU196H_VGgKa-Ac"/>
+</div>
+<div class="p-6">
+<div class="flex flex-col gap-1 mb-6">
+<h3 class="text-xl font-bold text-primary dark:text-white leading-tight">The Brutalist Retreat</h3>
+<div class="flex items-center text-slate-400 text-sm gap-1">
+<span class="material-symbols-outlined text-xs">location_on</span>
+<span>Aspen, CO</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-4 border-y border-slate-100 dark:border-slate-800 py-6 mb-6">
+<div class="flex flex-col items-center text-center">
+<p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">Final Price</p>
+<p class="text-lg font-black text-emerald-600">$2.15M</p>
+</div>
+<div class="flex flex-col items-center text-center border-x border-slate-100 dark:border-slate-800 px-2">
+<p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">Days On</p>
+<p class="text-lg font-black text-primary dark:text-accent-gold">12</p>
+</div>
+<div class="flex flex-col items-center text-center">
+<p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">Units</p>
+<p class="text-lg font-black text-primary dark:text-accent-gold">1/1</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 py-2.5 rounded-lg font-bold text-sm transition-colors">View Report</button>
+<button class="px-3 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 4 (Commercial / Multi-Unit style) -->
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-accent-gold/50 transition-all hover:shadow-2xl group">
+<div class="relative h-64 overflow-hidden">
+<div class="absolute top-4 left-4 z-10 px-3 py-1 bg-emerald-500 text-white text-[10px] uppercase font-black tracking-widest rounded-full">
+                        Active
+                    </div>
+<div class="absolute top-4 right-4 z-10 px-3 py-1 bg-white/90 dark:bg-background-dark/90 backdrop-blur rounded-lg text-primary font-bold text-sm">
+                        $4,500 / mo
+                    </div>
+<img alt="Property" class="w-full h-full object-cover" data-alt="Industrial chic coworking space interior" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcM3R13WLdRWYLU-Jlw1pM19RMlRuw93ovUinWlqhjlTij8TCKXOR7RtjUp8iTeLPn4SPVCjoV3k9LZhjfEL75A504m2mrPv81Ys_NgoElqvuvaAwtcNCpNrLVUZNyXNyW1MfrMDoVqB62-Oif-PlmJFoGiPclOkCvXlF_NJ3FWxNmR8F2XP2yhk83XSl5CPJLpDButwD_z7-hU8u7SrsDnQy1qQTzu7N7uyvLz9dys5JuwWR6-Ct2vXdflwfxV88dU56Dvdq-bCA"/>
+</div>
+<div class="p-6">
+<div class="flex flex-col gap-1 mb-6">
+<div class="flex justify-between items-start">
+<h3 class="text-xl font-bold text-primary dark:text-white leading-tight">Liberty Loft Coworking</h3>
+<span class="bg-accent-gold/10 text-accent-gold text-[10px] px-2 py-0.5 rounded border border-accent-gold/20 font-bold">COMMERCIAL</span>
+</div>
+<div class="flex items-center text-slate-400 text-sm gap-1">
+<span class="material-symbols-outlined text-xs">location_on</span>
+<span>Brooklyn, NY</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-4 border-y border-slate-100 dark:border-slate-800 py-6 mb-6">
+<div class="flex flex-col items-center text-center">
+<p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">Occupancy</p>
+<p class="text-lg font-black text-primary dark:text-accent-gold">85%</p>
+</div>
+<div class="flex flex-col items-center text-center border-x border-slate-100 dark:border-slate-800 px-2">
+<p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">Leases</p>
+<p class="text-lg font-black text-primary dark:text-accent-gold">12/14</p>
+</div>
+<div class="flex flex-col items-center text-center">
+<p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">Revenue</p>
+<p class="text-lg font-black text-primary dark:text-accent-gold">+$34k</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 bg-primary text-white py-2.5 rounded-lg font-bold text-sm hover:bg-primary/90 transition-colors">Manage Spaces</button>
+<button class="px-3 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="mt-12 flex items-center justify-between border-t border-slate-200 dark:border-slate-800 pt-8">
+<p class="text-sm text-slate-500 font-medium">Showing 4 of 28 properties</p>
+<div class="flex gap-2">
+<button class="size-10 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-400 hover:bg-white dark:hover:bg-slate-900 transition-all">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="size-10 rounded-lg bg-primary text-white flex items-center justify-center font-bold">1</button>
+<button class="size-10 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-900 transition-all">2</button>
+<button class="size-10 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-900 transition-all">3</button>
+<button class="size-10 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-400 hover:bg-white dark:hover:bg-slate-900 transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Sidebar Trigger (Mobile) -->
+<div class="fixed bottom-6 right-6 lg:hidden">
+<button class="size-14 rounded-full bg-primary text-accent-gold shadow-xl flex items-center justify-center">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</body></html>
