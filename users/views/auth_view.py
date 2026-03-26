@@ -114,6 +114,7 @@ class LoginView(View):
         else:
             messages.error(request, "Invalid email or password")
             return redirect('users:login')
+        
 class VerificationView(View):
     template_name = 'auth/verify_otp.html'
 
@@ -157,6 +158,7 @@ class VerificationView(View):
             # Code incorrect → message + retour OTP
             messages.error(request, "Le code saisi est incorrect. Veuillez réessayer.")
             return render(request, self.template_name)
+        
 class SellerVerificationView(LoginRequiredMixin, View):
     template_name = "auth/seller_verification.html"
 

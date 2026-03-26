@@ -61,6 +61,11 @@
 <div class="h-2.5 rounded-full bg-primary" style="width: 40%;"></div>
 </div>
 </div>
+
+<!-- ✅ AJOUT: form method post -->
+<form method="post">
+{% csrf_token %} <!-- ✅ AJOUT -->
+
 <!-- Form Content -->
 <div class="p-8 space-y-8">
 <section>
@@ -71,95 +76,109 @@
 <label class="text-slate-700 dark:text-slate-300 text-sm font-bold uppercase tracking-wider">Asking Price</label>
 <div class="relative">
 <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-medium">$</span>
-<input class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 py-4 pl-8 pr-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="500,000" type="text"/>
+<!-- ✅ AJOUT: name -->
+<input name="price" value="{{ draft.price|default:'' }}"
+       class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 py-4 pl-8 pr-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="500,000" type="text"/>
 </div>
 </div>
 <!-- Area Input -->
 <div class="flex flex-col gap-2">
 <label class="text-slate-700 dark:text-slate-300 text-sm font-bold uppercase tracking-wider">Living Area (sqft)</label>
-<input class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 py-4 px-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="e.g. 2,400" type="number"/>
+<!-- ✅ AJOUT: name -->
+<input name="area_sqm" value="{{ draft.area_sqm|default:'' }}"
+       class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 py-4 px-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="e.g. 2,400" type="number"/>
 </div>
 <!-- Bedrooms -->
 <div class="flex flex-col gap-2">
 <label class="text-slate-700 dark:text-slate-300 text-sm font-bold uppercase tracking-wider">Bedrooms</label>
-<select class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 py-4 px-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-<option>1</option>
-<option>2</option>
-<option selected="">3</option>
-<option>4</option>
-<option>5+</option>
+<!-- ✅ AJOUT: name -->
+<select name="bedrooms" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 py-4 px-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+<option {% if draft.bedrooms == '1' %}selected{% endif %}>1</option>
+<option {% if draft.bedrooms == '2' %}selected{% endif %}>2</option>
+<option {% if draft.bedrooms == '3' or not draft.bedrooms %}selected{% endif %}>3</option>
+<option {% if draft.bedrooms == '4' %}selected{% endif %}>4</option>
+<option {% if draft.bedrooms == '5+' %}selected{% endif %}>5+</option>
 </select>
 </div>
 <!-- Bathrooms -->
 <div class="flex flex-col gap-2">
 <label class="text-slate-700 dark:text-slate-300 text-sm font-bold uppercase tracking-wider">Bathrooms</label>
-<select class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 py-4 px-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-<option>1</option>
-<option selected="">2</option>
-<option>2.5</option>
-<option>3</option>
-<option>4+</option>
+<!-- ✅ AJOUT: name -->
+<select name="bathrooms" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 py-4 px-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+<option {% if draft.bathrooms == '1' %}selected{% endif %}>1</option>
+<option {% if draft.bathrooms == '2' or not draft.bathrooms %}selected{% endif %}>2</option>
+<option {% if draft.bathrooms == '2.5' %}selected{% endif %}>2.5</option>
+<option {% if draft.bathrooms == '3' %}selected{% endif %}>3</option>
+<option {% if draft.bathrooms == '4+' %}selected{% endif %}>4+</option>
 </select>
 </div>
 <!-- Year Built -->
 <div class="flex flex-col gap-2">
 <label class="text-slate-700 dark:text-slate-300 text-sm font-bold uppercase tracking-wider">Year Built</label>
-<input class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 py-4 px-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="2020" type="number"/>
+<input name="year_built" value="{{ draft.year_built|default:'' }}"
+       class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 py-4 px-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="2020" type="number"/>
 </div>
 <!-- Lot Size -->
 <div class="flex flex-col gap-2">
 <label class="text-slate-700 dark:text-slate-300 text-sm font-bold uppercase tracking-wider">Lot Size (acres)</label>
-<input class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 py-4 px-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="0.25" type="text"/>
+<input name="lot_size" value="{{ draft.lot_size|default:'' }}"
+       class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 py-4 px-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="0.25" type="text"/>
 </div>
 </div>
 </section>
 <section>
 <h3 class="text-slate-900 dark:text-white text-2xl font-bold mb-6">Premium Features</h3>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-<!-- Feature Checkbox 1 -->
-<label class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors group">
-<input class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+
+    <label class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors group">
+<!-- ✅ AJOUT: name + value -->
+<input name="features" value="pool" class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
 <span class="material-symbols-outlined text-slate-400 group-hover:text-primary">pool</span>
 <span class="text-slate-700 dark:text-slate-300 font-medium">Swimming Pool</span>
 </label>
-<!-- Feature Checkbox 2 -->
+
 <label class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors group">
-<input class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+<input name="features" value="smart_home" class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
 <span class="material-symbols-outlined text-slate-400 group-hover:text-primary">home_iot_device</span>
 <span class="text-slate-700 dark:text-slate-300 font-medium">Smart Home</span>
 </label>
-<!-- Feature Checkbox 3 -->
+
 <label class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors group">
-<input class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+<input name="features" value="wine_cellar" class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
 <span class="material-symbols-outlined text-slate-400 group-hover:text-primary">wine_bar</span>
 <span class="text-slate-700 dark:text-slate-300 font-medium">Wine Cellar</span>
 </label>
-<!-- Feature Checkbox 4 -->
+
 <label class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors group">
-<input class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+<input name="features" value="garden" class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
 <span class="material-symbols-outlined text-slate-400 group-hover:text-primary">park</span>
 <span class="text-slate-700 dark:text-slate-300 font-medium">Garden</span>
 </label>
-<!-- Feature Checkbox 5 -->
+
 <label class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors group">
-<input class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+<input name="features" value="security" class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
 <span class="material-symbols-outlined text-slate-400 group-hover:text-primary">security</span>
 <span class="text-slate-700 dark:text-slate-300 font-medium">Security System</span>
 </label>
 </div>
 </section>
 </div>
+
 <!-- Footer Navigation -->
 <div class="p-8 flex items-center justify-between border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50">
 <a href="{% url 'users:add_property_step1' %}" class="flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
 <span class="material-symbols-outlined">arrow_back</span>
-                        Back
-                    </a>
-<a href="{% url 'users:add_property_step3' %}" class="flex items-center gap-2 px-8 py-3 rounded-xl bg-primary text-white font-bold hover:opacity-90 transition-opacity shadow-lg shadow-primary/20">
-                        Continue
-                        <span class="material-symbols-outlined">arrow_forward</span>
+    Back
 </a>
+<!-- ✅ CHANGEMENT: <a> → <button type="submit"> -->
+<button type="submit" class="flex items-center gap-2 px-8 py-3 rounded-xl bg-primary text-white font-bold hover:opacity-90 transition-opacity shadow-lg shadow-primary/20">
+    Continue
+    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
 </div>
+
+</form> <!-- ✅ AJOUT: fermeture form -->
+
 </div>
 </main>
 <footer class="py-10 text-center text-slate-400 text-sm">

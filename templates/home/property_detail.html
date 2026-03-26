@@ -1,292 +1,400 @@
 <!DOCTYPE html>
 {% load static %}
-
-<html lang="en"><head>
+<html class="light" lang="en">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Home Market - Seller Dashboard</title>
+<title>{{ property.title|default:"Property Detail" }} — Home Market</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#000080",
-                        "background-light": "#f5f5f8",
-                        "background-dark": "#0f0f23",
-                    },
-                    fontFamily: {
-                        "display": ["Inter", "sans-serif"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.5rem",
-                        "lg": "1rem",
-                        "xl": "1.25rem", // 20px
-                        "full": "9999px"
-                    },
-                },
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+    darkMode: "class",
+    theme: {
+        extend: {
+            colors: {
+                primary: "#000080",
+                accent: "#D4AF37",
+                "bg-light": "#f5f5f8",
+                "bg-dark": "#0f0f23",
             },
-        }
-    </script>
+            fontFamily: {
+                serif: ["DM Serif Display", "serif"],
+                sans: ["DM Sans", "sans-serif"],
+            },
+        },
+    },
+}
+</script>
 <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .soft-shadow {
-            box-shadow: 0 4px 20px -2px rgba(0, 0, 128, 0.05);
-        }
-    </style>
+* { font-family: 'DM Sans', sans-serif; }
+h1, h2, .serif { font-family: 'DM Serif Display', serif; }
+.gallery-img { transition: transform 0.5s cubic-bezier(.4,0,.2,1); }
+.gallery-img:hover { transform: scale(1.03); }
+.fade-up { opacity: 0; transform: translateY(24px); animation: fadeUp 0.6s forwards; }
+@keyframes fadeUp { to { opacity: 1; transform: none; } }
+.badge { letter-spacing: .08em; }
+</style>
 </head>
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
-<!-- Top Navigation Bar -->
-<header class="sticky top-0 z-50 w-full bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex items-center justify-between h-20">
-<a href="{% url 'core:home' %}" class="flex items-center gap-3">
-<div class="bg-primary p-2 rounded-lg text-white">
-    <img src="{% static 'images/logo/logo.webp' %}" alt="Home Market Logo" class="h-8 w-auto">
+<body class="bg-bg-light dark:bg-bg-dark text-slate-900 dark:text-slate-100 min-h-screen">
+
+{% if not property %}
+<div class="flex flex-col items-center justify-center min-h-screen">
+    <span class="material-symbols-outlined text-6xl text-slate-300 mb-4">home_work</span>
+    <h1 class="text-2xl font-bold text-slate-500">Bien introuvable</h1>
+    <a href="{% url 'core:search' %}" class="mt-6 bg-primary text-white px-6 py-3 rounded-xl font-bold">Voir les annonces</a>
 </div>
-<h1 class="text-2xl font-black tracking-tight text-primary dark:text-white uppercase italic">Home Market</h1>
-</a>
-<nav class="hidden md:flex items-center gap-8">
-<a class="text-sm font-semibold hover:text-accent transition-colors" href="{% url 'core:search' %}">Properties</a>
-<a class="text-sm font-semibold hover:text-accent transition-colors" href="{% url 'core:explore' %}">Categories</a>
-<a class="text-sm font-semibold hover:text-accent transition-colors" href="{% url 'core:investment' %}">Premium</a>
-<a class="text-sm font-semibold hover:text-accent transition-colors" href="{% url 'core:search' %}">Locations</a>
-<a class="text-sm font-semibold hover:text-accent transition-colors" href="{% url 'core:about' %}">About</a>
-</nav>
-<div class="flex items-center gap-4">
-<a href="{% url 'users:login' %}" class="hidden sm:flex items-center gap-2 text-primary dark:text-white font-bold text-sm">
-<span class="material-symbols-outlined">person</span> Sign In
-</a>
-<a href="{% url 'users:register' %}" class="bg-primary text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-lg hover:bg-opacity-90 transition-all">
-    List Property
-</a>
-</div>
-</div>
-</div>
+{% else %}
+
+<!-- ══════════════════════════════════════
+     HEADER
+══════════════════════════════════════ -->
+<header class="sticky top-0 z-50 bg-white/90 dark:bg-bg-dark/90 backdrop-blur-md border-b border-primary/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+        <a href="{% url 'core:home' %}" class="flex items-center gap-3">
+            <img src="{% static 'images/logo/logo.webp' %}" alt="Home Market" class="h-8 w-auto">
+            <span class="text-primary font-black text-xl tracking-tight uppercase italic">Home Market</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600 dark:text-slate-300">
+            <a href="{% url 'core:search' %}" class="hover:text-primary transition-colors">Properties</a>
+            <a href="{% url 'core:explore' %}" class="hover:text-primary transition-colors">Explore</a>
+            <a href="{% url 'core:investment' %}" class="hover:text-primary transition-colors">Invest</a>
+            <a href="{% url 'core:about' %}" class="hover:text-primary transition-colors">About</a>
+        </nav>
+        <div class="flex items-center gap-3">
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'users:buyer_dashboard' %}"
+               class="h-9 w-9 rounded-full bg-primary/10 text-primary font-bold flex items-center justify-center text-sm border border-primary/20">
+                {{ request.user.first_name|first }}{{ request.user.last_name|first }}
+            </a>
+            {% else %}
+            <a href="{% url 'users:login' %}" class="bg-primary text-white px-5 py-2 rounded-xl font-bold text-sm">Sign In</a>
+            {% endif %}
+        </div>
+    </div>
 </header>
-<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-<div class="flex items-center gap-4">
-<h2 class="text-xl font-bold">Dashboard</h2>
-<span class="text-slate-400 text-sm hidden sm:inline">|</span>
-<span class="text-slate-400 text-sm hidden sm:inline">Monday, Oct 23 2023</span>
+
+<!-- ══════════════════════════════════════
+     BREADCRUMB
+══════════════════════════════════════ -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center gap-2 text-sm text-slate-400">
+    <a href="{% url 'core:home' %}" class="hover:text-primary transition-colors">Home</a>
+    <span class="material-symbols-outlined text-base">chevron_right</span>
+    <a href="{% url 'core:search' %}" class="hover:text-primary transition-colors">Properties</a>
+    <span class="material-symbols-outlined text-base">chevron_right</span>
+    <span class="text-slate-700 dark:text-slate-200 font-medium truncate max-w-xs">{{ property.title }}</span>
 </div>
-<div class="flex items-center gap-6">
-<div class="relative max-w-xs hidden md:block">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
-<input class="pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-xl focus:ring-2 focus:ring-primary w-64 text-sm" placeholder="Search analytics..." type="text"/>
-</div>
-<div class="flex gap-2">
-<button class="w-10 h-10 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-xl hover:bg-primary/10 hover:text-primary transition-colors">
-<span class="material-symbols-outlined">notifications</span>
-</button>
-<button class="w-10 h-10 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-xl hover:bg-primary/10 hover:text-primary transition-colors">
-<span class="material-symbols-outlined">help_outline</span>
-</button>
-</div>
-</div>
-</header>
-<div class="flex-1 overflow-y-auto p-8">
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-<div class="bg-white dark:bg-slate-900 p-6 rounded-xl soft-shadow border border-slate-100 dark:border-slate-800">
-<div class="flex items-center justify-between mb-4">
-<div class="p-2 bg-blue-100 text-blue-600 rounded-lg">
-<span class="material-symbols-outlined">inventory_2</span>
-</div>
-<span class="text-emerald-500 text-sm font-semibold flex items-center">+12% <span class="material-symbols-outlined text-xs">trending_up</span></span>
-</div>
-<p class="text-slate-500 text-sm font-medium">Total Listings</p>
-<h3 class="text-2xl font-bold mt-1">24</h3>
-</div>
-<div class="bg-white dark:bg-slate-900 p-6 rounded-xl soft-shadow border border-slate-100 dark:border-slate-800">
-<div class="flex items-center justify-between mb-4">
-<div class="p-2 bg-purple-100 text-purple-600 rounded-lg">
-<span class="material-symbols-outlined">visibility</span>
-</div>
-<span class="text-emerald-500 text-sm font-semibold flex items-center">+18% <span class="material-symbols-outlined text-xs">trending_up</span></span>
-</div>
-<p class="text-slate-500 text-sm font-medium">Views</p>
-<h3 class="text-2xl font-bold mt-1">45.8K</h3>
-</div>
-<div class="bg-white dark:bg-slate-900 p-6 rounded-xl soft-shadow border border-slate-100 dark:border-slate-800">
-<div class="flex items-center justify-between mb-4">
-<div class="p-2 bg-orange-100 text-orange-600 rounded-lg">
-<span class="material-symbols-outlined">sell</span>
-</div>
-<span class="text-emerald-500 text-sm font-semibold flex items-center">+5% <span class="material-symbols-outlined text-xs">trending_up</span></span>
-</div>
-<p class="text-slate-500 text-sm font-medium">Sales</p>
-<h3 class="text-2xl font-bold mt-1">12</h3>
-</div>
-<div class="bg-white dark:bg-slate-900 p-6 rounded-xl soft-shadow border border-slate-100 dark:border-slate-800">
-<div class="flex items-center justify-between mb-4">
-<div class="p-2 bg-emerald-100 text-emerald-600 rounded-lg">
-<span class="material-symbols-outlined">payments</span>
-</div>
-<span class="text-rose-500 text-sm font-semibold flex items-center">-2% <span class="material-symbols-outlined text-xs">trending_down</span></span>
-</div>
-<p class="text-slate-500 text-sm font-medium">Revenue</p>
-<h3 class="text-2xl font-bold mt-1">$1.2M</h3>
-</div>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-<div class="bg-white dark:bg-slate-900 p-8 rounded-xl soft-shadow border border-slate-100 dark:border-slate-800">
-<div class="flex items-center justify-between mb-6">
-<div>
-<h4 class="text-lg font-bold">Views Performance</h4>
-<p class="text-slate-400 text-sm">Last 30 days visualization</p>
-</div>
-<select class="bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm font-medium px-4 py-2 ring-0 focus:ring-2 focus:ring-primary">
-<option>Weekly</option>
-<option>Monthly</option>
-</select>
-</div>
-<div class="h-64 flex flex-col gap-4">
-<div class="flex-1 relative">
-<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 400 150">
-<defs>
-<lineargradient id="gradient" x1="0%" x2="0%" y1="0%" y2="100%">
-<stop offset="0%" style="stop-color:rgba(0, 0, 128, 0.1)"></stop>
-<stop offset="100%" style="stop-color:rgba(0, 0, 128, 0)"></stop>
-</lineargradient>
-</defs>
-<path d="M0,120 Q50,110 80,60 T160,80 T240,30 T320,100 T400,20 V150 H0 Z" fill="url(#gradient)"></path>
-<path d="M0,120 Q50,110 80,60 T160,80 T240,30 T320,100 T400,20" fill="none" stroke="#000080" stroke-linecap="round" stroke-width="3"></path>
-</svg>
-</div>
-<div class="flex justify-between text-xs text-slate-400 font-bold uppercase tracking-widest px-1">
-<span>Mon</span>
-<span>Tue</span>
-<span>Wed</span>
-<span>Thu</span>
-<span>Fri</span>
-<span>Sat</span>
-<span>Sun</span>
-</div>
-</div>
-</div>
-<div class="bg-white dark:bg-slate-900 p-8 rounded-xl soft-shadow border border-slate-100 dark:border-slate-800">
-<div class="flex items-center justify-between mb-6">
-<div>
-<h4 class="text-lg font-bold">Sales Volume</h4>
-<p class="text-slate-400 text-sm">Historical comparison</p>
-</div>
-<div class="flex gap-2">
-<div class="flex items-center gap-1.5">
-<span class="w-3 h-3 rounded-full bg-primary"></span>
-<span class="text-xs text-slate-500 font-medium">2023</span>
-</div>
-<div class="flex items-center gap-1.5">
-<span class="w-3 h-3 rounded-full bg-slate-200 dark:bg-slate-700"></span>
-<span class="text-xs text-slate-500 font-medium">2022</span>
-</div>
-</div>
-</div>
-<div class="h-64 flex items-end justify-between gap-4">
-<div class="flex-1 flex flex-col justify-end gap-2 group">
-<div class="relative w-full">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg h-32"></div>
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-24 transition-all group-hover:h-28"></div>
-</div>
-<span class="text-center text-xs text-slate-400 font-medium">Jan</span>
-</div>
-<div class="flex-1 flex flex-col justify-end gap-2 group">
-<div class="relative w-full">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg h-32"></div>
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-16 transition-all group-hover:h-20"></div>
-</div>
-<span class="text-center text-xs text-slate-400 font-medium">Feb</span>
-</div>
-<div class="flex-1 flex flex-col justify-end gap-2 group">
-<div class="relative w-full">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg h-32"></div>
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-28 transition-all group-hover:h-30"></div>
-</div>
-<span class="text-center text-xs text-slate-400 font-medium">Mar</span>
-</div>
-<div class="flex-1 flex flex-col justify-end gap-2 group">
-<div class="relative w-full">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg h-32"></div>
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-12 transition-all group-hover:h-16"></div>
-</div>
-<span class="text-center text-xs text-slate-400 font-medium">Apr</span>
-</div>
-<div class="flex-1 flex flex-col justify-end gap-2 group">
-<div class="relative w-full">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg h-32"></div>
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-20 transition-all group-hover:h-24"></div>
-</div>
-<span class="text-center text-xs text-slate-400 font-medium">May</span>
-</div>
-<div class="flex-1 flex flex-col justify-end gap-2 group">
-<div class="relative w-full">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg h-32"></div>
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-30 transition-all group-hover:h-32"></div>
-</div>
-<span class="text-center text-xs text-slate-400 font-medium">Jun</span>
-</div>
-</div>
-</div>
-</div>
-<div class="bg-white dark:bg-slate-900 rounded-xl soft-shadow border border-slate-100 dark:border-slate-800 overflow-hidden">
-<div class="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
-<h4 class="text-lg font-bold">Recent Inquiries</h4>
-<button class="text-primary text-sm font-semibold hover:underline">View All Messages</button>
-</div>
-<div class="overflow-x-auto">
-<table class="w-full text-left">
-<thead class="bg-slate-50 dark:bg-slate-800/50">
-<tr>
-<th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Buyer</th>
-<th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Property</th>
-<th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Date</th>
-<th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Status</th>
-<th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest text-right">Action</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-<td class="px-6 py-4">
-<div class="flex items-center gap-3">
-<div class="size-8 rounded-full bg-slate-200" data-alt="Avatar of a potential buyer" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuASJ_Mar5_vkSjUIhYL0eXHJbqs1d0_fGOKQwKP5VeniakWhS5r0rt295wrsK8zGFqwxIb-gywZI-9XabZu2XXFzczT1MbCVHxqS0c0Tx_y4GesITYTvfAZKwbdtwmoQhD4YNYSGjTN7cTw4IxTr-BpERVzEqquMC4mJrX4RqA6ynuKRCXazBkBXbVXS-r7obnmSS29taTvpbTywvnn6SuQu4nU1I2mAjqS9vwzdiW4seBYgls8QbNmRVLmCSuZSBwE4tz22JFw4w0')"></div>
-<span class="font-medium text-sm">Sarah Jenkins</span>
-</div>
-</td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Luxury Villa, Beverly Hills</td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Oct 24, 2023</td>
-<td class="px-6 py-4">
-<span class="px-2.5 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">Active</span>
-</td>
-<td class="px-6 py-4 text-right">
-<button class="text-primary font-bold text-sm">Reply</button>
-</td>
-</tr>
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-<td class="px-6 py-4">
-<div class="flex items-center gap-3">
-<div class="size-8 rounded-full bg-slate-200" data-alt="Avatar of a potential buyer" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAr--fMHcJRKIHq10ZbQXH7jTXQAblaBn0I-2FnOB-PGUm6WvEmlXvByUbKrCaJh22FL6qJ6vLL1ny4tzkMvsRLrkTowgeRhMnS0p5g5vhIEjQMhMPHa271ZACxpwLxG6mhOvTFaEonwXBKGLmmJHJWVM8r2G84YEu3FyFa0ZqRpRHAjpw3fKJdSBD5dCNL_1ld2y3wjUxMktLhMDKJJLfp5pnOnAl5sPMa4inMUmGUrj9e2_UvdVxPnxJabQoc3lA6_vKPwcy_sec')"></div>
-<span class="font-medium text-sm">Michael Ross</span>
-</div>
-</td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Modern Loft, Downtown</td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Oct 23, 2023</td>
-<td class="px-6 py-4">
-<span class="px-2.5 py-1 bg-orange-100 text-orange-700 text-xs font-bold rounded-full">Pending</span>
-</td>
-<td class="px-6 py-4 text-right">
-<button class="text-primary font-bold text-sm">Reply</button>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+
+    <!-- ══════════════════════════════════
+         GALERIE D'IMAGES
+    ══════════════════════════════════ -->
+    <div class="grid grid-cols-4 grid-rows-2 gap-3 h-[420px] rounded-2xl overflow-hidden mb-10 fade-up" style="animation-delay:.05s">
+        {% with images=property.images.all %}
+        {% if images %}
+            <!-- Image principale -->
+            <div class="col-span-2 row-span-2 overflow-hidden relative gallery-img cursor-pointer">
+                <div class="w-full h-full bg-cover bg-center"
+                     style="background-image: url('{{ images.0.image.url }}')"></div>
+            </div>
+            <!-- Images secondaires -->
+            {% for img in images|slice:"1:5" %}
+            <div class="col-span-1 row-span-1 overflow-hidden relative gallery-img cursor-pointer">
+                <div class="w-full h-full bg-cover bg-center"
+                     style="background-image: url('{{ img.image.url }}')"></div>
+                {% if forloop.last and images|length > 5 %}
+                <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+                    <span class="text-white font-bold text-lg">+{{ images|length|add:"-5" }} photos</span>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <!-- Remplir les cases vides si moins de 5 images secondaires -->
+            {% for i in "1234"|slice:images|length|add:"-1" %}
+            {% endfor %}
+        {% else %}
+            <div class="col-span-4 row-span-2 bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
+                <span class="material-symbols-outlined text-7xl text-slate-400">home_work</span>
+            </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- ══════════════════════════════════
+         CONTENU PRINCIPAL
+    ══════════════════════════════════ -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+
+        <!-- Colonne gauche — Détails -->
+        <div class="lg:col-span-2 space-y-8">
+
+            <!-- Titre & badges -->
+            <div class="fade-up" style="animation-delay:.1s">
+                <div class="flex flex-wrap items-center gap-2 mb-3">
+                    <span class="badge bg-primary text-white text-[11px] font-bold uppercase px-3 py-1 rounded-full">
+                        {{ property.get_property_type_display }}
+                    </span>
+                    {% if property.category %}
+                    <span class="badge bg-accent/20 text-amber-800 dark:text-amber-300 text-[11px] font-bold uppercase px-3 py-1 rounded-full">
+                        {{ property.category.name }}
+                    </span>
+                    {% endif %}
+                    <span class="badge text-[11px] font-bold uppercase px-3 py-1 rounded-full
+                        {% if property.status == 'APPROVED' %}bg-green-100 text-green-700
+                        {% elif property.status == 'PENDING' %}bg-orange-100 text-orange-700
+                        {% else %}bg-red-100 text-red-700{% endif %}">
+                        {{ property.get_status_display }}
+                    </span>
+                </div>
+                <h1 class="serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white leading-tight mb-3">
+                    {{ property.title }}
+                </h1>
+                {% if property.location %}
+                <div class="flex items-center gap-1.5 text-slate-500 dark:text-slate-400">
+                    <span class="material-symbols-outlined text-primary text-xl">location_on</span>
+                    <span class="font-medium">{{ property.location.address }}, {{ property.location.city }}, {{ property.location.country }}</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Stats rapides -->
+            <div class="fade-up grid grid-cols-3 gap-4" style="animation-delay:.15s">
+                {% if property.bedrooms %}
+                <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-100 dark:border-slate-800 flex flex-col items-center gap-2 text-center">
+                    <span class="material-symbols-outlined text-primary text-2xl">bed</span>
+                    <span class="text-2xl font-black text-slate-900 dark:text-white">{{ property.bedrooms }}</span>
+                    <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Chambres</span>
+                </div>
+                {% endif %}
+                {% if property.bathrooms %}
+                <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-100 dark:border-slate-800 flex flex-col items-center gap-2 text-center">
+                    <span class="material-symbols-outlined text-primary text-2xl">bathtub</span>
+                    <span class="text-2xl font-black text-slate-900 dark:text-white">{{ property.bathrooms }}</span>
+                    <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Salles de bain</span>
+                </div>
+                {% endif %}
+                {% if property.area_sqm %}
+                <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-100 dark:border-slate-800 flex flex-col items-center gap-2 text-center">
+                    <span class="material-symbols-outlined text-primary text-2xl">square_foot</span>
+                    <span class="text-2xl font-black text-slate-900 dark:text-white">{{ property.area_sqm|floatformat:0 }}</span>
+                    <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">m²</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Description -->
+            <div class="fade-up bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-100 dark:border-slate-800" style="animation-delay:.2s">
+                <h2 class="serif text-xl font-bold mb-4 text-slate-900 dark:text-white">Description</h2>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">{{ property.description }}</p>
+            </div>
+
+            <!-- Features / Équipements -->
+            {% if property.features.all %}
+            <div class="fade-up bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-100 dark:border-slate-800" style="animation-delay:.25s">
+                <h2 class="serif text-xl font-bold mb-4 text-slate-900 dark:text-white">Équipements</h2>
+                <div class="flex flex-wrap gap-3">
+                    {% for feature in property.features.all %}
+                    <div class="flex items-center gap-2 bg-primary/5 dark:bg-primary/10 px-3 py-2 rounded-xl">
+                        {% if feature.icon %}
+                        <span class="material-symbols-outlined text-primary text-base">{{ feature.icon }}</span>
+                        {% endif %}
+                        <span class="text-sm font-semibold text-slate-700 dark:text-slate-300">{{ feature.name }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Carte / Localisation -->
+            {% if property.location and property.location.latitude and property.location.longitude %}
+            <div class="fade-up bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-100 dark:border-slate-800" style="animation-delay:.3s">
+                <h2 class="serif text-xl font-bold mb-4 text-slate-900 dark:text-white">Localisation</h2>
+                <div class="rounded-xl overflow-hidden h-48 bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                    <iframe
+                        width="100%" height="100%"
+                        style="border:0"
+                        loading="lazy"
+                        src="https://maps.google.com/maps?q={{ property.location.latitude }},{{ property.location.longitude }}&z=15&output=embed">
+                    </iframe>
+                </div>
+                <p class="text-sm text-slate-500 mt-3 flex items-center gap-1">
+                    <span class="material-symbols-outlined text-base text-primary">location_on</span>
+                    {{ property.location.address }}, {{ property.location.city }}
+                </p>
+            </div>
+            {% endif %}
+
+            <!-- Avis -->
+            {% if property.reviews.all %}
+            <div class="fade-up bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-100 dark:border-slate-800" style="animation-delay:.35s">
+                <h2 class="serif text-xl font-bold mb-4 text-slate-900 dark:text-white">Avis</h2>
+                <div class="space-y-4">
+                    {% for review in property.reviews.all|slice:":3" %}
+                    <div class="flex gap-4 pb-4 border-b border-slate-100 dark:border-slate-800 last:border-0 last:pb-0">
+                        <div class="w-10 h-10 rounded-full bg-primary/10 text-primary font-bold flex items-center justify-center shrink-0">
+                            {{ review.reviewer.first_name|first }}
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-semibold text-sm">{{ review.reviewer.first_name }} {{ review.reviewer.last_name }}</span>
+                                <div class="flex gap-0.5">
+                                    {% for i in "12345" %}
+                                    <span class="material-symbols-outlined text-sm {% if forloop.counter <= review.rating %}text-accent{% else %}text-slate-300{% endif %}"
+                                          style="font-variation-settings:'FILL' 1">star</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <p class="text-slate-500 text-sm">{{ review.comment }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+
+        <!-- ══════════════════════════════
+             Colonne droite — Sticky card
+        ══════════════════════════════ -->
+        <div class="lg:col-span-1">
+            <div class="sticky top-24 space-y-4 fade-up" style="animation-delay:.2s">
+
+                <!-- Prix & CTA -->
+                <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-100 dark:border-slate-800 shadow-lg shadow-primary/5">
+                    <div class="flex items-start justify-between mb-6">
+                        <div>
+                            <p class="text-xs text-slate-400 font-bold uppercase tracking-widest mb-1">Prix</p>
+                            <p class="text-3xl font-black text-primary">{{ property.price|floatformat:0 }} <span class="text-base font-semibold text-slate-400">FCFA</span></p>
+                        </div>
+                        <!-- Bouton favori -->
+                        {% if request.user.is_authenticated %}
+                        <form method="post" action="{% url 'users:remove_favorite' property.id %}">
+                            {% csrf_token %}
+                            <button type="submit"
+                                    class="w-10 h-10 rounded-full bg-red-50 dark:bg-red-900/20 flex items-center justify-center text-red-400 hover:bg-red-100 transition-colors"
+                                    title="Retirer des favoris">
+                                <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL' 1">favorite</span>
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+
+                    <!-- Infos rapides -->
+                    <div class="space-y-3 mb-6 pb-6 border-b border-slate-100 dark:border-slate-800">
+                        {% if property.location %}
+                        <div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                            <span class="material-symbols-outlined text-primary text-base">location_on</span>
+                            {{ property.location.city }}, {{ property.location.country }}
+                        </div>
+                        {% endif %}
+                        {% if property.bedrooms %}
+                        <div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                            <span class="material-symbols-outlined text-primary text-base">bed</span>
+                            {{ property.bedrooms }} chambre{{ property.bedrooms|pluralize }}
+                        </div>
+                        {% endif %}
+                        {% if property.area_sqm %}
+                        <div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                            <span class="material-symbols-outlined text-primary text-base">square_foot</span>
+                            {{ property.area_sqm|floatformat:0 }} m²
+                        </div>
+                        {% endif %}
+                        <div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                            <span class="material-symbols-outlined text-primary text-base">category</span>
+                            {{ property.get_property_type_display }}
+                        </div>
+                    </div>
+
+                    <!-- ✅ BOUTONS LOUER / ACHETER -->
+                    {% if request.user.is_authenticated and request.user != property.owner %}
+
+                    <a href="{% url 'core:payment_method' %}?prop={{ property.id }}&type=RENT"
+                       class="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3.5 rounded-xl font-bold text-sm transition-all shadow-lg shadow-blue-600/20 mb-3">
+                        <span class="material-symbols-outlined text-base">key</span>
+                        Louer — Voir le contact
+                    </a>
+
+                    <a href="{% url 'core:payment_method' %}?prop={{ property.id }}&type=BUY"
+                       class="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white py-3.5 rounded-xl font-bold text-sm transition-all shadow-lg shadow-primary/20 mb-3">
+                        <span class="material-symbols-outlined text-base">handshake</span>
+                        Acheter ce bien
+                    </a>
+
+                    <a href="{% url 'core:message' %}"
+                       class="w-full flex items-center justify-center gap-2 border border-primary text-primary hover:bg-primary/5 py-3 rounded-xl font-bold text-sm transition-all">
+                        <span class="material-symbols-outlined text-base">chat</span>
+                        Contacter le vendeur
+                    </a>
+
+                    {% elif not request.user.is_authenticated %}
+                    <a href="{% url 'users:login' %}"
+                       class="w-full flex items-center justify-center gap-2 bg-primary text-white py-3.5 rounded-xl font-bold text-sm transition-all shadow-lg shadow-primary/20">
+                        <span class="material-symbols-outlined text-base">person</span>
+                        Connectez-vous pour continuer
+                    </a>
+
+                    {% elif request.user == property.owner %}
+                    <div class="text-center text-sm text-slate-400 py-2">
+                        <span class="material-symbols-outlined align-middle text-base mr-1">info</span>
+                        Vous êtes le propriétaire de ce bien.
+                    </div>
+                    {% endif %}
+
+                    <!-- Sécurité -->
+                    <div class="mt-4 flex items-center gap-2 text-xs text-slate-400 justify-center">
+                        <span class="material-symbols-outlined text-green-500 text-base">verified_user</span>
+                        Paiement sécurisé via PayUnit
+                    </div>
+                </div>
+
+                <!-- Propriétaire -->
+                <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-100 dark:border-slate-800">
+                    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Publié par</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 rounded-full bg-primary/10 text-primary font-black flex items-center justify-center text-base">
+                            {{ property.owner.first_name|first }}{{ property.owner.last_name|first }}
+                        </div>
+                        <div>
+                            <p class="font-bold text-sm text-slate-900 dark:text-white">
+                                {{ property.owner.first_name }} {{ property.owner.last_name }}
+                            </p>
+                            <p class="text-xs text-slate-400">Propriétaire</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ajouter aux favoris -->
+                {% if request.user.is_authenticated and request.user != property.owner %}
+                <form method="post" action="{% url 'users:toggle_favorite' property.id %}">
+                    {% csrf_token %}
+                    <button type="submit"
+                            class="w-full flex items-center justify-center gap-2 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-red-300 hover:text-red-500 py-3 rounded-xl font-semibold text-sm transition-all">
+                        <span class="material-symbols-outlined text-base">favorite_border</span>
+                        Ajouter aux favoris
+                    </button>
+                </form>
+                {% endif %}
+
+            </div>
+        </div>
+
+    </div>
 </main>
-</div>
-</body></html>
+
+<!-- Footer -->
+<footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-bg-dark py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <a href="{% url 'core:home' %}" class="flex items-center gap-3 text-primary opacity-70">
+            <img src="{% static 'images/logo/logo.webp' %}" alt="Home Market" class="h-6 w-auto">
+            <span class="font-black text-sm uppercase italic">Home Market</span>
+        </a>
+        <p class="text-xs text-slate-400">© 2026 Home Market. Tous droits réservés.</p>
+    </div>
+</footer>
+
+{% endif %}
+</body>
+</html>

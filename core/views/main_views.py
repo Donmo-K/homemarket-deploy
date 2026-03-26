@@ -7,21 +7,25 @@ from properties.models import Property
 from users.models import User
 from django.views.generic import ListView
 from django.db.models import Count
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class HomeView(TemplateView):
     template_name = 'home/home.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
-        # Correction ici : utilise le numéro du statut (adapte 1 selon tes choices)
-        context['featured_properties'] = Property.objects.filter(status=1).order_by('-created')[:3]
-        context['latest_properties'] = Property.objects.order_by('-created')[:3]
-        context['popular_locations'] = Property.objects.values('location').annotate(count=Count('id')).order_by('-count')[:6]
-        context['total_properties'] = Property.objects.count()
+        context['featured_properties'] = Property.objects.filter(
+            status='APPROVED'
+        ).order_by('-created')[:3]
+        context['latest_properties'] = Property.objects.filter(
+            status='APPROVED'
+        ).order_by('-created')[:3]
+        context['popular_locations'] = Property.objects.filter(
+            status='APPROVED'
+        ).values('location').annotate(count=Count('id')).order_by('-count')[:6]
+        context['total_properties'] = Property.objects.filter(status='APPROVED').count()
         context['total_users'] = User.objects.count()
         context['current_year'] = 2026
-        
         return context
 
 
@@ -29,17 +33,17 @@ class PropertySearchView(ListView):
     template_name = 'home/property_Search_and_listing.html'
     model = Property
     context_object_name = 'properties'
-    paginate_by = 12  # 12 annonces par page
+    paginate_by = 12
 
     def get_queryset(self):
-        queryset = Property.objects.all().order_by('-created')
-        
-        # Filtres simples (tu peux les améliorer)
+        # ✅ Seulement les propriétés approuvées
+        queryset = Property.objects.filter(status='APPROVED').order_by('-created')
+
         location = self.request.GET.get('location')
         min_price = self.request.GET.get('min_price')
         max_price = self.request.GET.get('max_price')
         bedrooms = self.request.GET.get('bedrooms')
-        property_type = self.request.GET.getlist('property_type')  # multiple checkboxes
+        property_type = self.request.GET.getlist('property_type')
 
         if location:
             queryset = queryset.filter(location__icontains=location)
@@ -56,20 +60,27 @@ class PropertySearchView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_properties'] = Property.objects.count()
+        context['total_properties'] = Property.objects.filter(status='APPROVED').count()
         context['total_users'] = User.objects.count()
         context['location'] = self.request.GET.get('location', '')
         return context
-
+    
 class PropertyDetailView(TemplateView):
     template_name = 'home/property_detail.html'
-
+ 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # On récupère l'annonce par ID (adapte selon ton URL)
-        # Exemple : path('property/<int:pk>/', PropertyDetailView.as_view(), name='property_detail')
         try:
-            context['property'] = Property.objects.get(pk=self.kwargs.get('pk'))
+            context['property'] = Property.objects.select_related(
+                'owner',
+                'location',
+                'category',
+            ).prefetch_related(
+                'images',
+                'features',
+                'reviews__reviewer',
+                'listings',
+            ).get(pk=self.kwargs.get('pk'))
         except Property.DoesNotExist:
             context['property'] = None
         return context
@@ -89,13 +100,27 @@ class CheckoutView(TemplateView):
 
 
 
-class PaymentMethodView(TemplateView):
-    template_name = 'home/payement_method.html'
 
+class PaymentMethodView(LoginRequiredMixin, TemplateView):
+    template_name = 'home/payement_method.html'
+    login_url = '/users/login/'
+ 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Liste statique pour l'instant (tu pourras la rendre dynamique plus tard)
-        context['methods'] = ['Mobile Money', 'Carte bancaire', 'PayPal', 'Virement bancaire']
+        property_id  = self.request.GET.get('prop')
+        payment_type = self.request.GET.get('type', 'BUY')
+ 
+        if property_id:
+            try:
+                context['property'] = Property.objects.select_related(
+                    'location'
+                ).prefetch_related('images').get(id=property_id, status='APPROVED')
+            except Property.DoesNotExist:
+                context['property'] = None
+        else:
+            context['property'] = None
+ 
+        context['payment_type'] = payment_type
         return context
 
 

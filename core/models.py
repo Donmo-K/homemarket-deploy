@@ -63,15 +63,75 @@ class Transaction(HomeMarketBase):
     
     def __str__(self):
         return f"Transaction {self.id} - {self.status}"
-
 class Payment(HomeMarketBase):
-    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, related_name='payments')
-    method = models.CharField(max_length=20, choices=PaymentMethod.choices)
-    amount = models.DecimalField(max_digits=12, decimal_places=2)
-    reference = models.CharField(max_length=100, unique=True)
-    
+
+    PAYMENT_TYPE = (
+        ("RENT", "Location"),
+        ("BUY", "Achat"),
+    )
+
+    STATUS = (
+        ("PENDING", "En attente"),
+        ("SUCCESS", "Réussi"),
+        ("CONFIRMED", "Confirmé"),
+        ("FAILED", "Échoué"),
+    )
+
+    transaction = models.ForeignKey(
+        Transaction,
+        on_delete=models.CASCADE,
+        related_name='payments'
+    )
+
+    property = models.ForeignKey(
+        "properties.Property",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+
+    method = models.CharField(
+        max_length=20,
+        choices=PaymentMethod.choices
+    )
+
+    # ✅ AJOUT DU DEFAULT (IMPORTANT)
+    payment_type = models.CharField(
+        max_length=10,
+        choices=PAYMENT_TYPE,
+        default="RENT"
+    )
+
+    amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2
+    )
+
+    reference = models.CharField(
+        max_length=100,
+        unique=True
+    )
+
+    # ✅ corrigé (pas de conflit)
+    payunit_transaction_id = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS,
+        default="PENDING"
+    )
+
+    payment_url = models.URLField(
+        null=True,
+        blank=True
+    )
+
     def __str__(self):
-        return f"Payment {self.reference} ({self.amount})"
+        return f"{self.reference} - {self.status}"
 
 class Offer(HomeMarketBase):
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='offers')
