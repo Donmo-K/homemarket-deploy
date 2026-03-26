@@ -95,7 +95,12 @@ class SellerProfileView(TemplateView):
     template_name = 'buyer/seller_profile.html'
     
 class BuyerBookingView(TemplateView):
-    template_name = 'home/buyer_booking.html'    
+    template_name = 'home/buyer_booking.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['visits'] = Visit.objects.filter(user=self.request.user)
+        return context    
 
 
 class SellerKYCView(TemplateView):

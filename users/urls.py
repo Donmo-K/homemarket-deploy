@@ -36,7 +36,7 @@ urlpatterns = [
     path('buyer/saved-properties/', BuyerSavedPropertyView.as_view(), name='buyer_saved_properties'),
     path('buyer/bookings/', BuyerBookingView.as_view(), name='buyer_bookings'),
     path('buyer/favorites/remove/<uuid:property_id>/', RemoveFavoriteView.as_view(), name='remove_favorite'),
-  path('toggle-favorite/<uuid:property_id>/', toggle_favorite, name='toggle_favorite'),
+    path('toggle-favorite/<uuid:property_id>/', toggle_favorite, name='toggle_favorite'),
 
     # Vendeur
     path('seller/profile/', SellerProfileView.as_view(), name='seller_profile'),

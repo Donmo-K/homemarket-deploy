@@ -111,9 +111,7 @@ h1, h2, .serif { font-family: 'DM Serif Display', serif; }
                 {% endif %}
             </div>
             {% endfor %}
-            <!-- Remplir les cases vides si moins de 5 images secondaires -->
-            {% for i in "1234"|slice:images|length|add:"-1" %}
-            {% endfor %}
+            
         {% else %}
             <div class="col-span-4 row-span-2 bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
                 <span class="material-symbols-outlined text-7xl text-slate-400">home_work</span>

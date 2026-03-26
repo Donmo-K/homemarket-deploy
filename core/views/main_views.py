@@ -28,7 +28,6 @@ class HomeView(TemplateView):
         context['current_year'] = 2026
         return context
 
-
 class PropertySearchView(ListView):
     template_name = 'home/property_Search_and_listing.html'
     model = Property
@@ -36,7 +35,6 @@ class PropertySearchView(ListView):
     paginate_by = 12
 
     def get_queryset(self):
-        # ✅ Seulement les propriétés approuvées
         queryset = Property.objects.filter(status='APPROVED').order_by('-created')
 
         location = self.request.GET.get('location')
@@ -44,6 +42,15 @@ class PropertySearchView(ListView):
         max_price = self.request.GET.get('max_price')
         bedrooms = self.request.GET.get('bedrooms')
         property_type = self.request.GET.getlist('property_type')
+        type_filter = self.request.GET.get('type')
+
+        # ✅ PRIORITÉ AU BOUTON BUY / RENT
+        if type_filter:
+            queryset = queryset.filter(property_type=type_filter)
+
+        # ✅ SINON utiliser les filtres checkbox
+        elif property_type:
+            queryset = queryset.filter(property_type__in=property_type)
 
         if location:
             queryset = queryset.filter(location__icontains=location)
@@ -53,17 +60,8 @@ class PropertySearchView(ListView):
             queryset = queryset.filter(price__lte=max_price)
         if bedrooms:
             queryset = queryset.filter(bedrooms__gte=bedrooms)
-        if property_type:
-            queryset = queryset.filter(property_type__in=property_type)
 
         return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['total_properties'] = Property.objects.filter(status='APPROVED').count()
-        context['total_users'] = User.objects.count()
-        context['location'] = self.request.GET.get('location', '')
-        return context
     
 class PropertyDetailView(TemplateView):
     template_name = 'home/property_detail.html'

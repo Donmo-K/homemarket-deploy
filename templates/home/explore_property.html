@@ -40,8 +40,8 @@
 </div>
 </a>
 <nav class="hidden md:flex items-center gap-6">
-<a class="text-sm font-semibold text-primary border-b-2 border-accent pb-1" href="{% url 'core:search' %}">Buy</a>
-<a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors" href="{% url 'core:search' %}">Rent</a>
+<a class="text-sm font-semibold text-primary border-b-2 border-accent pb-1" href="{% url 'core:search' %}?type=BUY">Buy</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors" href="{% url 'core:search' %}?type=RENT">Rent</a>
 <a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors" href="{% url 'users:register' %}">Sell</a>
 <a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors" href="{% url 'users:register' %}">Agents</a>
 <a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors" href="{% url 'core:about' %}">About</a>
