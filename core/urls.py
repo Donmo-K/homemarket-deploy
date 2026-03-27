@@ -17,7 +17,7 @@ from .pay_unit_views import (
     PaymentReturnView,
     PaymentWebhookView,
 )
-
+from .views.contract_views import ContractDetailView, ContractPDFView
 
 app_name = 'core'
 
@@ -37,5 +37,9 @@ urlpatterns = [
 path("pay/<uuid:property_id>/<str:payment_type>/", CreatePayunitPaymentView.as_view(), name="pay"),
 path("payment/return/", PaymentReturnView.as_view(), name="payment_return"),
 path("payment/webhook/", PaymentWebhookView.as_view(), name="webhook"),
+
+path('contract/<uuid:contract_id>/', ContractDetailView.as_view(), name='contract_detail'),
+path('contract/<uuid:contract_id>/pdf/', ContractPDFView.as_view(), name='contract_pdf'),
+ 
 
 ]

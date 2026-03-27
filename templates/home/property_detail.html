@@ -394,5 +394,179 @@ h1, h2, .serif { font-family: 'DM Serif Display', serif; }
 </footer>
 
 {% endif %}
+
+<script>
+// ══════════════════════════════════════
+// GALERIE LIGHTBOX AVEC DÉFILEMENT AUTO
+// ══════════════════════════════════════
+const images = [
+    {% for img in property.images.all %}
+    "{{ img.image.url }}"{% if not forloop.last %},{% endif %}
+    {% endfor %}
+];
+
+let currentIndex = 0;
+let autoSlideInterval = null;
+
+function openGallery(index = 0) {
+    if (images.length === 0) return;
+    currentIndex = index;
+
+    const overlay = document.createElement('div');
+    overlay.id = 'gallery-overlay';
+    overlay.className = 'fixed inset-0 bg-black/95 z-[9999] flex flex-col items-center justify-center';
+    overlay.innerHTML = `
+        <!-- Compteur -->
+        <div class="absolute top-6 left-1/2 -translate-x-1/2 text-white/60 text-sm font-bold tracking-widest uppercase">
+            <span id="img-counter">1 / ${images.length}</span>
+        </div>
+
+        <!-- Bouton fermer -->
+        <button onclick="closeGallery()" class="absolute top-5 right-5 text-white bg-white/10 hover:bg-white/20 rounded-full p-2 transition-all z-10">
+            <span class="material-symbols-outlined text-3xl">close</span>
+        </button>
+
+        <!-- Image principale -->
+        <div class="relative w-full max-w-5xl px-16 flex items-center justify-center" style="height:75vh">
+            <img id="gallery-img"
+                 src="${images[currentIndex]}"
+                 class="max-h-full max-w-full object-contain rounded-xl shadow-2xl transition-opacity duration-300"
+                 style="opacity:1"/>
+        </div>
+
+        <!-- Boutons navigation -->
+        <button onclick="prevImg()" class="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-white/10 hover:bg-white/25 rounded-full p-3 transition-all">
+            <span class="material-symbols-outlined text-3xl">chevron_left</span>
+        </button>
+        <button onclick="nextImg()" class="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-white/10 hover:bg-white/25 rounded-full p-3 transition-all">
+            <span class="material-symbols-outlined text-3xl">chevron_right</span>
+        </button>
+
+        <!-- Thumbnails -->
+        <div class="flex gap-3 mt-4 overflow-x-auto px-4 pb-2 max-w-4xl">
+            ${images.map((url, i) => `
+                <img src="${url}"
+                     onclick="goToImg(${i})"
+                     id="thumb-${i}"
+                     class="h-16 w-24 object-cover rounded-lg cursor-pointer border-2 transition-all ${i === currentIndex ? 'border-white opacity-100' : 'border-transparent opacity-50 hover:opacity-80'}"
+                />
+            `).join('')}
+        </div>
+
+        <!-- Barre de progression auto -->
+        <div class="absolute bottom-0 left-0 h-1 bg-white/30 w-full">
+            <div id="progress-bar" class="h-full bg-white transition-none" style="width:0%"></div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+
+    // Fermer en cliquant sur le fond
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) closeGallery();
+    });
+
+    // Navigation clavier
+    document.addEventListener('keydown', handleKey);
+
+    startAutoSlide();
+}
+
+function closeGallery() {
+    const overlay = document.getElementById('gallery-overlay');
+    if (overlay) overlay.remove();
+    document.body.style.overflow = '';
+    document.removeEventListener('keydown', handleKey);
+    stopAutoSlide();
+}
+
+function updateGallery() {
+    const img = document.getElementById('gallery-img');
+    const counter = document.getElementById('img-counter');
+
+    // Fade out
+    img.style.opacity = '0';
+    setTimeout(() => {
+        img.src = images[currentIndex];
+        img.style.opacity = '1';
+    }, 200);
+
+    // Mettre à jour compteur
+    counter.textContent = `${currentIndex + 1} / ${images.length}`;
+
+    // Mettre à jour thumbnails
+    images.forEach((_, i) => {
+        const thumb = document.getElementById(`thumb-${i}`);
+        if (thumb) {
+            thumb.className = `h-16 w-24 object-cover rounded-lg cursor-pointer border-2 transition-all ${
+                i === currentIndex ? 'border-white opacity-100' : 'border-transparent opacity-50 hover:opacity-80'
+            }`;
+        }
+    });
+
+    // Reset barre de progression
+    resetProgress();
+}
+
+function nextImg() {
+    currentIndex = (currentIndex + 1) % images.length;
+    updateGallery();
+    restartAutoSlide();
+}
+
+function prevImg() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    updateGallery();
+    restartAutoSlide();
+}
+
+function goToImg(i) {
+    currentIndex = i;
+    updateGallery();
+    restartAutoSlide();
+}
+
+function handleKey(e) {
+    if (e.key === 'ArrowRight') nextImg();
+    if (e.key === 'ArrowLeft')  prevImg();
+    if (e.key === 'Escape')     closeGallery();
+}
+
+// Auto-défilement toutes les 4 secondes
+function startAutoSlide() {
+    resetProgress();
+    autoSlideInterval = setInterval(() => {
+        nextImg();
+    }, 4000);
+}
+
+function stopAutoSlide() {
+    clearInterval(autoSlideInterval);
+}
+
+function restartAutoSlide() {
+    stopAutoSlide();
+    startAutoSlide();
+}
+
+function resetProgress() {
+    const bar = document.getElementById('progress-bar');
+    if (!bar) return;
+    bar.style.transition = 'none';
+    bar.style.width = '0%';
+    setTimeout(() => {
+        bar.style.transition = 'width 4s linear';
+        bar.style.width = '100%';
+    }, 50);
+}
+
+// Rendre chaque image de la galerie cliquable
+document.querySelectorAll('.gallery-img').forEach((el, i) => {
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', () => openGallery(i));
+});
+</script>
+
 </body>
 </html>

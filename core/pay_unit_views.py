@@ -140,71 +140,82 @@ class PaymentWebhookView(View):
             data           = json.loads(request.body)
             transaction_id = data.get("transaction_id")
             status         = data.get("status")
-
+    
             payment = Payment.objects.select_related(
                 'transaction', 'transaction__buyer', 'property'
             ).get(payunit_transaction_id=transaction_id)
-
+    
             if status == "SUCCESS":
                 payment.status = "SUCCESS"
                 payment.transaction.status = TransactionStatus.COMPLETED
                 payment.transaction.save()
-
-                buyer    = payment.transaction.buyer
-                prop     = payment.property
-
+    
+                buyer = payment.transaction.buyer
+                prop  = payment.property
+    
                 if prop:
-                    # Récupérer ou créer la conversation entre acheteur et vendeur
                     conv = self._get_or_create_conversation(buyer, prop.owner)
-
+    
                     if payment.payment_type == "RENT":
-                        # ✅ LOCATION : envoyer le contact du propriétaire
                         contact = getattr(prop.owner, 'phone_number', 'Non renseigné')
                         Message.objects.create(
                             conversation=conv,
                             sender=prop.owner,
                             content=(
                                 f"Bonjour {buyer.first_name} ! Suite à votre paiement pour "
-                                f"« {prop.title} », voici mon contact : {contact}. "
-                                f"Je reste disponible pour tout renseignement."
+                                f"« {prop.title} », voici mon contact : {contact}."
                             ),
                         )
-
+    
                     elif payment.payment_type == "BUY":
-                        # ✅ ACHAT : ouvrir la conversation pour planifier la visite
                         Message.objects.create(
                             conversation=conv,
                             sender=prop.owner,
                             content=(
                                 f"Bonjour {buyer.first_name} ! Votre demande d'achat pour "
-                                f"« {prop.title} » est bien reçue. "
-                                f"Nous allons planifier une visite ensemble."
+                                f"« {prop.title} » est bien reçue. Nous allons planifier une visite."
                             ),
                         )
-
+    
+                    # ✅ GÉNÉRER LE CONTRAT AUTOMATIQUEMENT
+                    from core.models import Contract
+                    commission = int(payment.amount * 0.05)
+    
+                    contract = Contract.objects.create(
+                        contract_type = payment.payment_type,
+                        buyer         = buyer,
+                        seller        = prop.owner,
+                        property      = prop,
+                        transaction   = payment.transaction,
+                        amount        = payment.amount,
+                        commission    = commission,
+                        status        = "ACTIVE",
+                    )
+    
+                    # Notifier les deux parties
+                    from core.models import Notification
+                    Notification.objects.create(
+                        recipient = buyer,
+                        title     = "Contrat disponible",
+                        message   = f"Votre contrat N° {contract.contract_number} est disponible. Téléchargez-le depuis votre dashboard.",
+                    )
+                    Notification.objects.create(
+                        recipient = prop.owner,
+                        title     = "Nouveau contrat signé",
+                        message   = f"Un contrat N° {contract.contract_number} a été établi pour votre bien « {prop.title} ».",
+                    )
+    
             else:
                 payment.status = "FAILED"
                 payment.transaction.status = TransactionStatus.FAILED
                 payment.transaction.save()
-
+    
             payment.save()
-
+    
         except Payment.DoesNotExist:
             pass
         except Exception as e:
             print(f"Webhook error: {e}")
-
+    
         return JsonResponse({"status": "ok"})
 
-    def _get_or_create_conversation(self, user1, user2):
-        """Récupère ou crée une conversation entre deux utilisateurs."""
-        convs = Conversation.objects.filter(
-            participants=user1
-        ).filter(participants=user2)
-
-        if convs.exists():
-            return convs.first()
-
-        conv = Conversation.objects.create()
-        conv.participants.add(user1, user2)
-        return conv

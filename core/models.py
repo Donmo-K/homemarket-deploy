@@ -171,3 +171,56 @@ class Report(HomeMarketBase):
     
     def __str__(self):
         return f"Report by {self.reporter}"
+    
+# ================================================================
+# model du contrat de vente/location, lié à une transaction et un listing, avec les montants et les parties impliquées
+# ================================================================
+
+class Contract(HomeMarketBase):
+
+    CONTRACT_TYPE = (
+        ("RENT", "Contrat de Location"),
+        ("BUY",  "Contrat de Vente"),
+    )
+
+    STATUS = (
+        ("DRAFT",    "Brouillon"),
+        ("ACTIVE",   "Actif"),
+        ("EXPIRED",  "Expiré"),
+        ("CANCELLED","Annulé"),
+    )
+
+    # Numéro unique lisible
+    contract_number = models.CharField(max_length=30, unique=True, blank=True)
+
+    contract_type = models.CharField(max_length=10, choices=CONTRACT_TYPE)
+
+    # Parties
+    buyer  = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='contracts_as_buyer')
+    seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='contracts_as_seller')
+
+    # Bien et transaction
+    property    = models.ForeignKey('properties.Property', on_delete=models.PROTECT, related_name='contracts')
+    transaction = models.OneToOneField(Transaction, on_delete=models.PROTECT, related_name='contract', null=True, blank=True)
+
+    # Montants
+    amount     = models.DecimalField(max_digits=12, decimal_places=2)
+    commission = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+
+    status = models.CharField(max_length=20, choices=STATUS, default="ACTIVE")
+
+    # Dates
+    signed_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.contract_number:
+            import datetime
+            prefix = "LOC" if self.contract_type == "RENT" else "VTE"
+            self.contract_number = f"HM-{prefix}-{datetime.datetime.now().strftime('%Y%m%d')}-{str(self.id)[:8].upper()}"
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Contrat {self.contract_number} — {self.get_contract_type_display()}"
+
+    class Meta:
+        ordering = ['-created']    

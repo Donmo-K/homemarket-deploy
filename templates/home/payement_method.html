@@ -32,7 +32,7 @@
 </style>
 <script>
 function switchTab(method) {
-    
+
     const forms = ['form-card', 'form-mobile', 'form-paypal'];
     const tabs  = ['tab-card', 'tab-mobile', 'tab-paypal'];
     forms.forEach(id => document.getElementById(id).classList.add('hidden'));
@@ -245,17 +245,14 @@ function switchTab(method) {
             </div>
 
             <!-- Bouton qui déclenche PayUnit -->
-            {% if property %}
-            <a href="{% url 'core:pay' property.id payment_type %}"
-               class="w-full flex items-center justify-center gap-3 bg-primary text-white h-14 rounded-xl font-bold text-lg hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20 transition-all active:scale-[0.98]">
-                <span class="material-symbols-outlined">lock</span>
-                {% if payment_type == 'RENT' %}
-                    Payer et obtenir le contact
-                {% else %}
-                    Confirmer l'achat
-                {% endif %}
-            </a>
-            {% endif %}
+           <!-- Bouton qui déclenche PayUnit -->
+{% if property %}
+<a href="{% url 'core:pay' property.id payment_type %}"
+   class="w-full flex items-center justify-center gap-3 bg-primary text-white h-14 rounded-xl font-bold text-lg hover:bg-primary/90 transition-all">
+    <span class="material-symbols-outlined">lock</span>
+    {% if payment_type == 'RENT' %}Payer et obtenir le contact{% else %}Confirmer l'achat{% endif %}
+</a>
+{% endif %}
 
             <p class="text-center text-xs text-slate-400 mt-6 px-10">
                 En cliquant sur ce bouton, vous acceptez nos

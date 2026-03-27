@@ -8,6 +8,10 @@ from users.models import User
 from django.views.generic import ListView
 from django.db.models import Count
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
+from django.conf import settings
+import requests
+
 
 class HomeView(TemplateView):
     template_name = 'home/home.html'
@@ -95,31 +99,91 @@ class CheckoutView(TemplateView):
         return context
 
 
-
-
-
-
 class PaymentMethodView(LoginRequiredMixin, TemplateView):
     template_name = 'home/payement_method.html'
     login_url = '/users/login/'
- 
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         property_id  = self.request.GET.get('prop')
         payment_type = self.request.GET.get('type', 'BUY')
- 
+
+        property_obj = None
         if property_id:
             try:
-                context['property'] = Property.objects.select_related(
+                property_obj = Property.objects.select_related(
                     'location'
-                ).prefetch_related('images').get(id=property_id, status='APPROVED')
+                ).prefetch_related('images').get(
+                    id=property_id,
+                    status='APPROVED'
+                )
             except Property.DoesNotExist:
-                context['property'] = None
-        else:
-            context['property'] = None
- 
-        context['payment_type'] = payment_type
+                property_obj = None
+
+        # Logique prix
+        amount       = 0
+        commission   = 0
+        owner_amount = 0
+
+        if property_obj:
+            if payment_type == "RENT":
+                amount = 5000  # prix fixe pour voir le contact
+            else:
+                amount       = property_obj.price
+                commission   = int(property_obj.price * 0.05)
+                owner_amount = property_obj.price - commission
+
+        context.update({
+            'property':     property_obj,
+            'payment_type': payment_type,
+            'amount':       amount,
+            'commission':   commission,
+            'owner_amount': owner_amount,
+        })
         return context
+
+    # 🔥 GESTION DU PAIEMENT PAYUNIT
+    def post(self, request, *args, **kwargs):
+        property_id  = request.GET.get('prop')
+        payment_type = request.GET.get('type', 'BUY')
+
+        property = Property.objects.get(id=property_id)
+
+        # 🔥 LOGIQUE MONTANT
+        if payment_type == "RENT":
+            amount = 5000
+        else:
+            amount = property.price
+
+        url = "https://gateway.payunit.net/api/gateway/initialize"
+
+        payload = {
+            "amount": str(amount),
+            "currency": "XAF",
+            "transaction_id": f"HM-{property.id}-{request.user.id}",
+            "return_url": "http://127.0.0.1:8000/payment/success/",
+            "notify_url": "http://127.0.0.1:8000/payment/notify/",
+            "description": f"{payment_type} - {property.title}",
+        }
+
+        headers = {
+            "x-api-key": settings.PAYUNIT_API_KEY,
+            "x-api-username": settings.PAYUNIT_USERNAME,
+            "x-api-password": settings.PAYUNIT_PASSWORD,
+            "Content-Type": "application/json"
+        }
+
+        try:
+            response = requests.post(url, json=payload, headers=headers)
+            data = response.json()
+
+            if "payment_url" in data:
+                return redirect(data["payment_url"])
+
+        except Exception as e:
+            print("Erreur paiement:", e)
+
+        return redirect("core:search")
 
 
 class AboutView(TemplateView):

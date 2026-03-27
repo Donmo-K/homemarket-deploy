@@ -13,8 +13,7 @@ from global_data.enum import TransactionStatus, ListingStatus
 from django.shortcuts import get_object_or_404
 from core.models import  Visit
 from properties.models import Property
-
-
+from core.models import Contract
 
 class BuyerDashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'buyer/user_dashboard.html'
@@ -41,6 +40,11 @@ class BuyerDashboardView(LoginRequiredMixin, TemplateView):
             conversation__participants=user,
             is_read=False
         ).exclude(sender=user).count()
+
+        # ✅ 👉 AJOUT ICI (TES CONTRATS)
+        context['contracts'] = Contract.objects.filter(
+            buyer=user
+        ).select_related('property', 'seller').order_by('-created')[:5]
         
         visited_property_ids = visits_qs.values_list('property_id', flat=True)
         context['recommended_listings'] = Listing.objects.filter(
@@ -52,7 +56,6 @@ class BuyerDashboardView(LoginRequiredMixin, TemplateView):
         ).prefetch_related('property__images')[:6]
         
         return context
-
 
 class BuyerProfileView(TemplateView):
     template_name = 'buyer/my_booking.html'
