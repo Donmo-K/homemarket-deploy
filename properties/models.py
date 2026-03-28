@@ -27,6 +27,13 @@ class PropertyFeature(HomeMarketBase):
         return self.name
 
 class Property(HomeMarketBase):
+
+    # ✅ Ajoute ceci au début de la classe
+    class Status(models.TextChoices):
+        EN_ATTENTE = 'PENDING',  'En attente'
+        APPROUVE   = 'APPROVED', 'Approuvé'
+        REFUSE     = 'REJECTED', 'Refusé'
+
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='properties')
     category = models.ForeignKey(PropertyCategory, on_delete=models.PROTECT, related_name='properties')
     features = models.ManyToManyField(PropertyFeature, blank=True, related_name='properties')
@@ -37,7 +44,14 @@ class Property(HomeMarketBase):
     bedrooms = models.PositiveIntegerField(default=0)
     bathrooms = models.PositiveIntegerField(default=0)
     area_sqm = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
-    
+
+    # ✅ Ajoute ce champ à la fin
+    status = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.EN_ATTENTE,
+    )
+
     def __str__(self):
         return self.title
     

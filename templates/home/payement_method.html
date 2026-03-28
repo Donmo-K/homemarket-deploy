@@ -1,44 +1,40 @@
 <!DOCTYPE html>
 {% load static %}
 
-<html class="light" lang="en"><head>
+<html class="light" lang="en">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Secure Checkout | Home Market</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#000080",
-                        "background-light": "#f5f5f8",
-                        "background-dark": "#0f0f23",
-                    },
-                    fontFamily: {
-                        "display": ["Inter", "sans-serif"]
-                    },
-                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "primary": "#000080",
+                    "background-light": "#f5f5f8",
+                    "background-dark": "#0f0f23",
                 },
+                fontFamily: { "display": ["Inter", "sans-serif"] },
+                borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
             },
-        }
-    </script>
+        },
+    }
+</script>
 <style>
-        body { font-family: 'Inter', sans-serif; }
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-    </style>
-
+    body { font-family: 'Inter', sans-serif; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+</style>
 <script>
 function switchTab(method) {
-    // Form IDs
+
     const forms = ['form-card', 'form-mobile', 'form-paypal'];
-    const tabs = ['tab-card', 'tab-mobile', 'tab-paypal'];
-    
-    // Hide all forms, deactivate all tabs
+    const tabs  = ['tab-card', 'tab-mobile', 'tab-paypal'];
     forms.forEach(id => document.getElementById(id).classList.add('hidden'));
     tabs.forEach(id => {
         const tab = document.getElementById(id);
@@ -46,7 +42,6 @@ function switchTab(method) {
         tab.classList.add('border-transparent', 'text-slate-400');
     });
 
-    // Show active form, activate active tab
     document.getElementById('form-' + method).classList.remove('hidden');
     const activeTab = document.getElementById('tab-' + method);
     activeTab.classList.remove('border-transparent', 'text-slate-400');
@@ -57,159 +52,235 @@ function switchTab(method) {
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display transition-colors duration-300">
 <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
 <div class="layout-container flex h-full grow flex-col">
+
 <!-- Top Navigation Bar -->
 <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/10 px-6 md:px-20 py-4 bg-white dark:bg-slate-900 sticky top-0 z-50">
-<a href="{% url 'core:home' %}" class="flex items-center gap-4 text-primary">
-<img src="{% static 'images/logo/logo.webp' %}" alt="Home Market Logo" class="h-8 w-auto">
-<h2 class="text-primary text-xl font-bold leading-tight tracking-tight">Home Market</h2>
-</a>
-<div class="hidden md:flex flex-1 justify-center gap-10">
-<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="{% url 'core:search' %}">Properties</a>
-<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="{% url 'core:investment' %}">Invest</a>
-<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="{% url 'users:buyer_dashboard' %}">Account</a>
-</div>
-<div class="flex items-center gap-3">
-<button class="flex items-center justify-center rounded-xl size-10 bg-primary/10 text-primary hover:bg-primary/20 transition-all">
-<span class="material-symbols-outlined text-xl">notifications</span>
-</button>
-<a href="{% url 'users:buyer_profile' %}" class="h-10 w-10 rounded-full border-2 border-primary/20 bg-cover bg-center" data-alt="User profile avatar portrait" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDk7Pjr6H_RYHcLRl-Q-PYWU55vkREDnZmij0tnYMKAlVts6NtVrAR8k_UEFEF6WansrRA7Yduai2Z9pPvAvsFEsirQCpp1_vC7Eu0mFn3p7BIAEqD4OZbl4ZxlQiJiQKsoAy7csvyLkgzDAdA3H9aNPZI_80WvJwHG8_IdCNn6kZv5MDy2Ywz-JqIV0XtEu4yCxOVyUuCB5foeakLrQIIpcBMweZo4-0PBlnverA9RotMyjSycbRE11rYky_k6X_a0L_JCeAX4FhM')"></a>
-</div>
+    <a href="{% url 'core:home' %}" class="flex items-center gap-4 text-primary">
+        <img src="{% static 'images/logo/logo.webp' %}" alt="Home Market Logo" class="h-8 w-auto">
+        <h2 class="text-primary text-xl font-bold leading-tight tracking-tight">Home Market</h2>
+    </a>
+    <div class="hidden md:flex flex-1 justify-center gap-10">
+        <a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="{% url 'core:search' %}">Properties</a>
+        <a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="{% url 'core:investment' %}">Invest</a>
+        <a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="{% url 'users:buyer_dashboard' %}">Account</a>
+    </div>
+    <div class="flex items-center gap-3">
+        <button class="flex items-center justify-center rounded-xl size-10 bg-primary/10 text-primary hover:bg-primary/20 transition-all">
+            <span class="material-symbols-outlined text-xl">notifications</span>
+        </button>
+        <a href="{% url 'users:buyer_profile' %}"
+           class="h-10 w-10 rounded-full border-2 border-primary/20 bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
+            {{ request.user.first_name|first }}{{ request.user.last_name|first }}
+        </a>
+    </div>
 </header>
+
 <main class="flex-1 flex flex-col items-center py-10 px-4">
 <div class="max-w-[800px] w-full bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-primary/5 overflow-hidden">
-<!-- Page Header -->
-<div class="p-8 border-b border-primary/5">
-<div class="flex flex-col gap-2">
-<h1 class="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">Payment Method</h1>
-<p class="text-slate-500 dark:text-slate-400 text-base">Choose your preferred secure payment method for Home Market investment.</p>
-</div>
-</div>
-<!-- Tabs -->
-<div class="px-8 bg-slate-50 dark:bg-slate-800/50">
-<div class="flex gap-8 overflow-x-auto no-scrollbar">
-<a class="flex items-center gap-2 border-b-[3px] border-[#D4AF37] text-primary py-5 whitespace-nowrap cursor-pointer transition-all" id="tab-card" onclick="switchTab('card')">
-<span class="material-symbols-outlined text-lg">credit_card</span>
-<span class="text-sm font-bold">Credit Card</span>
+
+    <!-- Page Header -->
+    <div class="p-8 border-b border-primary/5">
+        <div class="flex flex-col gap-2">
+            <h1 class="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">Payment Method</h1>
+            <p class="text-slate-500 dark:text-slate-400 text-base">
+                {% if payment_type == 'RENT' %}
+                    Payez pour accéder au contact du propriétaire de
+                {% else %}
+                    Finalisez votre demande d'achat pour
+                {% endif %}
+                <span class="font-bold text-primary">{{ property.title }}</span>
+            </p>
+        </div>
+
+        <!-- Résumé du bien -->
+        {% if property %}
+        <div class="mt-4 flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700">
+            {% with img=property.images.first %}
+            {% if img %}
+            <div class="w-16 h-16 rounded-lg bg-cover bg-center shrink-0"
+                 style="background-image: url('{{ img.image.url }}')"></div>
+            {% else %}
+            <div class="w-16 h-16 rounded-lg bg-slate-200 dark:bg-slate-700 flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-slate-400">home</span>
+            </div>
+            {% endif %}
+            {% endwith %}
+            <div class="flex-1 min-w-0">
+                <p class="font-bold text-slate-900 dark:text-white truncate">{{ property.title }}</p>
+                {% if property.location %}
+                <p class="text-sm text-slate-500">{{ property.location.city }}, {{ property.location.country }}</p>
+                {% endif %}
+                <p class="text-primary font-extrabold mt-0.5">{{ property.price|floatformat:0 }} FCFA</p>
+            </div>
+            <span class="px-3 py-1 rounded-full text-xs font-bold
+                {% if payment_type == 'RENT' %}bg-blue-100 text-blue-700{% else %}bg-green-100 text-green-700{% endif %}">
+                {% if payment_type == 'RENT' %}Location{% else %}Achat{% endif %}
+            </span>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Tabs -->
+    <div class="px-8 bg-slate-50 dark:bg-slate-800/50">
+        <div class="flex gap-8 overflow-x-auto no-scrollbar">
+            <a class="flex items-center gap-2 border-b-[3px] border-[#D4AF37] text-primary py-5 whitespace-nowrap cursor-pointer transition-all" id="tab-card" onclick="switchTab('card')">
+                <span class="material-symbols-outlined text-lg">credit_card</span>
+                <span class="text-sm font-bold">Credit Card</span>
+            </a>
+            <a class="flex items-center gap-2 border-b-[3px] border-transparent text-slate-400 py-5 whitespace-nowrap hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer transition-all" id="tab-mobile" onclick="switchTab('mobile')">
+                <span class="material-symbols-outlined text-lg">smartphone</span>
+                <span class="text-sm font-bold">Mobile Money</span>
+            </a>
+            <a class="flex items-center gap-2 border-b-[3px] border-transparent text-slate-400 py-5 whitespace-nowrap hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer transition-all" id="tab-paypal" onclick="switchTab('paypal')">
+                <span class="material-symbols-outlined text-lg">account_balance_wallet</span>
+                <span class="text-sm font-bold">PayPal</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="p-8">
+
+        <!-- Form Card -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="form-card">
+            <div class="col-span-1 md:col-span-2">
+                <h3 class="text-slate-900 dark:text-white text-lg font-semibold mb-4">Card Information</h3>
+            </div>
+            <label class="flex flex-col gap-2 col-span-1 md:col-span-2">
+                <span class="text-slate-700 dark:text-slate-300 text-sm font-medium">Cardholder Name</span>
+                <input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4 transition-all"
+                       placeholder="{{ request.user.first_name }} {{ request.user.last_name }}" type="text"/>
+            </label>
+            <label class="flex flex-col gap-2 col-span-1 md:col-span-2 relative">
+                <span class="text-slate-700 dark:text-slate-300 text-sm font-medium">Card Number</span>
+                <div class="relative">
+                    <input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4 pr-12 transition-all" placeholder="0000 0000 0000 0000" type="text"/>
+                    <div class="absolute right-4 top-1/2 -translate-y-1/2 flex gap-1">
+                        <span class="material-symbols-outlined text-slate-400">payments</span>
+                    </div>
+                </div>
+            </label>
+            <label class="flex flex-col gap-2">
+                <span class="text-slate-700 dark:text-slate-300 text-sm font-medium">Expiry Date</span>
+                <input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4 transition-all" placeholder="MM / YY" type="text"/>
+            </label>
+            <label class="flex flex-col gap-2">
+                <span class="text-slate-700 dark:text-slate-300 text-sm font-medium">CVV</span>
+                <input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4 transition-all" placeholder="•••" type="password"/>
+            </label>
+        </div>
+
+        <!-- Form Mobile Money -->
+        <div class="hidden grid grid-cols-1 gap-6 transition-all" id="form-mobile">
+            <div class="col-span-1">
+                <h3 class="text-slate-900 dark:text-white text-lg font-semibold mb-4">Mobile Money Details</h3>
+            </div>
+            <label class="flex flex-col gap-2">
+                <span class="text-slate-700 dark:text-slate-300 text-sm font-medium">Mobile Number</span>
+                <div class="relative">
+                    <input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4 transition-all"
+                           placeholder="{{ request.user.phone_number|default:'+237 6XX XXX XXX' }}" type="tel"/>
+                </div>
+            </label>
+            <label class="flex flex-col gap-2">
+                <span class="text-slate-700 dark:text-slate-300 text-sm font-medium">Select Provider</span>
+                <select class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4">
+                    <option>MTN MoMo</option>
+                    <option>Orange Money</option>
+                    <option>AirtelTigo Money</option>
+                    <option>M-Pesa</option>
+                </select>
+            </label>
+        </div>
+
+        <!-- Form PayPal -->
+        <div class="hidden flex flex-col items-center justify-center py-10 gap-6 transition-all text-center" id="form-paypal">
+            <div class="size-20 bg-[#0070ba]/10 rounded-full flex items-center justify-center">
+                <svg class="size-12" fill="#0070ba" viewBox="0 0 24 24"><path d="M20.067 8.478c.492.297.808.826.808 1.405 0 .894-.725 1.62-1.618 1.62h-.78c-.287 0-.547.16-.672.418L15.65 16.27c-.125.258-.385.418-.672.418H11.25l-.45 2.25c-.05.25-.27.42-.52.42H7.5c-.28 0-.5-.22-.5-.5 0-.08.02-.16.05-.24l2.5-12.5c.05-.25.27-.42.52-.42h4.5c.28 0 .5.22.5.5 0 .08-.02.16-.05.24l-1.02 5.1h2.24c1.55 0 2.89-.92 3.48-2.25.12-.27.4-.44.7-.44h.147zm-11.45 2.112l-1.112 5.56h2.22l.833-4.167h-1.94z"/></svg>
+            </div>
+            <div>
+                <h3 class="text-slate-900 dark:text-white text-lg font-semibold">Pay with PayPal</h3>
+                <p class="text-slate-500 dark:text-slate-400 text-sm max-w-sm mt-2">Log in to your PayPal account to complete the transaction safely and securely.</p>
+            </div>
+            <button class="px-8 py-3 bg-[#ffc439] hover:bg-[#f4bb33] text-[#003087] font-bold rounded-full transition-all flex items-center gap-2">
+                <span class="italic font-black">PayPal</span> Checkout
+            </button>
+        </div>
+
+        <!-- Trust Indicators -->
+        <div class="mt-10 flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-green-500">verified_user</span>
+                <div class="flex flex-col">
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Security Guarantee</span>
+                    <span class="text-sm font-medium text-slate-600 dark:text-slate-300">256-bit SSL Encrypted</span>
+                </div>
+            </div>
+            <div class="flex gap-4 items-center grayscale opacity-50">
+                <span class="material-symbols-outlined text-3xl">credit_card_heart</span>
+                <span class="material-symbols-outlined text-3xl">shield_with_heart</span>
+            </div>
+        </div>
+
+        <!-- ✅ Checkout Summary dynamique -->
+        <div class="mt-10 pt-8 border-t border-slate-100 dark:border-slate-800">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex flex-col">
+                    <span class="text-sm text-slate-500 uppercase font-bold tracking-widest">
+                        {% if payment_type == 'RENT' %}Frais de location{% else %}Montant d'achat{% endif %}
+                    </span>
+                    <span class="text-2xl font-bold text-primary">
+                        {% if property %}
+                            {{ property.price|floatformat:0 }} FCFA
+                        {% else %}
+                            — FCFA
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="text-right">
+                    <span class="text-xs text-slate-400 block mb-1">Commission : 5%</span>
+                    <span class="text-xs px-2 py-1 rounded bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 font-bold">
+                        Paiement sécurisé
+                    </span>
+                </div>
+            </div>
+
+            <!-- Bouton qui déclenche PayUnit -->
+           <!-- Bouton qui déclenche PayUnit -->
+{% if property %}
+<a href="{% url 'core:pay' property.id payment_type %}"
+   class="w-full flex items-center justify-center gap-3 bg-primary text-white h-14 rounded-xl font-bold text-lg hover:bg-primary/90 transition-all">
+    <span class="material-symbols-outlined">lock</span>
+    {% if payment_type == 'RENT' %}Payer et obtenir le contact{% else %}Confirmer l'achat{% endif %}
 </a>
-<a class="flex items-center gap-2 border-b-[3px] border-transparent text-slate-400 py-5 whitespace-nowrap hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer transition-all" id="tab-mobile" onclick="switchTab('mobile')">
-<span class="material-symbols-outlined text-lg">smartphone</span>
-<span class="text-sm font-bold">Mobile Money</span>
-</a>
-<a class="flex items-center gap-2 border-b-[3px] border-transparent text-slate-400 py-5 whitespace-nowrap hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer transition-all" id="tab-paypal" onclick="switchTab('paypal')">
-<span class="material-symbols-outlined text-lg">account_balance_wallet</span>
-<span class="text-sm font-bold">PayPal</span>
-</a>
-</div>
-</div>
-<div class="p-8">
-<!-- Form Section -->
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="form-card">
-<div class="col-span-1 md:col-span-2">
-<h3 class="text-slate-900 dark:text-white text-lg font-semibold mb-4">Card Information</h3>
-</div>
-<label class="flex flex-col gap-2 col-span-1 md:col-span-2">
-<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">Cardholder Name</span>
-<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4 transition-all" placeholder="Johnathan Doe" type="text"/>
-</label>
-<label class="flex flex-col gap-2 col-span-1 md:col-span-2 relative">
-<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">Card Number</span>
-<div class="relative">
-<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4 pr-12 transition-all" placeholder="0000 0000 0000 0000" type="text"/>
-<div class="absolute right-4 top-1/2 -translate-y-1/2 flex gap-1">
-<span class="material-symbols-outlined text-slate-400">payments</span>
-</div>
-</div>
-</label>
-<label class="flex flex-col gap-2">
-<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">Expiry Date</span>
-<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4 transition-all" placeholder="MM / YY" type="text"/>
-</label>
-<label class="flex flex-col gap-2">
-<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">CVV</span>
-<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4 transition-all" placeholder="•••" type="password"/>
-</label>
-</div>
-<div class="hidden grid grid-cols-1 gap-6 transition-all" id="form-mobile">
-<div class="col-span-1">
-<h3 class="text-slate-900 dark:text-white text-lg font-semibold mb-4">Mobile Money Details</h3>
-</div>
-<label class="flex flex-col gap-2">
-<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">Mobile Number</span>
-<div class="relative">
-<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4 transition-all" placeholder="+233 XX XXX XXXX" type="tel"/>
-</div>
-</label>
-<label class="flex flex-col gap-2">
-<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">Select Provider</span>
-<select class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4">
-<option>MTN MoMo</option>
-<option>AirtelTigo Money</option>
-<option>Vodafone Cash</option>
-<option>M-Pesa</option>
-</select>
-</label>
-</div>
-<div class="hidden flex flex-col items-center justify-center py-10 gap-6 transition-all text-center" id="form-paypal">
-<div class="size-20 bg-[#0070ba]/10 rounded-full flex items-center justify-center">
-<svg class="size-12" fill="#0070ba" viewbox="0 0 24 24"><path d="M20.067 8.478c.492.297.808.826.808 1.405 0 .894-.725 1.62-1.618 1.62h-.78c-.287 0-.547.16-.672.418L15.65 16.27c-.125.258-.385.418-.672.418H11.25l-.45 2.25c-.05.25-.27.42-.52.42H7.5c-.28 0-.5-.22-.5-.5 0-.08.02-.16.05-.24l2.5-12.5c.05-.25.27-.42.52-.42h4.5c.28 0 .5.22.5.5 0 .08-.02.16-.05.24l-1.02 5.1h2.24c1.55 0 2.89-.92 3.48-2.25.12-.27.4-.44.7-.44h.147zm-11.45 2.112l-1.112 5.56h2.22l.833-4.167h-1.94z"></path></svg>
-</div>
-<div>
-<h3 class="text-slate-900 dark:text-white text-lg font-semibold">Pay with PayPal</h3>
-<p class="text-slate-500 dark:text-slate-400 text-sm max-w-sm mt-2">Log in to your PayPal account to complete the transaction safely and securely.</p>
-</div>
-<button class="px-8 py-3 bg-[#ffc439] hover:bg-[#f4bb33] text-[#003087] font-bold rounded-full transition-all flex items-center gap-2">
-<span class="italic font-black">PayPal</span> Checkout
-    </button>
+{% endif %}
+
+            <p class="text-center text-xs text-slate-400 mt-6 px-10">
+                En cliquant sur ce bouton, vous acceptez nos
+                <a class="underline hover:text-primary" href="#">Conditions d'utilisation</a> et notre
+                <a class="underline hover:text-primary" href="#">Politique de remboursement</a>.
+            </p>
+        </div>
+
+    </div>
 </div>
 
-<!-- Trust Indicators -->
-<div class="mt-10 flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-green-500">verified_user</span>
-<div class="flex flex-col">
-<span class="text-xs font-bold uppercase tracking-wider text-slate-400">Security Guarantee</span>
-<span class="text-sm font-medium text-slate-600 dark:text-slate-300">256-bit SSL Encrypted</span>
-</div>
-</div>
-<div class="flex gap-4 items-center grayscale opacity-50">
-<span class="material-symbols-outlined text-3xl">credit_card_heart</span>
-<span class="material-symbols-outlined text-3xl">shield_with_heart</span>
-</div>
-</div>
-<!-- Checkout Summary & CTA -->
-<div class="mt-10 pt-8 border-t border-slate-100 dark:border-slate-800">
-<div class="flex items-center justify-between mb-6">
-<div class="flex flex-col">
-<span class="text-sm text-slate-500 uppercase font-bold tracking-widest">Investment Amount</span>
-<span class="text-2xl font-bold text-primary">$125,000.00</span>
-</div>
-<div class="text-right">
-<span class="text-xs text-slate-400 block mb-1">Fee: $0.00</span>
-<span class="text-xs px-2 py-1 rounded bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 font-bold">Secure Selection</span>
-</div>
-</div>
-<button class="w-full flex items-center justify-center gap-3 bg-primary text-white h-14 rounded-xl font-bold text-lg hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20 transition-all active:scale-[0.98]">
-<span class="material-symbols-outlined">lock</span>
-                            Complete Secure Checkout
-                        </button>
-<p class="text-center text-xs text-slate-400 mt-6 px-10">
-                            By clicking the button above, you agree to our <a class="underline hover:text-primary" href="#">Terms of Service</a> and <a class="underline hover:text-primary" href="#">Refund Policy</a>.
-                        </p>
-</div>
-</div>
-</div>
-<!-- Footer Section for Support -->
+<!-- Footer Section -->
 <div class="max-w-[800px] w-full mt-8 flex justify-between items-center px-4">
-<button class="flex items-center gap-2 text-slate-500 hover:text-primary transition-colors text-sm font-medium">
-<span class="material-symbols-outlined">arrow_back</span>
-                    Back to Selection
-                </button>
-<div class="flex gap-4">
-<span class="material-symbols-outlined text-slate-400 cursor-help" title="Help Center">help</span>
-<span class="material-symbols-outlined text-slate-400 cursor-pointer">chat_bubble</span>
+    <a href="{% if property %}{% url 'core:property_detail' property.id %}{% else %}{% url 'core:home' %}{% endif %}"
+       class="flex items-center gap-2 text-slate-500 hover:text-primary transition-colors text-sm font-medium">
+        <span class="material-symbols-outlined">arrow_back</span>
+        Back to Property
+    </a>
+    <div class="flex gap-4">
+        <span class="material-symbols-outlined text-slate-400 cursor-help" title="Help Center">help</span>
+        <a href="{% url 'core:message' %}">
+            <span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-primary transition-colors">chat_bubble</span>
+        </a>
+    </div>
 </div>
-</div>
+
 </main>
 </div>
 </div>
-</body></html>
+</body>
+</html>

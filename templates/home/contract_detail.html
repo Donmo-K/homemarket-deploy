@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contrat {{ contract.contract_number }} — Home Market</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+    theme: { extend: { colors: { primary: "#000080", accent: "#D4AF37" }, fontFamily: { sans: ["DM Sans"], serif: ["DM Serif Display"] } } }
+}
+</script>
+<style>
+body { font-family: 'DM Sans', sans-serif; }
+@media print {
+    .no-print { display: none !important; }
+    body { background: white !important; }
+    .contract-paper { box-shadow: none !important; border: none !important; }
+}
+</style>
+</head>
+<body class="bg-slate-100 min-h-screen py-10 px-4">
+
+<!-- Barre d'actions -->
+<div class="no-print max-w-4xl mx-auto mb-6 flex items-center justify-between">
+    <a href="{% url 'core:home' %}" class="flex items-center gap-2 text-slate-500 hover:text-primary transition-colors text-sm font-semibold">
+        <span class="material-symbols-outlined text-base">arrow_back</span>
+        Retour
+    </a>
+    <div class="flex items-center gap-3">
+        <button onclick="window.print()"
+                class="flex items-center gap-2 bg-slate-200 hover:bg-slate-300 text-slate-700 px-5 py-2.5 rounded-xl font-bold text-sm transition-all">
+            <span class="material-symbols-outlined text-base">print</span>
+            Imprimer
+        </button>
+        <a href="{% url 'core:contract_pdf' contract.id %}"
+           class="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-lg shadow-primary/20">
+            <span class="material-symbols-outlined text-base">download</span>
+            Télécharger PDF
+        </a>
+    </div>
+</div>
+
+<!-- Contrat -->
+<div class="contract-paper max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-100">
+
+    <!-- En-tête officiel -->
+    <div class="bg-primary px-10 py-8 text-center">
+        <div class="flex items-center justify-center gap-4 mb-3">
+            <img src="{% static 'images/logo/logo.webp' %}" alt="Home Market" class="h-12 w-auto brightness-0 invert">
+            <div class="text-left">
+                <h1 class="text-white font-black text-2xl uppercase tracking-widest">HOME MARKET</h1>
+                <p class="text-white/70 text-xs">Plateforme Immobilière Certifiée</p>
+            </div>
+        </div>
+        <div class="border-t border-white/20 mt-4 pt-4">
+            <h2 class="text-accent font-black text-xl uppercase tracking-wider">
+                {% if contract.contract_type == 'RENT' %}Contrat de Location{% else %}Contrat de Vente Immobilière{% endif %}
+            </h2>
+            <p class="text-white/80 text-sm mt-1">N° <span class="font-bold text-white">{{ contract.contract_number }}</span></p>
+            <p class="text-white/60 text-xs mt-1">Établi le {{ contract.signed_at|date:"d F Y à H:i" }}</p>
+        </div>
+    </div>
+
+    <div class="p-10 space-y-8">
+
+        <!-- ARTICLE 1 — Parties -->
+        <section>
+            <h3 class="text-primary font-black text-base uppercase tracking-widest border-b-2 border-primary/20 pb-2 mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-base">groups</span>
+                Article 1 — Identification des Parties
+            </h3>
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Vendeur -->
+                <div class="bg-slate-50 rounded-xl p-5 border border-slate-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-primary mb-3">Vendeur / Bailleur</p>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-base">person</span>
+                            <span class="font-bold">{{ contract.seller.first_name }} {{ contract.seller.last_name }}</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-slate-500">
+                            <span class="material-symbols-outlined text-base">mail</span>
+                            {{ contract.seller.email }}
+                        </div>
+                        <div class="flex items-center gap-2 text-slate-500">
+                            <span class="material-symbols-outlined text-base">phone</span>
+                            {{ contract.seller.phone_number|default:"Non renseigné" }}
+                        </div>
+                    </div>
+                </div>
+                <!-- Acheteur -->
+                <div class="bg-slate-50 rounded-xl p-5 border border-slate-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-primary mb-3">Acheteur / Locataire</p>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-base">person</span>
+                            <span class="font-bold">{{ contract.buyer.first_name }} {{ contract.buyer.last_name }}</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-slate-500">
+                            <span class="material-symbols-outlined text-base">mail</span>
+                            {{ contract.buyer.email }}
+                        </div>
+                        <div class="flex items-center gap-2 text-slate-500">
+                            <span class="material-symbols-outlined text-base">phone</span>
+                            {{ contract.buyer.phone_number|default:"Non renseigné" }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ARTICLE 2 — Bien -->
+        <section>
+            <h3 class="text-primary font-black text-base uppercase tracking-widest border-b-2 border-primary/20 pb-2 mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-base">home_work</span>
+                Article 2 — Désignation du Bien
+            </h3>
+            <div class="bg-slate-50 rounded-xl p-5 border border-slate-100">
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">Titre</p>
+                        <p class="font-bold text-slate-900">{{ contract.property.title }}</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">Type</p>
+                        <p class="font-semibold">{{ contract.property.get_property_type_display }}</p>
+                    </div>
+                    {% if contract.property.location %}
+                    <div class="col-span-2">
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">Adresse</p>
+                        <p class="font-semibold flex items-center gap-1">
+                            <span class="material-symbols-outlined text-primary text-base">location_on</span>
+                            {{ contract.property.location.address }}, {{ contract.property.location.city }}, {{ contract.property.location.country }}
+                        </p>
+                    </div>
+                    {% endif %}
+                    {% if contract.property.area_sqm %}
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">Surface</p>
+                        <p class="font-semibold">{{ contract.property.area_sqm }} m²</p>
+                    </div>
+                    {% endif %}
+                    {% if contract.property.bedrooms %}
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">Chambres</p>
+                        <p class="font-semibold">{{ contract.property.bedrooms }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <!-- ARTICLE 3 — Finances -->
+        <section>
+            <h3 class="text-primary font-black text-base uppercase tracking-widest border-b-2 border-primary/20 pb-2 mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-base">payments</span>
+                Article 3 — Conditions Financières
+            </h3>
+            <div class="rounded-xl overflow-hidden border border-slate-100">
+                <table class="w-full text-sm">
+                    <thead class="bg-primary text-white">
+                        <tr>
+                            <th class="px-5 py-3 text-left font-bold">Désignation</th>
+                            <th class="px-5 py-3 text-right font-bold">Montant (FCFA)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-slate-100">
+                            <td class="px-5 py-3 text-slate-700">{% if contract.contract_type == 'RENT' %}Loyer / Frais de contact{% else %}Prix de vente{% endif %}</td>
+                            <td class="px-5 py-3 text-right font-bold">{{ contract.amount|floatformat:0 }}</td>
+                        </tr>
+                        <tr class="border-b border-slate-100 bg-slate-50">
+                            <td class="px-5 py-3 text-slate-700">Commission Home Market (5%)</td>
+                            <td class="px-5 py-3 text-right font-bold text-red-600">- {{ contract.commission|floatformat:0 }}</td>
+                        </tr>
+                        <tr class="bg-green-50">
+                            <td class="px-5 py-3 font-bold text-green-800">Montant reversé au vendeur</td>
+                            <td class="px-5 py-3 text-right font-black text-green-700">{{ contract.amount|floatformat:0 }}</td>
+                        </tr>
+                        <tr class="bg-slate-50">
+                            <td class="px-5 py-3 text-slate-500">Mode de paiement</td>
+                            <td class="px-5 py-3 text-right text-slate-700 font-semibold">Mobile Money / PayUnit</td>
+                        </tr>
+                        {% if contract.transaction %}
+                        <tr>
+                            <td class="px-5 py-3 text-slate-500">Référence transaction</td>
+                            <td class="px-5 py-3 text-right font-mono text-xs text-slate-700">{{ contract.transaction.id }}</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ARTICLE 4 — Clauses -->
+        <section>
+            <h3 class="text-primary font-black text-base uppercase tracking-widest border-b-2 border-primary/20 pb-2 mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-base">gavel</span>
+                Article 4 — Clauses et Conditions
+            </h3>
+            <div class="space-y-3 text-sm text-slate-700 leading-relaxed">
+                <p><strong>4.1 État du bien :</strong> Le vendeur/bailleur certifie que le bien est en bon état d'usage et conforme à la description figurant sur la plateforme Home Market au moment de la signature du présent contrat.</p>
+                <p><strong>4.2 Transfert de propriété/jouissance :</strong>
+                {% if contract.contract_type == 'RENT' %}
+                    Le transfert de jouissance du bien est effectif à compter de la date de signature du présent contrat, sous réserve du paiement intégral du loyer convenu.
+                {% else %}
+                    Le transfert de propriété sera effectif après accomplissement de toutes les formalités légales requises et paiement intégral du prix de vente.
+                {% endif %}
+                </p>
+                <p><strong>4.3 Commission Home Market :</strong> Home Market perçoit une commission de 5% sur le montant total de la transaction, en contrepartie des services de mise en relation, sécurisation des paiements et accompagnement des parties.</p>
+                <p><strong>4.4 Confidentialité :</strong> Les parties s'engagent à maintenir la confidentialité des informations échangées dans le cadre de cette transaction et à ne pas les divulguer à des tiers sans consentement mutuel.</p>
+                <p><strong>4.5 Litige :</strong> En cas de différend, les parties s'engagent à rechercher une solution amiable avant tout recours judiciaire. À défaut, tout litige sera soumis aux tribunaux compétents de Bafoussam, Cameroun.</p>
+                <p><strong>4.6 Validité :</strong> Le présent contrat est établi en deux exemplaires originaux, un pour chaque partie, et prend effet à compter de sa date de signature.</p>
+            </div>
+        </section>
+
+        <!-- ARTICLE 5 — Signatures -->
+        <section>
+            <h3 class="text-primary font-black text-base uppercase tracking-widest border-b-2 border-primary/20 pb-2 mb-6 flex items-center gap-2">
+                <span class="material-symbols-outlined text-base">draw</span>
+                Article 5 — Signatures des Parties
+            </h3>
+            <p class="text-center text-sm text-slate-500 mb-8">Fait à Bafoussam, le {{ contract.signed_at|date:"d F Y à H:i" }}</p>
+            <div class="grid grid-cols-2 gap-16">
+                <div class="text-center">
+                    <p class="text-xs font-black uppercase tracking-widest text-primary mb-2">Vendeur / Bailleur</p>
+                    <p class="font-bold text-sm mb-8">{{ contract.seller.first_name }} {{ contract.seller.last_name }}</p>
+                    <div class="border-t-2 border-slate-300 pt-2">
+                        <p class="text-xs text-slate-400">Signature</p>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <p class="text-xs font-black uppercase tracking-widest text-primary mb-2">Acheteur / Locataire</p>
+                    <p class="font-bold text-sm mb-8">{{ contract.buyer.first_name }} {{ contract.buyer.last_name }}</p>
+                    <div class="border-t-2 border-slate-300 pt-2">
+                        <p class="text-xs text-slate-400">Signature</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Pied de page officiel -->
+    <div class="bg-slate-50 border-t border-slate-100 px-10 py-4 text-center">
+        <p class="text-xs text-slate-400">
+            Document généré automatiquement par <strong>Home Market</strong> —
+            homemarket952@gmail.com — N° {{ contract.contract_number }} —
+            Ce document a valeur contractuelle.
+        </p>
+        <div class="flex items-center justify-center gap-2 mt-2">
+            <span class="material-symbols-outlined text-green-500 text-base">verified_user</span>
+            <p class="text-xs text-green-600 font-bold">Transaction sécurisée et certifiée par Home Market</p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
