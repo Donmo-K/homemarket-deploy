@@ -206,3 +206,8 @@ JAZZMIN_UI_CUSTOMIZER = {
     "sidebar_nav_treeview_help": False,
 }
 
+
+PAYUNIT_API_KEY = "sand_TU0ujsTNSyuBlEhDQBnbiSNM6jifgV"
+PAYUNIT_BASE_URL = "https://gateway.payunit.net"
+PAYUNIT_USERNAME = "votre_username"
+PAYUNIT_PASSWORD = "votre_password"

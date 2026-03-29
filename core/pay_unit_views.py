@@ -13,16 +13,15 @@ from django.contrib import messages
 from properties.models import Property
 from core.models import Payment, Transaction, Conversation, Message
 from global_data.enum import TransactionStatus
+from django.conf import settings
 
-# 🔑 Clés PayUnit — remplacez par les vôtres
-PAYUNIT_API_USER     = "TON_API_USER"
-PAYUNIT_API_PASSWORD = "TON_API_PASSWORD"
-PAYUNIT_API_KEY      = "TON_API_KEY"
+
 
 
 # ===============================
 # 💳 CRÉER PAIEMENT PAYUNIT
-# ===============================
+# ===============================  # ✅ AJOUT
+
 class CreatePayunitPaymentView(LoginRequiredMixin, View):
     login_url = '/users/login/'
 
@@ -53,51 +52,69 @@ class CreatePayunitPaymentView(LoginRequiredMixin, View):
             reference=f"PAY-{transaction.id}",
         )
 
-        # 🔹 Config PayUnit
+                    # 🔹 Headers PayUnit corrigés
+        import base64
+
+        PAYUNIT_USERNAME = "votre_username_payunit"  # ← à remplir
+        PAYUNIT_PASSWORD = "votre_password_payunit"  # ← à remplir
+
         token = base64.b64encode(
-            f"{PAYUNIT_API_USER}:{PAYUNIT_API_PASSWORD}".encode()
+            f"{PAYUNIT_USERNAME}:{PAYUNIT_PASSWORD}".encode()
         ).decode()
 
         headers = {
             "Authorization": f"Basic {token}",
-            "x-api-key": PAYUNIT_API_KEY,
+            "x-api-key": settings.PAYUNIT_API_KEY,
             "Content-Type": "application/json",
             "mode": "test",
         }
 
+            # 🔹 Data PayUnit (CORRIGÉ)
         data = {
-            "client_name": f"{user.first_name} {user.last_name}",
-            "client_email": user.email,
-            "client_phone_number": getattr(user, 'phone_number', None) or "677000000",
-            "currency": "XAF",
-            "items": [{
-                "name": property_obj.title,
-                "amount": float(property_obj.price),
-                "quantity": 1,
-            }],
-            "callback_url": request.build_absolute_uri(
-                f"/payment/return/?ref={payment.reference}&type={payment_type}&prop={property_id}"
-            ),
-            "notify_url": request.build_absolute_uri("/payment/webhook/"),
-        }
+        "client_name": f"{user.first_name} {user.last_name}",
+        "client_email": user.email,
+        "client_phone_number": getattr(user, 'phone_number', None) or "237677000000",
+        "currency": "XAF",
+        
+        "total_amount": float(property_obj.price),  # ✅ ICI
+        
+        "items": [{
+            "name": property_obj.title,
+            "amount": float(property_obj.price),
+            "quantity": 1,
+        }],
 
+        "callback_url": request.build_absolute_uri(
+            f"/payment/return/?ref={payment.reference}&type={payment_type}&prop={property_id}"
+        ),
+        "notify_url": request.build_absolute_uri("/payment/webhook/"),
+    }
+
+        # 🔹 Requête PayUnit (CORRIGÉ)
         response = requests.post(
-            "https://gateway.payunit.net/api/gateway/invoice/create",
+            f"{settings.PAYUNIT_BASE_URL}/api/gateway/invoice/create",
             json=data,
             headers=headers,
         )
-        res = response.json()
+
+        print("Status code:", response.status_code)
+        print("Response text:", response.text)
+
+        try:
+            res = response.json()
+        except Exception as e:
+            print("Erreur JSON:", e)
+            messages.error(request, "Erreur de connexion au service de paiement.")
+            return redirect('core:property_detail', pk=property_id)
 
         if "data" in res:
             payment.payunit_transaction_id = res["data"].get("transaction_id", "")
             payment.payment_url = res["data"].get("payment_url", "")
             payment.save()
+
             return redirect(payment.payment_url)
 
-        # Échec API — on annule
-        transaction.delete()
-        payment.delete()
-        messages.error(request, "Erreur lors du paiement. Veuillez réessayer.")
+        messages.error(request, f"Erreur PayUnit : {res.get('message', 'Inconnue')}")
         return redirect('core:property_detail', pk=property_id)
 
 
