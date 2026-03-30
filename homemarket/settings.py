@@ -209,5 +209,5 @@ JAZZMIN_UI_CUSTOMIZER = {
 
 PAYUNIT_API_KEY = "sand_TU0ujsTNSyuBlEhDQBnbiSNM6jifgV"
 PAYUNIT_BASE_URL = "https://gateway.payunit.net"
-PAYUNIT_USERNAME = "votre_username"
-PAYUNIT_PASSWORD = "votre_password"
+PAYUNIT_USERNAME = "1e39f9b4-74d1-4ac9-9224-ce778a8ff544"
+PAYUNIT_PASSWORD = "c5b8607b-7783-4ee8-86e7-4ea5f75617f7"

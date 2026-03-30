@@ -11,6 +11,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 import requests
+from decimal import Decimal
 
 
 class HomeView(TemplateView):
@@ -130,9 +131,8 @@ class PaymentMethodView(LoginRequiredMixin, TemplateView):
                 amount = 5000  # prix fixe pour voir le contact
             else:
                 amount       = property_obj.price
-                commission   = int(property_obj.price * 0.05)
+                commission   = int(property_obj.price * Decimal('0.05'))
                 owner_amount = property_obj.price - commission
-
         context.update({
             'property':     property_obj,
             'payment_type': payment_type,

@@ -55,8 +55,8 @@ class CreatePayunitPaymentView(LoginRequiredMixin, View):
                     # 🔹 Headers PayUnit corrigés
         import base64
 
-        PAYUNIT_USERNAME = "votre_username_payunit"  # ← à remplir
-        PAYUNIT_PASSWORD = "votre_password_payunit"  # ← à remplir
+        PAYUNIT_USERNAME = "1e39f9b4-74d1-4ac9-9224-ce778a8ff544"  # ← à remplir
+        PAYUNIT_PASSWORD = "c5b8607b-7783-4ee8-86e7-4ea5f75617f7"  # ← à remplir
 
         token = base64.b64encode(
             f"{PAYUNIT_USERNAME}:{PAYUNIT_PASSWORD}".encode()
