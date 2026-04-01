@@ -207,7 +207,6 @@ JAZZMIN_UI_CUSTOMIZER = {
 }
 
 
-<<<<<<< Updated upstream
 PAYUNIT_API_KEY = config("PAYUNIT_API_KEY", default="sand_TU0ujsTNSyuBlEhDQBnbiSNM6jifgV")
 PAYUNIT_BASE_URL = config("PAYUNIT_BASE_URL", default="https://gateway.payunit.net")
 PAYUNIT_USERNAME = config("PAYUNIT_USERNAME", default="1e39f9b4-74d1-4ac9-9224-ce778a8ff544")
@@ -237,25 +236,3 @@ LOGGING = {
         },
     },
 }
-NGROK_URL = "https://unbeauteous-osculant-sheba.ngrok-free.dev"
-CSRF_TRUSTED_ORIGINS = ["https://unbeauteous-osculant-sheba.ngrok-free.dev"]
-=======
-CSRF_TRUSTED_ORIGINS = ["https://unbeauteous-osculant-sheba.ngrok-free.dev"]
-
-PAYUNIT_API_KEY = "sand_TU0ujsTNSyuBlEhDQBnbiSNM6jifgV"
-PAYUNIT_BASE_URL = "https://gateway.payunit.net"
-PAYUNIT_USERNAME = "1e39f9b4-74d1-4ac9-9224-ce778a8ff544"
-PAYUNIT_PASSWORD = "c5b8607b-7783-4ee8-86e7-4ea5f75617f7"
-
-NGROK_URL = "https://unbeauteous-osculant-sheba.ngrok-free.dev"
->>>>>>> Stashed changes
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "unbeauteous-osculant-sheba.ngrok-free.dev"]
-
-# Email config
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'homemarket952@gmail.com'
-EMAIL_HOST_PASSWORD = 'ton_mot_de_passe_app'
-DEFAULT_FROM_EMAIL = 'Home Market <homemarket952@gmail.com>'
