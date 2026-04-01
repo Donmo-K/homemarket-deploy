@@ -58,18 +58,47 @@ tailwind.config = {
                 <span class="text-sm font-bold text-primary dark:text-white hidden sm:inline">{{ request.user.get_full_name|default:request.user.email }}</span>
                 <span class="material-symbols-outlined text-primary">arrow_drop_down</span>
             </button>
-            <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden z-50">
-                <div class="py-1">
-                    {% if request.user.user_type == 'SELLER' %}
-                    <a href="{% url 'users:seller_dashboard' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition">Mon Dashboard</a>
-                    {% else %}
-                    <a href="{% url 'users:buyer_dashboard' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition">Mon Dashboard</a>
-                    {% endif %}
-                    <a href="{% url 'users:buyer_profile' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition">Mon Profil</a>
-                    <a href="{% url 'users:logout' %}" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition">Déconnexion</a>
-                </div>
-            </div>
-        </div>
+           <div id="user-menu" class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden z-50">
+    <div class="py-1">
+        {% if request.user.user_type == 'ADMINISTRATOR' or request.user.is_staff or request.user.is_superuser %}
+        <!-- Admin : accès aux 3 dashboards -->
+        <div class="px-4 py-2 text-[10px] font-black uppercase tracking-widest text-slate-400 border-b border-slate-100">Dashboards</div>
+        <a href="{% url 'admin:index' %}" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition">
+            <span class="material-symbols-outlined text-base">admin_panel_settings</span> Dashboard Admin
+        </a>
+        <a href="{% url 'users:seller_dashboard' %}" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition">
+            <span class="material-symbols-outlined text-base">store</span> Dashboard Vendeur
+        </a>
+        <a href="{% url 'users:buyer_dashboard' %}" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition">
+            <span class="material-symbols-outlined text-base">person</span> Dashboard Acheteur
+        </a>
+        <div class="border-t border-slate-100"></div>
+        {% elif request.user.user_type == 'SELLER' %}
+        <a href="{% url 'users:seller_dashboard' %}" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition">
+            <span class="material-symbols-outlined text-base">dashboard</span> Mon Dashboard
+        </a>
+        {% else %}
+        <a href="{% url 'users:buyer_dashboard' %}" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition">
+            <span class="material-symbols-outlined text-base">dashboard</span> Mon Dashboard
+        </a>
+        {% endif %}
+
+        {% if request.user.user_type == 'SELLER' %}
+        <a href="{% url 'users:seller_profile' %}" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition">
+            <span class="material-symbols-outlined text-base">manage_accounts</span> Mon Profil
+        </a>
+        {% else %}
+        <a href="{% url 'users:buyer_profile' %}" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition">
+            <span class="material-symbols-outlined text-base">manage_accounts</span> Mon Profil
+        </a>
+        {% endif %}
+
+        <div class="border-t border-slate-100"></div>
+        <a href="{% url 'users:logout' %}" class="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition">
+            <span class="material-symbols-outlined text-base">logout</span> Déconnexion
+        </a>
+    </div>
+</div>
         {% else %}
         <a href="{% url 'users:login' %}" class="flex items-center gap-2 text-primary font-bold text-sm hover:opacity-80 transition">
             <span class="material-symbols-outlined">person</span> Sign In
@@ -92,29 +121,31 @@ tailwind.config = {
     <div class="relative z-20 max-w-4xl w-full px-4 text-center">
         <h2 class="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">Find Your <span class="text-accent">Dream</span> Property</h2>
         <p class="text-white/90 text-lg mb-10 max-w-2xl mx-auto">Discover premium real estate listings in prime locations across Central and West Africa.</p>
-        <div class="bg-white dark:bg-background-dark p-2 rounded-xl shadow-2xl flex flex-col md:flex-row gap-2">
-            <div class="flex-1 flex items-center px-4 border-b md:border-b-0 md:border-r border-slate-200 py-3 md:py-0">
-                <span class="material-symbols-outlined text-primary/60 mr-2">location_on</span>
-                <input class="w-full border-0 focus:ring-0 bg-transparent text-sm" placeholder="Location" type="text"/>
-            </div>
-            <div class="flex-1 flex items-center px-4 border-b md:border-b-0 md:border-r border-slate-200 py-3 md:py-0">
-                <span class="material-symbols-outlined text-primary/60 mr-2">home</span>
-                <select class="w-full border-0 focus:ring-0 bg-transparent text-sm">
-                    <option>Property Type</option>
-                    <option>House</option>
-                    <option>Apartment</option>
-                    <option>Land</option>
-                </select>
-            </div>
-            <div class="flex-1 flex items-center px-4 py-3 md:py-0">
-                <span class="material-symbols-outlined text-primary/60 mr-2">payments</span>
-                <input class="w-full border-0 focus:ring-0 bg-transparent text-sm" placeholder="Price Range" type="text"/>
-            </div>
-            <a href="{% url 'core:search' %}" class="bg-primary text-white px-10 py-4 rounded-lg font-bold hover:bg-opacity-90 transition-all flex items-center justify-center gap-2">
-                <span class="material-symbols-outlined">search</span> Search
-            </a>
-        </div>
+        <form action="{% url 'core:search' %}" method="get" class="bg-white dark:bg-background-dark p-2 rounded-xl shadow-2xl flex flex-col md:flex-row gap-2">
+    <div class="flex-1 flex items-center px-4 border-b md:border-b-0 md:border-r border-slate-200 py-3 md:py-0">
+        <span class="material-symbols-outlined text-primary/60 mr-2">location_on</span>
+        <input name="location" class="w-full border-0 focus:ring-0 bg-transparent text-sm" placeholder="Ville ou quartier..." type="text"/>
     </div>
+    <div class="flex-1 flex items-center px-4 border-b md:border-b-0 md:border-r border-slate-200 py-3 md:py-0">
+        <span class="material-symbols-outlined text-primary/60 mr-2">home</span>
+        <select name="property_type" class="w-full border-0 focus:ring-0 bg-transparent text-sm">
+            <option value="">Property Type</option>
+            <option value="HOUSE">House</option>
+            <option value="APARTMENT">Apartment</option>
+            <option value="LAND">Land</option>
+            <option value="COMMERCIAL">Commercial</option>
+        </select>
+    </div>
+    <div class="flex-1 flex items-center px-4 py-3 md:py-0 gap-2">
+        <span class="material-symbols-outlined text-primary/60">payments</span>
+        <input name="min_price" class="w-1/2 border-0 focus:ring-0 bg-transparent text-sm" placeholder="Prix min" type="number"/>
+        <span class="text-slate-300">—</span>
+        <input name="max_price" class="w-1/2 border-0 focus:ring-0 bg-transparent text-sm" placeholder="Prix max" type="number"/>
+    </div>
+    <button type="submit" class="bg-primary text-white px-10 py-4 rounded-lg font-bold hover:bg-opacity-90 transition-all flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined">search</span> Search
+    </button>
+</form>
 </section>
 
 <!-- Categories -->

@@ -1,6 +1,5 @@
 {% load static %}
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
@@ -9,155 +8,332 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<!-- SIDEBAR+HEADER VERSION -->
 <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#000080",
-                        "background-light": "#f5f5f8",
-                        "background-dark": "#0f0f23",
-                    },
-                    fontFamily: {
-                        "display": ["Inter", "sans-serif"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.5rem",
-                        "lg": "1rem",
-                        "xl": "1.25rem",
-                        "full": "9999px"
-                    },
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "primary": "#000080",
+                    "background-light": "#f5f5f8",
+                    "background-dark": "#0f0f23",
+                },
+                fontFamily: { "display": ["Inter", "sans-serif"] },
+                borderRadius: {
+                    "DEFAULT": "0.5rem",
+                    "lg": "1rem",
+                    "xl": "1.25rem",
+                    "2xl": "1.5rem",
+                    "full": "9999px"
                 },
             },
-        }
-    </script>
-<title>Add New Property - Home Market</title>
+        },
+    }
+</script>
+<style> #map { height: 320px; width: 100%; } </style>
+<title>Home Market - Add Property</title>
 </head>
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
-<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
-<div class="layout-container flex h-full grow flex-col">
-<!-- Top Navigation Bar -->
-<header class="flex items-center justify-between border-b border-primary/10 bg-white dark:bg-slate-900 px-6 py-4 md:px-20 lg:px-40">
-<div class="flex items-center gap-3">
-<div class="flex items-center justify-center size-10 bg-primary rounded-lg text-white">
-<span class="material-symbols-outlined">home_work</span>
-</div>
-<h2 class="text-primary dark:text-slate-100 text-xl font-bold leading-tight tracking-tight">Home Market</h2>
-</div>
-<button class="flex items-center justify-center rounded-xl h-10 w-10 bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
-<span class="material-symbols-outlined">close</span>
-</button>
-</header>
-<main class="flex flex-1 justify-center py-8 px-4 md:px-0">
-<div class="layout-content-container flex flex-col w-full max-w-[800px] gap-8">
-<!-- Progress Stepper -->
-<div class="flex flex-col gap-4 px-4">
-<div class="flex justify-between items-end">
-<div class="flex flex-col">
-<span class="text-primary/60 dark:text-slate-400 text-sm font-semibold uppercase tracking-wider">Step 3 of 5</span>
-<h1 class="text-3xl font-bold text-slate-900 dark:text-white mt-1">Property Location</h1>
-</div>
-<p class="text-primary font-bold text-lg">60%</p>
-</div>
-<div class="h-3 w-full rounded-full bg-primary/10 overflow-hidden">
-<div class="h-full rounded-full bg-primary" style="width: 60%;"></div>
-</div>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="layout-container flex min-h-screen">
+
+    <!-- ✅ Sidebar identique aux étapes 1 & 2 -->
+    <aside class="w-64 bg-primary flex flex-col min-h-screen">
+        <div class="flex items-center gap-3 px-6 py-5 border-b border-white/10">
+            <div class="size-8 flex items-center justify-center bg-white/20 text-white rounded-lg">
+                <span class="material-symbols-outlined">home_work</span>
+            </div>
+            <h2 class="text-xl font-bold tracking-tight text-white">Home Market</h2>
+        </div>
+        <nav class="flex-1 px-4 space-y-2 overflow-y-auto mt-4">
+            <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="{% url 'users:seller_dashboard' %}">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="font-medium">Dashboard</span>
+            </a>
+            <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="{% url 'users:seller_listings' %}">
+                <span class="material-symbols-outlined">list_alt</span>
+                <span class="font-medium">My Listings</span>
+            </a>
+            <a class="flex items-center gap-4 px-4 py-3 bg-white/10 text-white rounded-xl transition-colors" href="{% url 'users:add_property_step1' %}">
+                <span class="material-symbols-outlined">add_circle</span>
+                <span class="font-medium">Add Property</span>
+            </a>
+            <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="{% url 'core:message' %}">
+                <span class="material-symbols-outlined">chat_bubble</span>
+                <span class="font-medium">Messages</span>
+            </a>
+            <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="#">
+                <span class="material-symbols-outlined">analytics</span>
+                <span class="font-medium">Analytics</span>
+            </a>
+            <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="{% url 'users:seller_wallet' %}">
+                <span class="material-symbols-outlined">account_balance_wallet</span>
+                <span class="font-medium">Wallet</span>
+            </a>
+            <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="{% url 'users:seller_kyc' %}">
+                <span class="material-symbols-outlined">verified_user</span>
+                <span class="font-medium">Verification</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Contenu principal -->
+    <div class="flex flex-col flex-1">
+
+        <!-- ✅ Header identique aux étapes 1 & 2 -->
+        <header class="flex items-center justify-between border-b border-primary/10 bg-white dark:bg-slate-900 px-6 py-4 md:px-10">
+            <div class="flex items-center gap-3 text-primary">
+                <div class="size-8 flex items-center justify-center bg-primary text-white rounded-lg">
+                    <span class="material-symbols-outlined">home_work</span>
+                </div>
+                <h2 class="text-xl font-bold tracking-tight">Home Market</h2>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="flex items-center justify-center rounded-xl h-10 w-10 bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <div class="h-10 w-10 rounded-full bg-slate-200 dark:bg-slate-800 bg-cover bg-center border-2 border-primary/20"
+                     style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDjizSeOQvTpCdFWpgoQOX8Q9Kc8pFVxDk2qtXhIa4jBzJM6cww4mxh7eeHVswcsVd5mN6M-74I8d4YhghmJC9c6DnaVxjIvXJRhjSK1_onJo0wyBilnXjnBHeHIL5bagygd1ezTUh-X8xFwu1VQ6riQocgX74Y4ntOwW6H4QQd0xkuRP4vQcjZkStIE_NJw6awWvtu5D1vSf4NBoQswK_NKbaefUKGv6iIt4i8qZp_VPFzhJbgkyJnry4WkNcik1M9pYFiJEXJH8w')">
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col max-w-4xl mx-auto w-full px-4 py-8 md:px-0">
+
+            <!-- Progress Header -->
+            <div class="flex flex-col gap-4 mb-8">
+                <div class="flex justify-between items-end">
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold">List Your Property</h1>
+                        <p class="text-slate-500 dark:text-slate-400 mt-1">Step 3 of 5: Property Location</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-primary font-bold text-lg">60%</span>
+                        <p class="text-xs text-slate-400 uppercase tracking-wider">Completed</p>
+                    </div>
+                </div>
+                <div class="h-3 w-full bg-primary/10 rounded-full overflow-hidden">
+                    <div class="h-full bg-primary rounded-full transition-all duration-500" style="width: 60%;"></div>
+                </div>
+            </div>
+
+            <!-- Multi-step Stepper -->
+            <div class="mb-10 overflow-x-auto">
+                <div class="flex border-b border-primary/10 min-w-[600px]">
+                    <a class="flex-1 flex flex-col items-center py-4 border-b-4 border-primary/30 text-slate-400 transition-all" href="{% url 'users:add_property_step1' %}">
+                        <span class="material-symbols-outlined mb-1">info</span>
+                        <span class="text-sm font-medium">Basic Info</span>
+                    </a>
+                    <a class="flex-1 flex flex-col items-center py-4 border-b-4 border-primary/30 text-slate-400 transition-all" href="{% url 'users:add_property_step2' %}">
+                        <span class="material-symbols-outlined mb-1">payments</span>
+                        <span class="text-sm font-medium">Pricing</span>
+                    </a>
+                    <a class="flex-1 flex flex-col items-center py-4 border-b-4 border-primary text-primary transition-all" href="#">
+                        <span class="material-symbols-outlined mb-1">location_on</span>
+                        <span class="text-sm font-bold">Location</span>
+                    </a>
+                    <a class="flex-1 flex flex-col items-center py-4 border-b-4 border-transparent text-slate-400 hover:text-primary transition-all" href="#">
+                        <span class="material-symbols-outlined mb-1">photo_library</span>
+                        <span class="text-sm font-medium">Media</span>
+                    </a>
+                    <a class="flex-1 flex flex-col items-center py-4 border-b-4 border-transparent text-slate-400 hover:text-primary transition-all" href="#">
+                        <span class="material-symbols-outlined mb-1">fact_check</span>
+                        <span class="text-sm font-medium">Review</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Form Content -->
+            <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-primary/5 p-6 md:p-10">
+                <h2 class="text-xl font-bold mb-8 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">location_on</span>
+                    Property Location
+                </h2>
+
+                <form method="post" class="space-y-8">
+                    {% csrf_token %}
+
+                    <!-- Champs adresse -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                        <!-- Colonne gauche : champs texte -->
+                        <div class="flex flex-col gap-6">
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Street Address</label>
+                                <div class="relative">
+                                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/40 text-lg">location_on</span>
+                                    <input name="address" value="{{ draft.address|default:'' }}"
+                                           class="w-full rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 pl-12 p-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+                                           placeholder="123 Luxury Avenue" type="text"/>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">City</label>
+                                <input name="city" value="{{ draft.city|default:'' }}"
+                                       class="w-full rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 p-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+                                       placeholder="Yaoundé" type="text"/>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">State / Province</label>
+                                    <input name="state" value="{{ draft.state|default:'' }}"
+                                           class="w-full rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 p-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+                                           placeholder="Centre" type="text"/>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">ZIP Code</label>
+                                    <input name="zip_code" value="{{ draft.zip_code|default:'' }}"
+                                           class="w-full rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 p-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+                                           placeholder="00237" type="text"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Colonne droite : carte -->
+                        <div class="flex flex-col gap-2">
+                            <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Confirm Pin Location</label>
+
+                            <!-- Barre de recherche -->
+                            <div class="relative mb-2">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-primary/40">search</span>
+                                <input id="search-input" type="text"
+                                       placeholder="Search a place (e.g. Bastos Yaoundé)..."
+                                       class="w-full rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 pl-10 p-3 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-sm"/>
+                                <div id="suggestions" class="absolute top-full left-0 right-0 bg-white border border-slate-200 rounded-xl shadow-xl z-50 hidden max-h-48 overflow-y-auto mt-1"></div>
+                            </div>
+
+                            <!-- Carte Leaflet -->
+                            <div id="map" class="rounded-xl overflow-hidden border border-primary/10 shadow-sm"></div>
+
+                            <!-- GPS cachés -->
+                            <input type="hidden" id="field-latitude"  name="latitude"  value="{{ draft.latitude|default:'' }}"/>
+                            <input type="hidden" id="field-longitude" name="longitude" value="{{ draft.longitude|default:'' }}"/>
+
+                            <p class="text-xs text-slate-400 flex items-center gap-1 mt-1">
+                                <span class="material-symbols-outlined text-sm">info</span>
+                                Click on the map or drag the marker to set the exact location.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="pt-8 flex justify-between items-center border-t border-primary/5">
+                        <a href="{% url 'users:add_property_step2' %}" class="px-8 py-3 rounded-xl border border-primary/10 font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
+                            <span class="material-symbols-outlined text-lg">arrow_back</span>
+                            Back
+                        </a>
+                        <button type="submit" class="px-10 py-3 rounded-xl bg-primary text-white font-bold hover:shadow-lg hover:shadow-primary/20 active:scale-[0.98] transition-all flex items-center gap-2">
+                            Next Step
+                            <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Tip -->
+            <div class="mt-8 bg-primary/5 border border-primary/10 rounded-xl p-4 flex gap-4">
+                <span class="material-symbols-outlined text-primary">lightbulb</span>
+                <p class="text-sm text-slate-600 dark:text-slate-400">
+                    <span class="font-bold text-primary">Quick Tip:</span> An accurate pin location helps buyers find your property easily and increases serious inquiries.
+                </p>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="py-10 px-10 border-t border-primary/5 text-center text-slate-400 text-sm">
+            © 2024 Home Market Inc. All rights reserved.
+        </footer>
+
+    </div>
 </div>
 
-<!-- ✅ AJOUT: form method post -->
-<form method="post">
-{% csrf_token %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    // Initialisation de la carte centrée sur Yaoundé par défaut
+    const initLat = {{ draft.latitude|default:"3.848" }};
+    const initLng = {{ draft.longitude|default:"11.502" }};
 
-<!-- Form Section -->
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 px-4">
-<div class="flex flex-col gap-6">
-<div class="flex flex-col gap-2">
-<label class="text-slate-700 dark:text-slate-300 text-sm font-semibold">Street Address</label>
-<div class="relative">
-<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/40">location_on</span>
-<!-- ✅ AJOUT: name + value -->
-<input name="address" value="{{ draft.address|default:'' }}"
-       class="form-input w-full rounded-xl border-primary/20 bg-white dark:bg-slate-800 dark:border-slate-700 pl-12 h-14 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="123 Luxury Avenue" type="text"/>
-</div>
-</div>
-<div class="flex flex-col gap-2">
-<label class="text-slate-700 dark:text-slate-300 text-sm font-semibold">City</label>
-<!-- ✅ AJOUT: name + value -->
-<input name="city" value="{{ draft.city|default:'' }}"
-       class="form-input w-full rounded-xl border-primary/20 bg-white dark:bg-slate-800 dark:border-slate-700 px-4 h-14 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="San Francisco" type="text"/>
-</div>
-<div class="grid grid-cols-2 gap-4">
-<div class="flex flex-col gap-2">
-<label class="text-slate-700 dark:text-slate-300 text-sm font-semibold">State / Province</label>
-<!-- ✅ AJOUT: name + value -->
-<input name="state" value="{{ draft.state|default:'' }}"
-       class="form-input w-full rounded-xl border-primary/20 bg-white dark:bg-slate-800 dark:border-slate-700 px-4 h-14 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="California" type="text"/>
-</div>
-<div class="flex flex-col gap-2">
-<label class="text-slate-700 dark:text-slate-300 text-sm font-semibold">ZIP Code</label>
-<!-- ✅ AJOUT: name + value -->
-<input name="zip_code" value="{{ draft.zip_code|default:'' }}"
-       class="form-input w-full rounded-xl border-primary/20 bg-white dark:bg-slate-800 dark:border-slate-700 px-4 h-14 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="94103" type="text"/>
-</div>
-</div>
-</div>
-<!-- Map Picker Component -->
-<div class="flex flex-col gap-2">
-<label class="text-slate-700 dark:text-slate-300 text-sm font-semibold">Confirm Pin Location</label>
-<div class="relative w-full h-[320px] rounded-xl overflow-hidden border border-primary/10 shadow-lg group">
-<img alt="Map view showing San Francisco area" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgjawh5_t51e6q9Q__IKqwuL-dW6m-XYp6TV4w4X7myQ_H8DjPeVfanBIVhHIeHRmDK4VE_r-vhwQC3eOZUyd-9ry9erov53_aRbg424x188JX5_tbiPdFk11tbw-NyIGa-CAlsrzRLt50CCXA_2J1TymTe7hGJNWC2On6xAIVDVPbnu24dKNhg4jlrmXzJyAFTS26MGdVN2QQKAWhsGICe7H3THvjgalAEKFmSZq211YMSVaDjTf_ODW1KlkGEH3x5kj6rDxFwzs"/>
-<div class="absolute inset-0 bg-primary/5 pointer-events-none"></div>
-<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-full flex flex-col items-center">
-<div class="bg-primary text-white p-2 rounded-lg shadow-xl mb-1 text-xs font-bold whitespace-nowrap">
-    Your Property
-</div>
-<span class="material-symbols-outlined text-primary text-5xl drop-shadow-md" style="font-variation-settings: 'FILL' 1;">location_on</span>
-</div>
-<div class="absolute bottom-4 right-4 flex flex-col gap-2">
-<!-- ✅ AJOUT: type="button" pour ne pas soumettre le form -->
-<button type="button" class="bg-white dark:bg-slate-800 p-2 rounded-lg shadow-md hover:bg-slate-50 text-slate-700 dark:text-white">
-<span class="material-symbols-outlined">add</span>
-</button>
-<button type="button" class="bg-white dark:bg-slate-800 p-2 rounded-lg shadow-md hover:bg-slate-50 text-slate-700 dark:text-white">
-<span class="material-symbols-outlined">remove</span>
-</button>
-</div>
-<div class="absolute top-4 right-4">
-<button type="button" class="bg-white dark:bg-slate-800 px-3 py-1.5 rounded-lg shadow-md hover:bg-slate-50 text-slate-700 dark:text-white text-xs font-bold flex items-center gap-1">
-<span class="material-symbols-outlined text-sm">my_location</span>
-    Recenter
-</button>
-</div>
-</div>
-<p class="text-xs text-slate-500 mt-1 flex items-center gap-1">
-<span class="material-symbols-outlined text-sm">info</span>
-    Drag the map to adjust the exact location of your property
-</p>
-</div>
-</div>
+    const map = L.map('map').setView([initLat, initLng], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
 
-<!-- Action Buttons -->
-<div class="flex items-center justify-between mt-8 px-4 border-t border-primary/10 pt-8 pb-12">
-<a href="{% url 'users:add_property_step2' %}" class="flex items-center gap-2 px-8 h-14 rounded-xl border-2 border-primary/20 text-primary font-bold hover:bg-primary/5 transition-all">
-<span class="material-symbols-outlined">arrow_back</span>
-    Back
-</a>
-<!-- ✅ CHANGEMENT: <a> → <button type="submit"> -->
-<button type="submit" class="flex items-center gap-2 px-12 h-14 rounded-xl bg-primary text-white font-bold shadow-lg shadow-primary/30 hover:opacity-90 transition-all">
-    Next Step
-    <span class="material-symbols-outlined">arrow_forward</span>
-</button>
-</div>
+    const marker = L.marker([initLat, initLng], { draggable: true }).addTo(map);
 
-</form> <!-- ✅ fermeture form -->
+    function updateGPS(lat, lng) {
+        document.getElementById('field-latitude').value  = lat.toFixed(6);
+        document.getElementById('field-longitude').value = lng.toFixed(6);
+    }
 
-</div>
-</main>
-<!-- Footer Meta -->
-<footer class="py-6 text-center text-slate-400 text-sm">
-<p>© 2024 Home Market Inc. Secure Property Listing Service.</p>
-</footer>
-</div>
-</div>
-</body></html>
+    marker.on('dragend', e => {
+        const p = e.target.getLatLng();
+        updateGPS(p.lat, p.lng);
+        reverseGeocode(p.lat, p.lng);
+    });
+
+    map.on('click', e => {
+        marker.setLatLng(e.latlng);
+        updateGPS(e.latlng.lat, e.latlng.lng);
+        reverseGeocode(e.latlng.lat, e.latlng.lng);
+    });
+
+    function reverseGeocode(lat, lng) {
+        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
+        .then(r => r.json())
+        .then(data => {
+            if (!data.address) return;
+            const a = data.address;
+            const street = [a.road, a.suburb, a.neighbourhood].filter(Boolean).join(', ');
+            if (street) document.querySelector('[name=address]').value = street;
+            const city = a.city || a.town || a.village || '';
+            if (city) document.querySelector('[name=city]').value = city;
+            const state = a.state || a.region || '';
+            if (state) document.querySelector('[name=state]').value = state;
+        });
+    }
+
+    // Recherche autocomplete
+    let timer = null;
+    document.getElementById('search-input').addEventListener('input', function () {
+        clearTimeout(timer);
+        const q = this.value.trim();
+        const sug = document.getElementById('suggestions');
+        if (q.length < 3) { sug.classList.add('hidden'); return; }
+        timer = setTimeout(() => {
+            fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=5`)
+            .then(r => r.json())
+            .then(results => {
+                sug.innerHTML = '';
+                if (!results.length) { sug.classList.add('hidden'); return; }
+                results.forEach(place => {
+                    const item = document.createElement('div');
+                    item.className = 'px-4 py-3 hover:bg-primary/5 cursor-pointer text-sm border-b border-slate-100 last:border-0';
+                    item.textContent = place.display_name;
+                    item.addEventListener('click', () => {
+                        const lat = parseFloat(place.lat);
+                        const lng = parseFloat(place.lon);
+                        map.setView([lat, lng], 16);
+                        marker.setLatLng([lat, lng]);
+                        updateGPS(lat, lng);
+                        reverseGeocode(lat, lng);
+                        document.getElementById('search-input').value = place.display_name.split(',')[0];
+                        sug.classList.add('hidden');
+                    });
+                    sug.appendChild(item);
+                });
+                sug.classList.remove('hidden');
+            });
+        }, 400);
+    });
+
+    document.addEventListener('click', e => {
+        if (!e.target.closest('#search-input') && !e.target.closest('#suggestions'))
+            document.getElementById('suggestions').classList.add('hidden');
+    });
+</script>
+</body>
+</html>

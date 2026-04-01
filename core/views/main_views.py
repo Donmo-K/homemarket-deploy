@@ -32,33 +32,41 @@ class HomeView(TemplateView):
         context['total_users'] = User.objects.count()
         context['current_year'] = 2026
         return context
-
+    
 class PropertySearchView(ListView):
     template_name = 'home/property_Search_and_listing.html'
     model = Property
     context_object_name = 'properties'
     paginate_by = 12
-
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['location'] = self.request.GET.get('location', '')
+        return context
+    
     def get_queryset(self):
-        queryset = Property.objects.filter(status='APPROVED').order_by('-created')
+        queryset = Property.objects.filter(
+            status='APPROVED'
+        ).select_related('location').prefetch_related('images').order_by('-created')
 
-        location = self.request.GET.get('location')
-        min_price = self.request.GET.get('min_price')
-        max_price = self.request.GET.get('max_price')
-        bedrooms = self.request.GET.get('bedrooms')
-        property_type = self.request.GET.getlist('property_type')
-        type_filter = self.request.GET.get('type')
-
-        # ✅ PRIORITÉ AU BOUTON BUY / RENT
-        if type_filter:
-            queryset = queryset.filter(property_type=type_filter)
-
-        # ✅ SINON utiliser les filtres checkbox
-        elif property_type:
-            queryset = queryset.filter(property_type__in=property_type)
+        from django.db.models import Q
+        location      = self.request.GET.get('location', '').strip()
+        min_price     = self.request.GET.get('min_price')
+        max_price     = self.request.GET.get('max_price')
+        bedrooms      = self.request.GET.get('bedrooms')
+        property_type = self.request.GET.get('property_type')   # ← simple GET
+        type_filter   = self.request.GET.get('type')
 
         if location:
-            queryset = queryset.filter(location__icontains=location)
+            queryset = queryset.filter(
+                Q(location__city__icontains=location) |
+                Q(location__address__icontains=location) |
+                Q(location__country__icontains=location)
+            )
+        if type_filter:
+            queryset = queryset.filter(property_type=type_filter)
+        elif property_type:
+            queryset = queryset.filter(property_type=property_type)
         if min_price:
             queryset = queryset.filter(price__gte=min_price)
         if max_price:
@@ -70,7 +78,7 @@ class PropertySearchView(ListView):
     
 class PropertyDetailView(TemplateView):
     template_name = 'home/property_detail.html'
- 
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         try:

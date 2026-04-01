@@ -165,7 +165,9 @@ class AdminPendingPropertiesView(LoginRequiredMixin, TemplateView):
             status='PENDING'
         ).order_by('-created')
         return context
-
+    
+    
+   
 
 class ApprovePropertyView(LoginRequiredMixin, View):
     login_url = '/users/login/'
@@ -219,6 +221,16 @@ class RemoveFavoriteView(LoginRequiredMixin, View):
     def post(self, request, property_id):
         Favorite.objects.filter(user=request.user, property_id=property_id).delete()
         return redirect('users:buyer_saved_properties')
+    
+class AdminDashboardView(LoginRequiredMixin, TemplateView):
+        template_name = "home/admin/dashboard.html"
+
+def dispatch(self, request, *args, **kwargs):
+        if not (request.user.is_superuser or request.user.is_staff):
+            messages.error(request, "Accès refusé.")
+            return redirect('core:home')
+        return super().dispatch(request, *args, **kwargs)
+
 
 
 # ✅ TOGGLE FAVORITE (AJAX)
@@ -237,3 +249,6 @@ def toggle_favorite(request, property_id):
         return JsonResponse({'status': 'removed'})
     else:
         return JsonResponse({'status': 'added'})
+    
+    
+    

@@ -5,17 +5,15 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-
 <script>
 tailwind.config = {
 darkMode: "class",
 theme: {
 extend: {
 colors: {
-"primary": "#ec5b13",
+"primary": "#000080",
 "background-light": "#f8f6f6",
 "background-dark": "#221610",
 },
@@ -26,119 +24,115 @@ fontFamily: {
 }
 }
 </script>
-
 <title>My Bookings | Home Market</title>
 </head>
-
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
-
 <div class="flex h-screen overflow-hidden">
 
-<!-- Sidebar -->
+<!-- Sidebar (inchangée) -->
 <aside class="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark flex flex-col">
 <a href="{% url 'core:home' %}" class="p-6 flex items-center gap-3">
 <img src="{% static 'images/logo/logo.webp' %}" class="h-8">
 <h2 class="text-xl font-bold">Home Market</h2>
 </a>
-
 <nav class="flex-1 px-4 space-y-2">
 <a class="flex items-center gap-3 px-3 py-2 rounded-lg" href="{% url 'users:buyer_dashboard' %}">
 <span class="material-symbols-outlined">dashboard</span>Dashboard
 </a>
-
 <a class="flex items-center gap-3 px-3 py-2 rounded-lg" href="{% url 'core:search' %}">
 <span class="material-symbols-outlined">search</span>Search
 </a>
-
 <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-white" href="{% url 'users:buyer_bookings' %}">
 <span class="material-symbols-outlined">calendar_today</span>My Bookings
 </a>
-
 <a class="flex items-center gap-3 px-3 py-2 rounded-lg" href="{% url 'users:buyer_saved_properties' %}">
 <span class="material-symbols-outlined">favorite</span>Saved
 </a>
-
 <a class="flex items-center gap-3 px-3 py-2 rounded-lg" href="{% url 'users:buyer_profile' %}">
 <span class="material-symbols-outlined">settings</span>Settings
 </a>
 </nav>
-
 </aside>
 
-<!-- MAIN -->
+<!-- MAIN (inchangé) -->
 <main class="flex-1 overflow-y-auto">
-
 <header class="p-6 border-b flex justify-between">
 <h1 class="text-2xl font-bold">My Bookings</h1>
 </header>
 
 <div class="p-8 max-w-6xl mx-auto">
 
-<!-- TES CARDS (INCHANGÉES) -->
-<div class="space-y-4">
+  <!-- Cards dynamiques (même style que tes cards statiques) -->
+  <div class="space-y-4">
+    {% for visit in visits %}
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow p-5 flex flex-col md:flex-row gap-6">
 
-<div class="bg-white p-5 rounded-xl shadow">Card statique 1</div>
-<div class="bg-white p-5 rounded-xl shadow">Card statique 2</div>
-<div class="bg-white p-5 rounded-xl shadow">Card statique 3</div>
+      <!-- Image propriété -->
+      <div class="w-full md:w-48 h-32 rounded-lg overflow-hidden bg-slate-200 dark:bg-slate-700 shrink-0">
+        {% with visit.property.images.all as imgs %}
+          {% if imgs %}
+            <img src="{{ imgs.0.image.url }}" alt="{{ visit.property.title }}" class="w-full h-full object-cover"/>
+          {% else %}
+            <div class="w-full h-full flex items-center justify-center">
+              <span class="material-symbols-outlined text-4xl text-slate-400">home</span>
+            </div>
+          {% endif %}
+        {% endwith %}
+      </div>
 
-</div>
+      <!-- Infos -->
+      <div class="flex-1">
+        <div class="flex items-start justify-between mb-2">
+          <div>
+            <h3 class="text-lg font-bold">{{ visit.property.title }}</h3>
+            <p class="text-slate-500 text-sm flex items-center gap-1">
+              <span class="material-symbols-outlined text-xs">location_on</span>
+              {% if visit.property.location %}{{ visit.property.location.address }}, {{ visit.property.location.city }}{% else %}—{% endif %}
+            </p>
+          </div>
+          {% if visit.confirmed %}
+          <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-bold uppercase">Confirmed</span>
+          {% else %}
+          <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-xs font-bold uppercase">Pending</span>
+          {% endif %}
+        </div>
 
-<!-- 🔥 AJOUT DYNAMIQUE -->
-{% if visits %}
-<div class="mt-10">
-<h2 class="text-xl font-bold mb-4">Your Real Bookings</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-slate-400">calendar_month</span>
+            <span class="text-sm font-medium">{{ visit.date|date:"M d, Y" }}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-slate-400">schedule</span>
+            <span class="text-sm font-medium">{{ visit.date|date:"h:i A" }}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-slate-400">person</span>
+            <span class="text-sm font-medium">{{ visit.property.owner.get_full_name|default:"Agent" }}</span>
+          </div>
+        </div>
+      </div>
 
-<div class="space-y-4">
-{% for visit in visits %}
-<div class="bg-white dark:bg-slate-900 border rounded-xl shadow-sm">
+      <!-- Actions -->
+      <div class="flex md:flex-col justify-end gap-2 md:w-40 border-t md:border-t-0 md:border-l border-slate-100 pt-4 md:pt-0 md:pl-6">
+        <button class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-900 px-4 py-2 rounded-lg text-sm font-bold transition-colors">Reschedule</button>
+        <a href="{% url 'core:message' %}" class="flex-1 text-center border border-primary/30 text-primary hover:bg-primary/5 px-4 py-2 rounded-lg text-sm font-bold transition-colors">Contact Agent</a>
+      </div>
+    </div>
 
-<div class="p-5 flex flex-col md:flex-row gap-6">
-
-<div class="w-48 h-32 bg-slate-200 flex items-center justify-center rounded-lg">
-<span class="material-symbols-outlined text-3xl text-slate-400">home</span>
-</div>
-
-<div class="flex-1">
-
-<h3 class="font-bold text-lg">
-{{ visit.property.title }}
-</h3>
-
-<p class="text-sm text-slate-500">
-{{ visit.property.location.city }}
-</p>
-
-<div class="mt-4 flex gap-6 text-sm">
-
-<div>
-📅 {{ visit.date|date:"M d, Y" }}
-</div>
-
-<div>
-⏰ {{ visit.date|time:"H:i" }}
-</div>
-
-<div>
-{% if visit.confirmed %}
-<span class="text-green-500">Confirmed</span>
-{% else %}
-<span class="text-orange-500">Pending</span>
-{% endif %}
-</div>
-
-</div>
-
-</div>
-</div>
-</div>
-{% endfor %}
-</div>
-</div>
-{% endif %}
+    {% empty %}
+    <!-- État vide -->
+    <div class="bg-white p-5 rounded-xl shadow text-center py-16">
+      <span class="material-symbols-outlined text-5xl text-slate-300 block mb-3">event_busy</span>
+      <p class="font-bold text-lg text-slate-700">No bookings yet</p>
+      <p class="text-slate-500 text-sm mt-1">You haven't scheduled any property visits.</p>
+      <a href="{% url 'core:search' %}" class="mt-4 inline-block bg-primary text-white px-6 py-2 rounded-lg font-bold">Find a Property</a>
+    </div>
+    {% endfor %}
+  </div>
 
 </div>
 </main>
 </div>
-
 </body>
 </html>

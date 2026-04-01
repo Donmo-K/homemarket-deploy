@@ -2,8 +2,9 @@ from django.views.generic import TemplateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.contrib import messages
-from properties.models import Property, PropertyCategory, PropertyFeature, PropertyImage, Listing
+from properties.models import Property, PropertyCategory, PropertyFeature, PropertyImage, Listing, PropertyLocation
 from global_data.enum import PropertyType, ListingStatus
+from properties.models import PropertyLocation
 
 
 class AddPropertyStep1View(LoginRequiredMixin, View):
@@ -66,23 +67,24 @@ class AddPropertyStep2View(LoginRequiredMixin, View):
 class AddPropertyStep3View(LoginRequiredMixin, View):
     template_name = 'home/add_property/location.html'
     login_url = '/users/login/'
-
+ 
     def get(self, request):
-        draft = request.session.get('add_property_draft', {})
+        draft = request.session.get('property_draft', {})
         return render(request, self.template_name, {'draft': draft})
-
+ 
     def post(self, request):
-        draft = request.session.get('add_property_draft', {})
-        draft['address'] = request.POST.get('address', '')
-        draft['city'] = request.POST.get('city', '')
-        draft['state'] = request.POST.get('state', '')
-        draft['zip_code'] = request.POST.get('zip_code', '')
-
-        if not draft['city']:
-            messages.error(request, "Veuillez entrer une ville.")
-            return render(request, self.template_name, {'draft': draft})
-
-        request.session['add_property_draft'] = draft
+        draft = request.session.get('property_draft', {})
+ 
+        # ✅ Sauvegarder les champs de localisation dans la session
+        draft['address']   = request.POST.get('address', '')
+        draft['city']      = request.POST.get('city', '')
+        draft['country']   = request.POST.get('country', '')
+        draft['latitude']  = request.POST.get('latitude', '')
+        draft['longitude'] = request.POST.get('longitude', '')
+ 
+        request.session['property_draft'] = draft
+        request.session.modified = True
+ 
         return redirect('users:add_property_step4')
 
 
@@ -161,7 +163,7 @@ class AddPropertyStep5View(LoginRequiredMixin, TemplateView):
         context['property'] = property
         context['draft'] = self.request.session.get('add_property_draft', {})
         return context
-
+    
 class PublishPropertyView(LoginRequiredMixin, View):
     login_url = '/users/login/'
 
@@ -169,21 +171,45 @@ class PublishPropertyView(LoginRequiredMixin, View):
         property_id = request.POST.get('property_id')
         agree = request.POST.get('agree')
 
+        # ❌ Vérification des conditions
         if not agree:
             messages.error(request, "Vous devez accepter les conditions pour publier l'annonce.")
             return redirect('users:add_property_step5')
 
+        # ❌ Vérifier que la propriété existe
         try:
             property = Property.objects.get(id=property_id, owner=request.user)
         except Property.DoesNotExist:
             messages.error(request, "Annonce introuvable ou ne vous appartient pas.")
             return redirect('users:add_property_step5')
 
+        # ✅ Mettre la propriété en attente
         property.status = 'PENDING'
         property.save()
 
+        # 🔥 Récupération du draft (session)
+        draft = request.session.get('property_draft', {})
+
+        # 🔥 Création de la localisation
+        if draft.get('address') or draft.get('city'):
+            PropertyLocation.objects.create(
+                property=property,
+                address=draft.get('address', ''),
+                city=draft.get('city', ''),
+                country=draft.get('country', 'Cameroun'),
+                latitude=float(draft['latitude']) if draft.get('latitude') else None,
+                longitude=float(draft['longitude']) if draft.get('longitude') else None,
+            )
+
+        # 🧹 Nettoyage session
+        request.session.pop('property_draft', None)
         request.session.pop('add_property_draft', None)
         request.session.pop('current_property_id', None)
 
-        messages.success(request, "Votre annonce a été soumise et sera visible après validation par un administrateur.")
+        # ✅ Message succès
+        messages.success(
+            request,
+            "Votre annonce a été soumise et sera visible après validation par un administrateur."
+        )
+
         return redirect('users:seller_dashboard')

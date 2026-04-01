@@ -1,218 +1,302 @@
 {% load static %}
 <!DOCTYPE html>
-
-<html class="light" lang="en"><head>
+<html lang="en">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
-tailwind.config = {
-darkMode: "class",
-theme: {
-extend: {
-colors: {
-"primary": "#000080",
-"background-light": "#f5f5f8",
-"background-dark": "#0f0f23",
-},
-fontFamily: {
-"display": ["Inter"]
-},
-borderRadius: {
-"DEFAULT": "0.5rem",
-"lg": "1rem",
-"xl": "1.25rem",
-"full": "9999px"
-},
-},
-},
-}
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "primary": "#000080",
+                    "background-light": "#f5f5f8",
+                    "background-dark": "#0f0f23",
+                },
+                fontFamily: { "display": ["Inter", "sans-serif"] },
+                borderRadius: {
+                    "DEFAULT": "0.5rem",
+                    "lg": "1rem",
+                    "xl": "1.25rem",
+                    "2xl": "1.5rem",
+                    "full": "9999px"
+                },
+            },
+        },
+    }
 </script>
-<style>
-body {
-font-family: 'Inter', sans-serif;
-}
-.material-symbols-outlined {
-font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-}
-</style>
+<title>Home Market - Add Property</title>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
-<div class="layout-container flex flex-col min-h-screen">
-    
-<header class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-4 lg:px-20">
-<div class="flex items-center gap-3">
-<div class="p-2 bg-primary rounded-lg text-white">
-<span class="material-symbols-outlined block">home_work</span>
-</div>
-<h2 class="text-xl font-bold tracking-tight text-primary dark:text-slate-100">Home Market</h2>
-</div>
-<div class="flex items-center gap-4">
-<button class="flex items-center justify-center rounded-xl h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-<span class="material-symbols-outlined">notifications</span>
-</button>
-<div class="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
-<span class="material-symbols-outlined text-primary">person</span>
-</div>
-</div>
-</header>
-<main class="flex-1 flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
-<div class="w-full max-w-4xl space-y-8">
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="layout-container flex min-h-screen">
 
-<div class="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
-<div class="flex flex-col gap-4">
-<div class="flex items-center justify-between">
-<span class="text-primary font-semibold text-sm uppercase tracking-wider">Step 4 of 5</span>
-<span class="text-slate-500 text-sm font-medium">80% Completed</span>
-</div>
-<div class="w-full bg-slate-100 dark:bg-slate-800 h-2.5 rounded-full overflow-hidden">
-<div class="bg-primary h-full rounded-full transition-all duration-500" style="width: 80%;"></div>
-</div>
-<div class="flex justify-between items-center">
-<h1 class="text-2xl font-bold text-slate-900 dark:text-white">Property Photos</h1>
-<div class="flex items-center gap-2 text-primary font-medium text-sm">
-<span class="material-symbols-outlined text-lg">info</span>
-<span>Images help sell faster</span>
-</div>
-</div>
-</div>
-</div>
+    <!-- ✅ Sidebar identique aux étapes 1, 2 & 3 -->
+    <aside class="w-64 bg-primary flex flex-col min-h-screen">
+        <div class="flex items-center gap-3 px-6 py-5 border-b border-white/10">
+            <div class="size-8 flex items-center justify-center bg-white/20 text-white rounded-lg">
+                <span class="material-symbols-outlined">home_work</span>
+            </div>
+            <h2 class="text-xl font-bold tracking-tight text-white">Home Market</h2>
+        </div>
+        <nav class="flex-1 px-4 space-y-2 overflow-y-auto mt-4">
+            <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="{% url 'users:seller_dashboard' %}">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="font-medium">Dashboard</span>
+            </a>
+            <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="{% url 'users:seller_listings' %}">
+                <span class="material-symbols-outlined">list_alt</span>
+                <span class="font-medium">My Listings</span>
+            </a>
+            <a class="flex items-center gap-4 px-4 py-3 bg-white/10 text-white rounded-xl transition-colors" href="{% url 'users:add_property_step1' %}">
+                <span class="material-symbols-outlined">add_circle</span>
+                <span class="font-medium">Add Property</span>
+            </a>
+            <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="{% url 'core:message' %}">
+                <span class="material-symbols-outlined">chat_bubble</span>
+                <span class="font-medium">Messages</span>
+            </a>
+            <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="#">
+                <span class="material-symbols-outlined">analytics</span>
+                <span class="font-medium">Analytics</span>
+            </a>
+            <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="{% url 'users:seller_wallet' %}">
+                <span class="material-symbols-outlined">account_balance_wallet</span>
+                <span class="font-medium">Wallet</span>
+            </a>
+            <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="{% url 'users:seller_kyc' %}">
+                <span class="material-symbols-outlined">verified_user</span>
+                <span class="font-medium">Verification</span>
+            </a>
+        </nav>
+    </aside>
 
-<!-- ✅ AJOUT: form method post + enctype -->
-<form method="post" enctype="multipart/form-data">
-{% csrf_token %}
+    <!-- Contenu principal -->
+    <div class="flex flex-col flex-1">
 
-<div class="grid grid-cols-1 gap-8">
+        <!-- ✅ Header identique aux étapes 1, 2 & 3 -->
+        <header class="flex items-center justify-between border-b border-primary/10 bg-white dark:bg-slate-900 px-6 py-4 md:px-10">
+            <div class="flex items-center gap-3 text-primary">
+                <div class="size-8 flex items-center justify-center bg-primary text-white rounded-lg">
+                    <span class="material-symbols-outlined">home_work</span>
+                </div>
+                <h2 class="text-xl font-bold tracking-tight">Home Market</h2>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="flex items-center justify-center rounded-xl h-10 w-10 bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <div class="h-10 w-10 rounded-full bg-slate-200 dark:bg-slate-800 bg-cover bg-center border-2 border-primary/20"
+                     style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDjizSeOQvTpCdFWpgoQOX8Q9Kc8pFVxDk2qtXhIa4jBzJM6cww4mxh7eeHVswcsVd5mN6M-74I8d4YhghmJC9c6DnaVxjIvXJRhjSK1_onJo0wyBilnXjnBHeHIL5bagygd1ezTUh-X8xFwu1VQ6riQocgX74Y4ntOwW6H4QQd0xkuRP4vQcjZkStIE_NJw6awWvtu5D1vSf4NBoQswK_NKbaefUKGv6iIt4i8qZp_VPFzhJbgkyJnry4WkNcik1M9pYFiJEXJH8w')">
+                </div>
+            </div>
+        </header>
 
-<div class="bg-white dark:bg-slate-900 p-8 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm">
-<div class="mb-6">
-<p class="text-slate-600 dark:text-slate-400 leading-relaxed">
-High-quality photos increase buyer interest by up to 80%. Upload at least 5 clear images of the interior and exterior to showcase your property's best features.
-</p>
-</div>
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col max-w-4xl mx-auto w-full px-4 py-8 md:px-0">
 
-<div class="relative group cursor-pointer">
-<!-- ✅ AJOUT: name="images" -->
-<input type="file" id="file-input" name="images" multiple accept="image/jpeg,image/png,image/webp" class="hidden"/>
-<div class="flex flex-col items-center justify-center border-2 border-dashed border-primary/30 group-hover:border-primary bg-primary/5 rounded-xl py-16 px-6 transition-colors">
-<div class="w-16 h-16 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center shadow-md mb-4 group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-primary text-3xl">cloud_upload</span>
-</div>
-<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1">Drag and drop images here</h3>
-<p class="text-slate-500 text-sm mb-6">Support: JPG, PNG, WEBP (Max 10MB per file)</p>
-<button type="button" onclick="document.getElementById('file-input').click()"
-class="px-6 py-2.5 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
-Select Files from Computer
-</button>
-</div>
-</div>
-</div>
+            <!-- Progress Header -->
+            <div class="flex flex-col gap-4 mb-8">
+                <div class="flex justify-between items-end">
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold">List Your Property</h1>
+                        <p class="text-slate-500 dark:text-slate-400 mt-1">Step 4 of 5: Property Photos</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-primary font-bold text-lg">80%</span>
+                        <p class="text-xs text-slate-400 uppercase tracking-wider">Completed</p>
+                    </div>
+                </div>
+                <div class="h-3 w-full bg-primary/10 rounded-full overflow-hidden">
+                    <div class="h-full bg-primary rounded-full transition-all duration-500" style="width: 80%;"></div>
+                </div>
+            </div>
 
-<!-- Preview Section — images originales gardées -->
-<div class="space-y-4">
-<div class="flex items-center justify-between px-2">
-<h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-Preview <span id="upload-count" class="text-sm font-normal text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">3 uploaded</span>
-</h3>
-<button type="button" class="text-sm text-primary font-semibold hover:underline">Clear all</button>
-</div>
-<div id="preview-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-<!-- Image 1 — originale gardée -->
-<div class="relative aspect-square rounded-xl overflow-hidden group border border-slate-200 dark:border-slate-700">
-<img alt="Modern living room with large windows" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxYJJxKTqAMi5Odl0Z7hRVXk-Gga-5Uc_GxCpKP15q6Qa6kVjiTMj8qwIzXQRUE-aGVXiZsNljyBYdKbGjFH__MwBMTXg7PQvtXB2Cxchkk1BA_yDtgM7BQM63LwR-4K8iO0TdE2zKnwpurXcXRv1a7IP6wuD3IL6NpPg-6K0Sar46gop58prW6jtcE19C0fuh-SIGtrGrsiz2nBe2u_-wkacEaZfUVws8wuviWZ5lW94sqMHZes7osuO-_R7jKXKyM85B0yJ2HhU"/>
-<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-<button type="button" class="p-2 bg-white rounded-full text-red-600 hover:bg-red-50">
-<span class="material-symbols-outlined text-xl">delete</span>
-</button>
-<button type="button" class="p-2 bg-white rounded-full text-primary hover:bg-blue-50">
-<span class="material-symbols-outlined text-xl">edit</span>
-</button>
-</div>
-<div class="absolute top-2 left-2 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-md uppercase">Main Photo</div>
-</div>
-<!-- Image 2 — originale gardée -->
-<div class="relative aspect-square rounded-xl overflow-hidden group border border-slate-200 dark:border-slate-700">
-<img alt="Clean minimalist kitchen" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCybmMF388oAo2T6mnkiivUWAkR-Vh5Q-Fr1IIDfs4_TfgaOx3mdv_vT3Gyul-Z5flaDDyLxUzZ_6Ohx8AKwTeFI9HfQRSwBW--1L-3qQA6bwhoee-T9LzMBOjS9-VXa6yBcZIQZZbOhq5zNJ6jym0F4yHoAs29ewQeO6A0n-vaHD3jXWZo6TLgcfLTue5UKf2ptk8gthYPcPbv21kGD7k70le9tLqjK6hMEWSYDMgf_AeDUsLwcBeHiJIu_7wc8RcDzDsEAn8TfJ8"/>
-<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-<button type="button" class="p-2 bg-white rounded-full text-red-600 hover:bg-red-50">
-<span class="material-symbols-outlined text-xl">delete</span>
-</button>
-</div>
-</div>
-<!-- Image 3 — originale gardée -->
-<div class="relative aspect-square rounded-xl overflow-hidden group border border-slate-200 dark:border-slate-700">
-<img alt="Elegant bedroom decor" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChyGyN-PT64dz5OSyIh2OC7n7kVeuvmV82092TWhOl-rBE_VPF9d-6UgJFxf7iroO9FBOx4XjC0_HNX1c77Hktpjk78VgucaP1PcguxqO_YnXnx7YeqGky8bINKpyMml_sduOvO53Ykh8z7386oCeZHWYfKV4ake_iqhnsghChtGiA8i8BplEQnjd4yD7c3RzxpOigjfXFx8gVEduxBrWbF1H18Kb1FlX-E50oVBx84u8anyPt0iwy5zXwfVnt0FPivKbkbcet4pA"/>
-<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-<button type="button" class="p-2 bg-white rounded-full text-red-600 hover:bg-red-50">
-<span class="material-symbols-outlined text-xl">delete</span>
-</button>
-</div>
-</div>
+            <!-- Stepper -->
+            <div class="mb-10 overflow-x-auto">
+                <div class="flex border-b border-primary/10 min-w-[600px]">
+                    <a class="flex-1 flex flex-col items-center py-4 border-b-4 border-primary/30 text-slate-400 transition-all" href="{% url 'users:add_property_step1' %}">
+                        <span class="material-symbols-outlined mb-1">info</span>
+                        <span class="text-sm font-medium">Basic Info</span>
+                    </a>
+                    <a class="flex-1 flex flex-col items-center py-4 border-b-4 border-primary/30 text-slate-400 transition-all" href="{% url 'users:add_property_step2' %}">
+                        <span class="material-symbols-outlined mb-1">payments</span>
+                        <span class="text-sm font-medium">Pricing</span>
+                    </a>
+                    <a class="flex-1 flex flex-col items-center py-4 border-b-4 border-primary/30 text-slate-400 transition-all" href="{% url 'users:add_property_step3' %}">
+                        <span class="material-symbols-outlined mb-1">location_on</span>
+                        <span class="text-sm font-medium">Location</span>
+                    </a>
+                    <a class="flex-1 flex flex-col items-center py-4 border-b-4 border-primary text-primary transition-all" href="#">
+                        <span class="material-symbols-outlined mb-1">photo_library</span>
+                        <span class="text-sm font-bold">Media</span>
+                    </a>
+                    <a class="flex-1 flex flex-col items-center py-4 border-b-4 border-transparent text-slate-400 hover:text-primary transition-all" href="#">
+                        <span class="material-symbols-outlined mb-1">fact_check</span>
+                        <span class="text-sm font-medium">Review</span>
+                    </a>
+                </div>
+            </div>
 
-<div class="aspect-square rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center text-slate-400">
-<span class="material-symbols-outlined text-3xl mb-1">add_a_photo</span>
-<span class="text-xs font-medium">Add more</span>
-</div>
-</div>
-</div>
-</div>
+            <!-- Form Card -->
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
 
-<!-- ✅ Footer Navigation -->
-<div class="flex items-center justify-between pt-8 border-t border-slate-200 dark:border-slate-800">
-<a href="{% url 'users:add_property_step3' %}" class="flex items-center gap-2 px-6 py-3 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 font-bold rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 transition-colors">
-<span class="material-symbols-outlined">arrow_back</span>
-Back
-</a>
-<!-- ✅ CHANGEMENT: <a> → <button type="submit"> -->
-<button type="submit" class="flex items-center gap-2 px-10 py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary/90 transition-all shadow-lg shadow-primary/30">
-Next Step
-<span class="material-symbols-outlined">arrow_forward</span>
-</button>
-</div>
+                <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-primary/5 p-6 md:p-10">
+                    <h2 class="text-xl font-bold mb-2 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">photo_library</span>
+                        Property Photos
+                    </h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mb-8">
+                        High-quality photos increase buyer interest by up to 80%. Upload at least 5 clear images of the interior and exterior to showcase your property's best features.
+                    </p>
 
-</form>
+                    <!-- Zone de dépôt -->
+                    <input type="file" id="file-input" name="images" multiple accept="image/jpeg,image/png,image/webp" class="hidden"/>
+                    <div onclick="document.getElementById('file-input').click()"
+                         class="flex flex-col items-center justify-center border-2 border-dashed border-primary/30 hover:border-primary bg-primary/5 hover:bg-primary/10 rounded-xl py-16 px-6 transition-colors cursor-pointer group">
+                        <div class="w-16 h-16 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center shadow-md mb-4 group-hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined text-primary text-3xl">cloud_upload</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1">Drag and drop images here</h3>
+                        <p class="text-slate-500 text-sm mb-6">Support: JPG, PNG, WEBP — Max 10MB per file</p>
+                        <button type="button" onclick="event.stopPropagation(); document.getElementById('file-input').click()"
+                                class="px-6 py-2.5 bg-primary text-white font-semibold rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+                            Select Files from Computer
+                        </button>
+                    </div>
+                </div>
 
-</div>
-</main>
+                <!-- Preview Section -->
+                <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-primary/5 p-6 md:p-10">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            Preview
+                            <span id="upload-count" class="text-sm font-normal text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">3 uploaded</span>
+                        </h3>
+                        <button type="button" onclick="clearAll()" class="text-sm text-red-500 font-semibold hover:underline">Clear all</button>
+                    </div>
 
-<footer class="py-6 px-4 text-center text-slate-500 text-sm border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 mt-auto">
-<p>© 2024 Home Market Property Portal. Secured by Enterprise SSL.</p>
-</footer>
-</div>
+                    <div id="preview-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <!-- Image 1 -->
+                        <div class="relative aspect-square rounded-xl overflow-hidden group border border-slate-200 dark:border-slate-700">
+                            <img alt="Modern living room" class="w-full h-full object-cover"
+                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxYJJxKTqAMi5Odl0Z7hRVXk-Gga-5Uc_GxCpKP15q6Qa6kVjiTMj8qwIzXQRUE-aGVXiZsNljyBYdKbGjFH__MwBMTXg7PQvtXB2Cxchkk1BA_yDtgM7BQM63LwR-4K8iO0TdE2zKnwpurXcXRv1a7IP6wuD3IL6NpPg-6K0Sar46gop58prW6jtcE19C0fuh-SIGtrGrsiz2nBe2u_-wkacEaZfUVws8wuviWZ5lW94sqMHZes7osuO-_R7jKXKyM85B0yJ2HhU"/>
+                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                                <button type="button" class="p-2 bg-white rounded-full text-red-600 hover:bg-red-50">
+                                    <span class="material-symbols-outlined text-xl">delete</span>
+                                </button>
+                            </div>
+                            <div class="absolute top-2 left-2 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-md uppercase">Main Photo</div>
+                        </div>
+                        <!-- Image 2 -->
+                        <div class="relative aspect-square rounded-xl overflow-hidden group border border-slate-200 dark:border-slate-700">
+                            <img alt="Kitchen" class="w-full h-full object-cover"
+                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCybmMF388oAo2T6mnkiivUWAkR-Vh5Q-Fr1IIDfs4_TfgaOx3mdv_vT3Gyul-Z5flaDDyLxUzZ_6Ohx8AKwTeFI9HfQRSwBW--1L-3qQA6bwhoee-T9LzMBOjS9-VXa6yBcZIQZZbOhq5zNJ6jym0F4yHoAs29ewQeO6A0n-vaHD3jXWZo6TLgcfLTue5UKf2ptk8gthYPcPbv21kGD7k70le9tLqjK6hMEWSYDMgf_AeDUsLwcBeHiJIu_7wc8RcDzDsEAn8TfJ8"/>
+                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                                <button type="button" class="p-2 bg-white rounded-full text-red-600 hover:bg-red-50">
+                                    <span class="material-symbols-outlined text-xl">delete</span>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Image 3 -->
+                        <div class="relative aspect-square rounded-xl overflow-hidden group border border-slate-200 dark:border-slate-700">
+                            <img alt="Bedroom" class="w-full h-full object-cover"
+                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuChyGyN-PT64dz5OSyIh2OC7n7kVeuvmV82092TWhOl-rBE_VPF9d-6UgJFxf7iroO9FBOx4XjC0_HNX1c77Hktpjk78VgucaP1PcguxqO_YnXnx7YeqGky8bINKpyMml_sduOvO53Ykh8z7386oCeZHWYfKV4ake_iqhnsghChtGiA8i8BplEQnjd4yD7c3RzxpOigjfXFx8gVEduxBrWbF1H18Kb1FlX-E50oVBx84u8anyPt0iwy5zXwfVnt0FPivKbkbcet4pA"/>
+                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                                <button type="button" class="p-2 bg-white rounded-full text-red-600 hover:bg-red-50">
+                                    <span class="material-symbols-outlined text-xl">delete</span>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Slot "Add more" -->
+                        <div onclick="document.getElementById('file-input').click()"
+                             class="aspect-square rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center text-slate-400 hover:border-primary hover:text-primary cursor-pointer transition-colors">
+                            <span class="material-symbols-outlined text-3xl mb-1">add_a_photo</span>
+                            <span class="text-xs font-medium">Add more</span>
+                        </div>
+                    </div>
+                </div>
 
-<!-- ✅ Script prévisualisation des nouvelles images -->
-<script>
-document.getElementById('file-input').addEventListener('change', function(e) {
-    const files = Array.from(e.target.files);
-    const grid = document.getElementById('preview-grid');
-    const countEl = document.getElementById('upload-count');
-    countEl.textContent = (3 + files.length) + ' uploaded';
-    files.forEach((file, index) => {
-        if (!file.type.startsWith('image/')) return;
-        const reader = new FileReader();
-        reader.onload = function(ev) {
-            const placeholder = grid.querySelector('.border-dashed');
-            const card = document.createElement('div');
-            card.className = 'relative aspect-square rounded-xl overflow-hidden group border border-slate-200 dark:border-slate-700';
-            card.innerHTML = `
-                <img src="${ev.target.result}" class="w-full h-full object-cover" alt="Photo ${index + 1}"/>
-                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                    <button type="button" onclick="this.closest('.relative').remove()" class="p-2 bg-white rounded-full text-red-600 hover:bg-red-50">
-                        <span class="material-symbols-outlined text-xl">delete</span>
+                <!-- Navigation Buttons -->
+                <div class="flex justify-between items-center pt-2">
+                    <a href="{% url 'users:add_property_step3' %}" class="px-8 py-3 rounded-xl border border-primary/10 font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
+                        <span class="material-symbols-outlined text-lg">arrow_back</span>
+                        Back
+                    </a>
+                    <button type="submit" class="px-10 py-3 rounded-xl bg-primary text-white font-bold hover:shadow-lg hover:shadow-primary/20 active:scale-[0.98] transition-all flex items-center gap-2">
+                        Next Step
+                        <span class="material-symbols-outlined text-lg">arrow_forward</span>
                     </button>
                 </div>
-            `;
-            if (placeholder) {
-                grid.insertBefore(card, placeholder);
-            } else {
-                grid.appendChild(card);
-            }
-        };
-        reader.readAsDataURL(file);
-    });
-});
-</script>
+            </form>
 
-</body></html>
+            <!-- Tip -->
+            <div class="mt-6 bg-primary/5 border border-primary/10 rounded-xl p-4 flex gap-4">
+                <span class="material-symbols-outlined text-primary">lightbulb</span>
+                <p class="text-sm text-slate-600 dark:text-slate-400">
+                    <span class="font-bold text-primary">Quick Tip:</span> Properties with 10+ photos receive 3× more inquiries. Make sure to photograph every room, the exterior, and any special features.
+                </p>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="py-10 px-10 border-t border-primary/5 text-center text-slate-400 text-sm">
+            © 2024 Home Market Inc. All rights reserved.
+        </footer>
+
+    </div>
+</div>
+
+<script>
+    let staticCount = 3;
+
+    document.getElementById('file-input').addEventListener('change', function (e) {
+        const files = Array.from(e.target.files);
+        const grid = document.getElementById('preview-grid');
+        const countEl = document.getElementById('upload-count');
+
+        files.forEach((file, index) => {
+            if (!file.type.startsWith('image/')) return;
+            staticCount++;
+            const reader = new FileReader();
+            reader.onload = function (ev) {
+                const placeholder = grid.querySelector('.border-dashed');
+                const card = document.createElement('div');
+                card.className = 'relative aspect-square rounded-xl overflow-hidden group border border-slate-200 dark:border-slate-700';
+                card.innerHTML = `
+                    <img src="${ev.target.result}" class="w-full h-full object-cover" alt="Photo ${staticCount}"/>
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                        <button type="button" onclick="removeCard(this)" class="p-2 bg-white rounded-full text-red-600 hover:bg-red-50">
+                            <span class="material-symbols-outlined text-xl">delete</span>
+                        </button>
+                    </div>
+                `;
+                if (placeholder) grid.insertBefore(card, placeholder);
+                else grid.appendChild(card);
+                countEl.textContent = staticCount + ' uploaded';
+            };
+            reader.readAsDataURL(file);
+        });
+    });
+
+    function removeCard(btn) {
+        btn.closest('.relative').remove();
+        staticCount = Math.max(0, staticCount - 1);
+        document.getElementById('upload-count').textContent = staticCount + ' uploaded';
+    }
+
+    function clearAll() {
+        const grid = document.getElementById('preview-grid');
+        const cards = grid.querySelectorAll('.relative');
+        cards.forEach(c => c.remove());
+        staticCount = 0;
+        document.getElementById('upload-count').textContent = '0 uploaded';
+    }
+</script>
+</body>
+</html>

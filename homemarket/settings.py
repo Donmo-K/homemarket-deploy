@@ -207,11 +207,14 @@ JAZZMIN_UI_CUSTOMIZER = {
 }
 
 
-PAYUNIT_API_KEY = config("PAYUNIT_API_KEY", default="")
+PAYUNIT_API_KEY = config("PAYUNIT_API_KEY", default="sand_TU0ujsTNSyuBlEhDQBnbiSNM6jifgV")
 PAYUNIT_BASE_URL = config("PAYUNIT_BASE_URL", default="https://gateway.payunit.net")
-PAYUNIT_USERNAME = config("PAYUNIT_USERNAME", default="")
-PAYUNIT_PASSWORD = config("PAYUNIT_PASSWORD", default="")
+PAYUNIT_USERNAME = config("PAYUNIT_USERNAME", default="1e39f9b4-74d1-4ac9-9224-ce778a8ff544")
+PAYUNIT_PASSWORD = config("PAYUNIT_PASSWORD", default="c5b8607b-7783-4ee8-86e7-4ea5f75617f7")
 PAYUNIT_MODE = config("PAYUNIT_MODE", default="sandbox")
+NGROK_URL = "https://unbeauteous-osculant-sheba.ngrok-free.dev"
+CSRF_TRUSTED_ORIGINS = ["https://unbeauteous-osculant-sheba.ngrok-free.dev"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "unbeauteous-osculant-sheba.ngrok-free.dev"]
 
 LOGGING = {
     'version': 1,

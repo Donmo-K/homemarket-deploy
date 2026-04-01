@@ -54,35 +54,50 @@ borderRadius: {
 </div>
 </a>
 </div>
+
 <nav class="flex-1 px-4 space-y-2 overflow-y-auto">
+
+{% if verification and not verification.is_verified %}
+
 <a class="flex items-center gap-4 px-4 py-3 bg-white/10 text-white rounded-xl transition-colors" href="{% url 'users:seller_dashboard' %}">
 <span class="material-symbols-outlined">dashboard</span>
 <span class="font-medium">Dashboard</span>
 </a>
+
 <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="{% url 'users:seller_listings' %}">
 <span class="material-symbols-outlined">list_alt</span>
 <span class="font-medium">My Listings</span>
 </a>
+
 <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="{% url 'users:add_property_step1' %}">
 <span class="material-symbols-outlined">add_circle</span>
 <span class="font-medium">Add Property</span>
 </a>
+
 <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="{% url 'core:message' %}">
 <span class="material-symbols-outlined">chat_bubble</span>
 <span class="font-medium">Messages</span>
 </a>
+
 <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="#">
 <span class="material-symbols-outlined">analytics</span>
 <span class="font-medium">Analytics</span>
 </a>
+
 <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="{% url 'users:seller_wallet' %}">
 <span class="material-symbols-outlined">account_balance_wallet</span>
 <span class="font-medium">Wallet</span>
 </a>
+
+{% else %}
+
 <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="{% url 'users:seller_kyc' %}">
 <span class="material-symbols-outlined">verified_user</span>
 <span class="font-medium">Verification</span>
 </a>
+
+{% endif %}
+
 </nav>
 <div class="p-6 border-t border-white/10">
 <div class="bg-white/5 rounded-xl p-4 flex items-center gap-3">

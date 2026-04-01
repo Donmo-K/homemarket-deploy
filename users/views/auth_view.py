@@ -16,6 +16,8 @@ from core.models import Visit, Message, Transaction
 from django.utils import timezone
 from properties.models import Property, Listing, PropertyImage
 from django.db.models import Sum, Count
+        
+from django.http import JsonResponse
 
 def generate_code(length=6):
     return ''.join(random.choices(string.digits, k=length))
@@ -104,12 +106,14 @@ class LoginView(View):
             # 🔥 SELLER LOGIC
             if user.user_type == UserType.SELLER:
                 verification = SellerVerification.objects.filter(user=user).first()
-                if not verification or not verification.is_verified:
-                    return redirect('users:seller_verification')
+                if verification and not verification.is_verified:
+                    messages.warning(request, "Your account is pending verification. Please submit your documents.")
+                    return redirect('users:seller_kyc')
+            
                 return redirect('users:seller_dashboard')
 
             # ✅ BUYER
-            return redirect('/')
+            return redirect('users:buyer_dashboard')
 
         else:
             messages.error(request, "Invalid email or password")
@@ -158,25 +162,19 @@ class VerificationView(View):
             # Code incorrect → message + retour OTP
             messages.error(request, "Le code saisi est incorrect. Veuillez réessayer.")
             return render(request, self.template_name)
-        
+
+
 class SellerVerificationView(LoginRequiredMixin, View):
-    template_name = "auth/seller_verification.html"
+    template_name = "auth/seller_kyc.html"
+    login_url = '/users/login/'
 
     def get(self, request):
         if request.user.user_type != UserType.SELLER:
             messages.error(request, "Access denied. Only sellers allowed.")
             return redirect("/")
-
+        
         verification, created = SellerVerification.objects.get_or_create(user=request.user)
-
-        if verification.is_verified:
-            messages.info(request, "Your account is already verified.")
-            return redirect("/")
-
-        if not created and not verification.is_verified:
-            messages.info(request, "Your documents are under review.")
-            return redirect("/")
-
+        
         return render(request, self.template_name, {
             "verification": verification,
             "title": "Vérification de votre compte vendeur"
@@ -184,32 +182,29 @@ class SellerVerificationView(LoginRequiredMixin, View):
 
     def post(self, request):
         if request.user.user_type != UserType.SELLER:
-            messages.error(request, "Access denied.")
-            return redirect("/")
+            return JsonResponse({'status': 'error', 'message': 'Access denied.'}, status=403)
 
         verification, created = SellerVerification.objects.get_or_create(user=request.user)
 
         if verification.is_verified:
-            messages.info(request, "Your account is already verified.")
-            return redirect("/")
+            return JsonResponse({'status': 'error', 'message': 'Already verified.'})
 
-        if not created and not verification.is_verified:
-            messages.info(request, "Your documents are under review.")
-            return redirect("/")
-
-        # Check au moins un fichier
         if not any(request.FILES.get(f) for f in ["id_card_front", "id_card_back", "business_license"]):
-            messages.error(request, "Veuillez soumettre au moins un document.")
-            return render(request, self.template_name, {"verification": verification})
+            return JsonResponse({'status': 'error', 'message': 'Veuillez soumettre au moins un document.'})
 
-        verification.id_card_front = request.FILES.get("id_card_front")
-        verification.id_card_back = request.FILES.get("id_card_back")
-        verification.business_license = request.FILES.get("business_license")
+        if request.FILES.get("id_card_front"):
+            verification.id_card_front = request.FILES["id_card_front"]
+        if request.FILES.get("id_card_back"):
+            verification.id_card_back = request.FILES["id_card_back"]
+        if request.FILES.get("business_license"):
+            verification.business_license = request.FILES["business_license"]
+        if request.FILES.get("selfie"):
+            verification.selfie = request.FILES["selfie"]
+
         verification.is_verified = False
         verification.save()
 
-        messages.success(request, "Documents submitted. Awaiting admin validation.")
-        return redirect("/")  # ou "users:seller_dashboard"
+        return JsonResponse({'status': 'ok'})
 
 class LogoutView(View):
     def get(self, request):

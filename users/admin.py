@@ -22,11 +22,6 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('email', 'first_name', 'last_name')
     ordering = ('email',)
 
-@admin.register(Profile)
-class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'created', 'modified')
-    search_fields = ('user__email', 'user__first_name', 'user__last_name')
-
 @admin.register(SellerVerification)
 class SellerVerificationAdmin(admin.ModelAdmin):
     list_display = ('user', 'status', 'is_verified', 'created_at')
@@ -34,10 +29,18 @@ class SellerVerificationAdmin(admin.ModelAdmin):
     search_fields = ('user__email',)
     actions = ['approve_verification', 'reject_verification']
 
+    def save_model(self, request, obj, form, change):
+        # ✅ Synchronise is_verified avec status automatiquement
+        if obj.status == 'APPROVED':
+            obj.is_verified = True
+        else:
+            obj.is_verified = False
+        super().save_model(request, obj, form, change)
+
     def approve_verification(self, request, queryset):
         queryset.update(status='APPROVED', is_verified=True)
-    approve_verification.short_description = "Approve selected verifications"
+    approve_verification.short_description = "✅ Approve selected verifications"
 
     def reject_verification(self, request, queryset):
         queryset.update(status='REJECTED', is_verified=False)
-    reject_verification.short_description = "Reject selected verifications"
+    reject_verification.short_description = "❌ Reject selected verifications"

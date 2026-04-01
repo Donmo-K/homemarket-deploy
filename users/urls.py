@@ -16,6 +16,7 @@ from .views.property_views import (
     AddPropertyStep3View, AddPropertyStep4View,
     AddPropertyStep5View, PublishPropertyView
 )
+from .views.dashboard_views import AdminDashboardView
 
 app_name = "users"
 
@@ -30,6 +31,7 @@ urlpatterns = [
     # Dashboards
     path('buyer/dashboard/', BuyerDashboardView.as_view(), name='buyer_dashboard'),
     path('seller/dashboard/', SellerDashboardView.as_view(), name='seller_dashboard'),
+    path('admin/dashboard/', AdminDashboardView.as_view(), name='admin_dashboard'),
 
     # Acheteur
     path('buyer/profile/', BuyerProfileView.as_view(), name='buyer_profile'),
@@ -40,7 +42,7 @@ urlpatterns = [
 
     # Vendeur
     path('seller/profile/', SellerProfileView.as_view(), name='seller_profile'),
-    path('seller/kyc/', SellerKYCView.as_view(), name='seller_kyc'),
+    path('seller/kyc/', SellerVerificationView.as_view(), name='seller_kyc'),
     path('seller/listings/', SellerListingView.as_view(), name='seller_listings'),
     path('seller/wallet/', SellerWalletView.as_view(), name='seller_wallet'),
 
