@@ -236,3 +236,6 @@ LOGGING = {
         },
     },
 }
+NGROK_URL = "https://unbeauteous-osculant-sheba.ngrok-free.dev"
+CSRF_TRUSTED_ORIGINS = ["https://unbeauteous-osculant-sheba.ngrok-free.dev"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "unbeauteous-osculant-sheba.ngrok-free.dev"]
