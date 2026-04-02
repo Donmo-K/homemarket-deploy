@@ -68,7 +68,7 @@ DATABASES = {
     }
 }
 
-ALLOWED_HOSTS = ['web-production-e6d90.up.railway.app' ]
+ALLOWED_HOSTS = ['*']
 
 
 
