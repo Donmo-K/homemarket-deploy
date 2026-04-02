@@ -16,6 +16,7 @@ from core.models import Visit, Message, Transaction
 from django.utils import timezone
 from properties.models import Property, Listing, PropertyImage
 from django.db.models import Sum, Count
+from users.models import SellerVerification
         
 from django.http import JsonResponse
 
@@ -165,22 +166,29 @@ class VerificationView(View):
 
 
 class SellerVerificationView(LoginRequiredMixin, View):
-    template_name = "auth/seller_kyc.html"
+    template_name = "home/seller_kyc.html"
     login_url = '/users/login/'
 
     def get(self, request):
+        # ✅ Admin → rediriger vers dashboard directement
+        if request.user.is_superuser or request.user.is_staff:
+            return redirect('users:seller_dashboard')
+
         if request.user.user_type != UserType.SELLER:
             messages.error(request, "Access denied. Only sellers allowed.")
             return redirect("/")
-        
+
         verification, created = SellerVerification.objects.get_or_create(user=request.user)
-        
         return render(request, self.template_name, {
             "verification": verification,
             "title": "Vérification de votre compte vendeur"
         })
 
     def post(self, request):
+        # ✅ Admin → pas besoin de vérification
+        if request.user.is_superuser or request.user.is_staff:
+            return JsonResponse({'status': 'error', 'message': 'Admins do not need verification.'})
+
         if request.user.user_type != UserType.SELLER:
             return JsonResponse({'status': 'error', 'message': 'Access denied.'}, status=403)
 
@@ -231,7 +239,9 @@ class SellerDashboardView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-
+        context['verification'] = SellerVerification.objects.filter(user=user).first()
+        
+    
         # Stats seller (ou admin qui voit tout)
         if user.is_superuser or user.is_staff:
             # Admin voit les stats globales ou filtrées

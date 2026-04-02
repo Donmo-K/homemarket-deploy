@@ -8,386 +8,443 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script id="tailwind-config">
 tailwind.config = {
-darkMode: "class",
-theme: {
-extend: {
-colors: {
-"primary": "#000080",
-"background-light": "#f5f5f8",
-"background-dark": "#0f0f23",
-                    },
-fontFamily: {
-"display": ["Inter", "sans-serif"]
-                    },
-borderRadius: {
-"DEFAULT": "0.5rem",
-"lg": "1rem",
-"xl": "1.25rem",
-"2xl": "1.5rem",
-"full": "9999px"
-                    },
-                },
+    darkMode: "class",
+    theme: {
+        extend: {
+            colors: {
+                "primary": "#000080",
+                "background-light": "#f5f5f8",
+                "background-dark": "#0f0f23",
             },
-        }
+            fontFamily: { "display": ["Inter", "sans-serif"] },
+            borderRadius: { "DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.25rem", "2xl": "1.5rem", "full": "9999px" },
+        },
+    },
+}
 </script>
 <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .fill-icon {
-            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+.fill-icon { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
 </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+
 <!-- Top Navigation Bar -->
 <header class="sticky top-0 z-50 w-full bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <div class="flex items-center justify-between h-20">
-<a href="{% url 'core:home' %}" class="flex items-center gap-8">
-<div class="flex items-center gap-2 text-primary">
-<img src="{% static 'images/logo/logo.webp' %}" alt="Home Market Logo" class="h-8 w-auto">
-<h1 class="text-xl font-black tracking-tight">Home Market</h1>
-</div>
-</a>
-<nav class="hidden md:flex items-center gap-6">
-<a class="text-slate-700 dark:text-slate-300 text-sm font-medium hover:text-primary dark:hover:text-accent transition-colors" href="{% url 'core:home' %}">Home</a>
-<a href="{% url 'core:search' %}?type=buy" class="text-sm font-medium {% if request.GET.type == 'buy' %}text-primary underline underline-offset-4{% else %}text-slate-600 hover:text-primary{% endif %} transition-colors">Buy</a>
-<a href="{% url 'core:search' %}?type=rent" class="text-sm font-medium {% if request.GET.type == 'rent' %}text-primary underline underline-offset-4{% else %}text-slate-600 hover:text-primary{% endif %} transition-colors">Rent</a>
-<a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="{% url 'core:about' %}">About</a>
-<a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="{% url 'core:message' %}">Contact</a>
-</nav>
-<div class="flex items-center gap-4">
-<div class="hidden lg:flex relative">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
-<input class="pl-10 pr-4 py-2 bg-slate-100 dark:bg-primary/10 border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 w-64" placeholder="Search neighborhood..." type="text"/>
-</div>
-<button class="p-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">
-<span class="material-symbols-outlined">notifications</span>
-</button>
-<a href="{% url 'users:login' %}" class="h-10 w-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center overflow-hidden">
-<img alt="User Profile" data-alt="Professional headshot of a smiling man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD336wQRwAvkTdD3tldH489LXHPpSLS96H2yRZAsfpu1YCKvEjhJe2Mm-pUHxnyrXOS9lylzSMvAZJJOQaD9aBxXm5PUPt-3UtkbU-ifpGY-bFKT-rtQodz2eaxJZ3rDNEBm3F8Oj2tFexkLwPoZ5k0r3m3nx_kcjS5L9f2_tWRLyrqT5xOrvJgxYT14utfs8I1XV6HqulIUb4Bhr9J0mkKT0pEcvd37wS9B42dztsLWB1ydNy1iFsJnjblhsQlNy5RCh6aTt8yv0uQ"/>
-</a>
-</div>
+    <a href="{% url 'core:home' %}" class="flex items-center gap-8">
+        <div class="flex items-center gap-2 text-primary">
+            <img src="{% static 'images/logo/logo.webp' %}" alt="Home Market Logo" class="h-8 w-auto">
+            <h1 class="text-xl font-black tracking-tight">Home Market</h1>
+        </div>
+    </a>
+    <nav class="hidden md:flex items-center gap-6">
+        <a class="text-slate-700 text-sm font-medium hover:text-primary transition-colors" href="{% url 'core:home' %}">Home</a>
+        <a href="{% url 'core:search' %}?type=buy" class="text-sm font-medium {% if request.GET.type == 'buy' %}text-primary underline underline-offset-4{% else %}text-slate-600 hover:text-primary{% endif %} transition-colors">Buy</a>
+        <a href="{% url 'core:search' %}?type=rent" class="text-sm font-medium {% if request.GET.type == 'rent' %}text-primary underline underline-offset-4{% else %}text-slate-600 hover:text-primary{% endif %} transition-colors">Rent</a>
+        <a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="{% url 'core:about' %}">About</a>
+        <a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="{% url 'core:message' %}">Contact</a>
+    </nav>
+    <div class="flex items-center gap-4">
+        <form method="get" action="{% url 'core:search' %}" class="hidden lg:flex relative">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+            <input class="pl-10 pr-4 py-2 bg-slate-100 border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 w-64"
+                   name="location" placeholder="Search neighborhood..." type="text"
+                   value="{{ request.GET.location|default:'' }}"/>
+        </form>
+        <button class="p-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">
+            <span class="material-symbols-outlined">notifications</span>
+        </button>
+        <a href="{% url 'users:login' %}" class="h-10 w-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center overflow-hidden">
+            <img alt="User Profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD336wQRwAvkTdD3tldH489LXHPpSLS96H2yRZAsfpu1YCKvEjhJe2Mm-pUHxnyrXOS9lylzSMvAZJJOQaD9aBxXm5PUPt-3UtkbU-ifpGY-bFKT-rtQodz2eaxJZ3rDNEBm3F8Oj2tFexkLwPoZ5k0r3m3nx_kcjS5L9f2_tWRLyrqT5xOrvJgxYT14utfs8I1XV6HqulIUb4Bhr9J0mkKT0pEcvd37wS9B42dztsLWB1ydNy1iFsJnjblhsQlNy5RCh6aTt8yv0uQ"/>
+        </a>
+    </div>
 </div>
 </div>
 </header>
 
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-<!-- Breadcrumbs & Header -->
-<div class="mb-8">
-<nav class="flex items-center gap-2 text-sm text-slate-500 mb-4">
-<a class="hover:text-primary" href="{% url 'core:home' %}">Home</a>
-<span class="material-symbols-outlined text-xs">chevron_right</span>
-<span class="font-medium text-primary">Property Listings</span>
-</nav>
-<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
-<div>
-<h2 class="text-4xl font-black tracking-tight text-slate-900 dark:text-white">
-  Properties for Sale
-</h2>
-<p class="text-slate-500 mt-2 font-medium">
-  {{ properties.count }} luxury homes found {% if location %}in {{ location }}{% endif %}
-</p>
-</div>
-<div class="flex items-center gap-3">
-<button class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">
-<span class="material-symbols-outlined text-lg">sort</span> Sort by: Popularity
-</button>
-</div>
-</div>
-</div>
 
-<div class="flex flex-col lg:flex-row gap-8">
-<!-- Sidebar Filters - Dynamique -->
-<aside class="w-full lg:w-72 space-y-8">
-<div class="bg-white dark:bg-background-dark/50 p-6 rounded-xl border border-primary/5">
-<h3 class="text-lg font-bold mb-6 flex items-center gap-2">
-<span class="material-symbols-outlined text-primary">tune</span> Filters
-</h3>
-
-<!-- Location Filter -->
-<div class="mb-8">
-<label class="block text-sm font-bold text-slate-900 dark:text-slate-100 mb-3">Location</label>
-<div class="relative">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">location_on</span>
-<input class="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-primary focus:border-primary" type="text" name="location" value="{{ request.GET.location|default:'' }}" placeholder="Enter city or neighborhood"/>
-</div>
-</div>
-
-<!-- Price Range -->
-<div class="mb-8">
-<label class="block text-sm font-bold text-slate-900 dark:text-slate-100 mb-3">Price Range</label>
-<div class="flex gap-3">
-<input class="w-full py-2.5 px-4 bg-slate-50 border border-slate-200 rounded-lg text-sm" type="number" name="min_price" placeholder="Min" value="{{ request.GET.min_price|default:'' }}"/>
-<input class="w-full py-2.5 px-4 bg-slate-50 border border-slate-200 rounded-lg text-sm" type="number" name="max_price" placeholder="Max" value="{{ request.GET.max_price|default:'' }}"/>
-</div>
-</div>
-
-<!-- Bedrooms -->
-<div class="mb-8">
-<label class="block text-sm font-bold text-slate-900 dark:text-slate-100 mb-3">Bedrooms</label>
-<div class="grid grid-cols-4 gap-2">
-<button type="button" class="py-2 text-sm font-medium border border-slate-200 rounded-lg hover:border-primary hover:text-primary transition-all {% if request.GET.bedrooms == '1' %}bg-primary text-white{% endif %}">1+</button>
-<button type="button" class="py-2 text-sm font-medium border border-slate-200 rounded-lg hover:border-primary hover:text-primary transition-all {% if request.GET.bedrooms == '2' %}bg-primary text-white{% endif %}">2+</button>
-<button type="button" class="py-2 text-sm font-medium border border-slate-200 rounded-lg hover:border-primary hover:text-primary transition-all {% if request.GET.bedrooms == '3' %}bg-primary text-white{% endif %}">3+</button>
-<button type="button" class="py-2 text-sm font-medium border border-slate-200 rounded-lg hover:border-primary hover:text-primary transition-all {% if request.GET.bedrooms == '4' %}bg-primary text-white{% endif %}">4+</button>
-</div>
-</div>
-
-<!-- Property Type -->
-<div class="mb-8">
-<label class="block text-sm font-bold text-slate-900 dark:text-slate-100 mb-3">Property Type</label>
-<div class="space-y-3">
-<label class="flex items-center gap-3 cursor-pointer group">
-<input type="checkbox" name="property_type" value="Apartment" class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20" {% if 'Apartment' in request.GET.property_type %}checked{% endif %}/>
-<span class="text-sm font-medium text-slate-600 group-hover:text-primary">Apartments</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer group">
-<input type="checkbox" name="property_type" value="House" class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20" {% if 'House' in request.GET.property_type %}checked{% endif %}/>
-<span class="text-sm font-medium text-slate-600 group-hover:text-primary">Houses</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer group">
-<input type="checkbox" name="property_type" value="Villa" class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20" {% if 'Villa' in request.GET.property_type %}checked{% endif %}/>
-<span class="text-sm font-medium text-slate-600 group-hover:text-primary">Villas</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer group">
-<input type="checkbox" name="property_type" value="Condo" class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20" {% if 'Condo' in request.GET.property_type %}checked{% endif %}/>
-<span class="text-sm font-medium text-slate-600 group-hover:text-primary">Condos</span>
-</label>
-</div>
-</div>
-
-<button type="submit" class="w-full py-3 bg-primary text-white font-bold rounded-xl hover:shadow-lg hover:shadow-primary/20 transition-all">
-  Apply Filters
-</button>
-<button type="reset" class="w-full mt-3 py-3 text-slate-500 font-bold text-sm hover:text-primary transition-colors">
-  Reset All
-</button>
-</div>
-
-<!-- Featured Card In Sidebar (statique pour l'instant) -->
-<div class="relative overflow-hidden rounded-xl bg-primary aspect-[4/5] p-6 flex flex-col justify-end">
-<img alt="Featured Property" class="absolute inset-0 w-full h-full object-cover opacity-50" data-alt="Modern luxury villa with pool at sunset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAehgN8Y8LKPf_JFNQJ-NVLdl3Tb2qKcqG8djT7mTIhi0tUHqacNKJJQF91TNyPhZFJ3egQYDe1X6OEBzb7o3SYROy2gr2RYILw0x2ItvGONFqrm32kHTd3Zzt7pmt1GqWRezF-EcAtyQmQ1GXCnTj8RxcScaxAzwUTyS2fX9tObkailFdgiZm98wDa9eMSqO6e4eRMLhoBDB2tCwxrLPKDLCoOT0GMhkiwUmiWxCHu4sPHR1A97ntmxUhcXE1cLGyS6QsdXV4D1mI"/>
-<div class="relative z-10 text-white">
-<span class="px-2 py-1 bg-white/20 backdrop-blur-md rounded text-[10px] font-bold uppercase tracking-wider">Top Rated Agent</span>
-<h4 class="text-xl font-bold mt-2">Find your dream home with AI assistant</h4>
-<button class="mt-4 px-4 py-2 bg-white text-primary rounded-lg text-sm font-bold">Start Searching</button>
-</div>
-</div>
-</aside>
-
-<!-- Main Content: Property Grid -->
-<div class="flex-1">
-<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-  {% for prop in properties %}
-    <div class="group bg-white dark:bg-background-dark/40 rounded-xl overflow-hidden border border-slate-100 hover:shadow-2xl hover:shadow-slate-200 transition-all duration-300">
-      <div class="relative aspect-[4/3] overflow-hidden">
-        {% if prop.images.exists %}
-          <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="{{ prop.images.first.image.url }}" alt="{{ prop.title }}">
-        {% else %}
-          <div class="w-full h-full bg-gray-200 flex items-center justify-center">
-            <span class="material-symbols-outlined text-6xl text-gray-400">image</span>
-          </div>
-        {% endif %}
-        <div class="absolute top-4 left-4 flex gap-2">
-          <span class="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full">For Sale</span>
-          {% if prop.status == 1 %}
-            <span class="px-3 py-1 bg-green-500 text-white text-xs font-bold rounded-full">Active</span>
-          {% endif %}
+    <!-- Breadcrumbs & Header -->
+    <div class="mb-8">
+        <nav class="flex items-center gap-2 text-sm text-slate-500 mb-4">
+            <a class="hover:text-primary" href="{% url 'core:home' %}">Home</a>
+            <span class="material-symbols-outlined text-xs">chevron_right</span>
+            <span class="font-medium text-primary">Property Listings</span>
+        </nav>
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+                <h2 class="text-4xl font-black tracking-tight text-slate-900 dark:text-white">Properties for Sale</h2>
+                <p class="text-slate-500 mt-2 font-medium">
+                    {{ properties.count }} luxury homes found {% if location %}in {{ location }}{% endif %}
+                </p>
+            </div>
+            <div class="flex items-center gap-3">
+                <button class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                    <span class="material-symbols-outlined text-lg">sort</span> Sort by: Popularity
+                </button>
+            </div>
         </div>
-        <button class="absolute top-4 right-4 w-9 h-9 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 transition-colors">
-          <span class="material-symbols-outlined text-xl">favorite</span>
-        </button>
-      </div>
-      <div class="p-5">
-        <div class="flex justify-between items-start mb-2">
-          <h3 class="text-2xl font-black text-primary">{{ prop.price|floatformat:0 }} FCFA</h3>
-        </div>
-        <h4 class="font-bold text-lg text-slate-900 leading-tight mb-2">{{ prop.title }}</h4>
-        <p class="text-slate-500 text-sm line-clamp-2 mb-4">{{ prop.description|truncatewords:20 }}</p>
-        <div class="flex items-center gap-4 py-4 border-t border-slate-50">
-          <div class="flex items-center gap-1.5 text-slate-600">
-            <span class="material-symbols-outlined text-lg">bed</span>
-            <span class="text-sm font-semibold text-slate-900">{{ prop.bedrooms|default:"-" }}</span>
-          </div>
-          <div class="flex items-center gap-1.5 text-slate-600">
-            <span class="material-symbols-outlined text-lg">bathtub</span>
-            <span class="text-sm font-semibold text-slate-900">{{ prop.bathrooms|default:"-" }}</span>
-          </div>
-          <div class="flex items-center gap-1.5 text-slate-600">
-            <span class="material-symbols-outlined text-lg">square_foot</span>
-            <span class="text-sm font-semibold text-slate-900">{{ prop.area_sqm|default:"-" }} m²</span>
-          </div>
-        </div>
-      </div>
     </div>
-  {% empty %}
-    <div class="col-span-full text-center py-12 text-slate-500">
-      <span class="material-symbols-outlined text-6xl block mb-4">search_off</span>
-      <p class="text-lg font-medium">Aucune propriété ne correspond à vos critères</p>
-      <p class="mt-2">Essayez de modifier vos filtres</p>
+
+    <div class="flex flex-col lg:flex-row gap-8">
+
+        <!-- Sidebar Filters -->
+        <aside class="w-full lg:w-72 space-y-8">
+            <form method="get" action="{% url 'core:search' %}" id="filter-form">
+
+                {% if request.GET.type %}
+                <input type="hidden" name="type" value="{{ request.GET.type }}">
+                {% endif %}
+
+                <div class="bg-white dark:bg-background-dark/50 p-6 rounded-xl border border-primary/5">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">tune</span> Filters
+                    </h3>
+
+                    <!-- Location -->
+                    <div class="mb-8">
+                        <label class="block text-sm font-bold text-slate-900 mb-3">Location</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">location_on</span>
+                            <input class="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-primary focus:border-primary"
+                                   type="text" name="location"
+                                   value="{{ request.GET.location|default:'' }}"
+                                   placeholder="Enter city or neighborhood"/>
+                        </div>
+                    </div>
+
+                    <!-- Price Range -->
+                    <div class="mb-8">
+                        <label class="block text-sm font-bold text-slate-900 mb-3">Price Range</label>
+                        <div class="flex gap-3">
+                            <input class="w-full py-2.5 px-4 bg-slate-50 border border-slate-200 rounded-lg text-sm"
+                                   type="number" name="min_price" placeholder="Min"
+                                   value="{{ request.GET.min_price|default:'' }}"/>
+                            <input class="w-full py-2.5 px-4 bg-slate-50 border border-slate-200 rounded-lg text-sm"
+                                   type="number" name="max_price" placeholder="Max"
+                                   value="{{ request.GET.max_price|default:'' }}"/>
+                        </div>
+                    </div>
+
+                    <!-- Bedrooms -->
+                    <div class="mb-8">
+                        <label class="block text-sm font-bold text-slate-900 mb-3">Bedrooms</label>
+                        <input type="hidden" name="bedrooms" id="bedrooms-input" value="{{ request.GET.bedrooms|default:'' }}">
+                        <div class="grid grid-cols-4 gap-2">
+                            {% for b in '1234' %}
+                            <button type="button"
+                                    onclick="setBedrooms('{{ b }}')"
+                                    id="bed-btn-{{ b }}"
+                                    class="py-2 text-sm font-medium border border-slate-200 rounded-lg hover:border-primary hover:text-primary transition-all {% if request.GET.bedrooms == b %}bg-primary text-white border-primary{% endif %}">
+                                {{ b }}+
+                            </button>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Property Type -->
+                    <div class="mb-8">
+                        <label class="block text-sm font-bold text-slate-900 mb-3">Property Type</label>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" name="property_type" value="APARTMENT"
+                                       class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20"
+                                       {% if 'APARTMENT' in request.GET.property_type %}checked{% endif %}/>
+                                <span class="text-sm font-medium text-slate-600 group-hover:text-primary">Apartments</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" name="property_type" value="HOUSE"
+                                       class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20"
+                                       {% if 'HOUSE' in request.GET.property_type %}checked{% endif %}/>
+                                <span class="text-sm font-medium text-slate-600 group-hover:text-primary">Houses</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" name="property_type" value="COMMERCIAL"
+                                       class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20"
+                                       {% if 'COMMERCIAL' in request.GET.property_type %}checked{% endif %}/>
+                                <span class="text-sm font-medium text-slate-600 group-hover:text-primary">Commercial</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" name="property_type" value="LAND"
+                                       class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20"
+                                       {% if 'LAND' in request.GET.property_type %}checked{% endif %}/>
+                                <span class="text-sm font-medium text-slate-600 group-hover:text-primary">Land</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full py-3 bg-primary text-white font-bold rounded-xl hover:shadow-lg hover:shadow-primary/20 transition-all">
+                        Apply Filters
+                    </button>
+                    <a href="{% url 'core:search' %}" class="block w-full mt-3 py-3 text-center text-slate-500 font-bold text-sm hover:text-primary transition-colors">
+                        Reset All
+                    </a>
+                </div>
+            </form>
+
+            <!-- Featured Card -->
+            <div class="relative overflow-hidden rounded-xl bg-primary aspect-[4/5] p-6 flex flex-col justify-end">
+                <img alt="Featured Property" class="absolute inset-0 w-full h-full object-cover opacity-50"
+                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuAehgN8Y8LKPf_JFNQJ-NVLdl3Tb2qKcqG8djT7mTIhi0tUHqacNKJJQF91TNyPhZFJ3egQYDe1X6OEBzb7o3SYROy2gr2RYILw0x2ItvGONFqrm32kHTd3Zzt7pmt1GqWRezF-EcAtyQmQ1GXCnTj8RxcScaxAzwUTyS2fX9tObkailFdgiZm98wDa9eMSqO6e4eRMLhoBDB2tCwxrLPKDLCoOT0GMhkiwUmiWxCHu4sPHR1A97ntmxUhcXE1cLGyS6QsdXV4D1mI"/>
+                <div class="relative z-10 text-white">
+                    <span class="px-2 py-1 bg-white/20 backdrop-blur-md rounded text-[10px] font-bold uppercase tracking-wider">Top Rated Agent</span>
+                    <h4 class="text-xl font-bold mt-2">Find your dream home with AI assistant</h4>
+                    <button class="mt-4 px-4 py-2 bg-white text-primary rounded-lg text-sm font-bold">Start Searching</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content: Property Grid -->
+        <div class="flex-1">
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {% for prop in properties %}
+                <a href="{% url 'core:property_detail' prop.id %}" class="group bg-white dark:bg-background-dark/40 rounded-xl overflow-hidden border border-slate-100 hover:shadow-2xl hover:shadow-slate-200 transition-all duration-300 block">
+                    <div class="relative aspect-[4/3] overflow-hidden">
+                        {% if prop.images.exists %}
+                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="{{ prop.images.first.image.url }}" alt="{{ prop.title }}">
+                        {% else %}
+                        <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-6xl text-gray-400">image</span>
+                        </div>
+                        {% endif %}
+                        <div class="absolute top-4 left-4 flex gap-2">
+                            <span class="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full">For Sale</span>
+                        </div>
+                        {% if request.user.is_authenticated %}
+                        <button onclick="event.preventDefault(); toggleFav(this, '{{ prop.id }}')"
+                                class="absolute top-4 right-4 w-9 h-9 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 transition-colors">
+                            <span class="material-symbols-outlined text-xl">favorite</span>
+                        </button>
+                        {% endif %}
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-2xl font-black text-primary">{{ prop.price|floatformat:0 }} FCFA</h3>
+                        <h4 class="font-bold text-lg text-slate-900 leading-tight mb-2 mt-1">{{ prop.title }}</h4>
+                        <p class="text-slate-500 text-sm line-clamp-2 mb-4">{{ prop.description|truncatewords:20 }}</p>
+                        {% if prop.location %}
+                        <p class="text-slate-400 text-xs flex items-center gap-1 mb-3">
+                            <span class="material-symbols-outlined text-sm">location_on</span>
+                            {{ prop.location.city }}, {{ prop.location.country }}
+                        </p>
+                        {% endif %}
+                        <div class="flex items-center gap-4 py-4 border-t border-slate-50">
+                            <div class="flex items-center gap-1.5 text-slate-600">
+                                <span class="material-symbols-outlined text-lg">bed</span>
+                                <span class="text-sm font-semibold text-slate-900">{{ prop.bedrooms|default:"-" }}</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-slate-600">
+                                <span class="material-symbols-outlined text-lg">bathtub</span>
+                                <span class="text-sm font-semibold text-slate-900">{{ prop.bathrooms|default:"-" }}</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-slate-600">
+                                <span class="material-symbols-outlined text-lg">square_foot</span>
+                                <span class="text-sm font-semibold text-slate-900">{{ prop.area_sqm|default:"-" }} m²</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                {% empty %}
+                <div class="col-span-full text-center py-12 text-slate-500">
+                    <span class="material-symbols-outlined text-6xl block mb-4">search_off</span>
+                    <p class="text-lg font-medium">Aucune propriété ne correspond à vos critères</p>
+                    <p class="mt-2">Essayez de modifier vos filtres</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if properties.has_other_pages %}
+            <div class="mt-12 flex justify-center">
+                <nav class="flex items-center gap-2">
+                    {% if properties.has_previous %}
+                    <a href="?page={{ properties.previous_page_number }}" class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </a>
+                    {% endif %}
+                    {% for num in properties.paginator.page_range %}
+                    <a href="?page={{ num }}" class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 {% if properties.number == num %}bg-primary text-white{% else %}text-slate-600 hover:bg-slate-50{% endif %} font-bold">
+                        {{ num }}
+                    </a>
+                    {% endfor %}
+                    {% if properties.has_next %}
+                    <a href="?page={{ properties.next_page_number }}" class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </a>
+                    {% endif %}
+                </nav>
+            </div>
+            {% endif %}
+        </div>
     </div>
-  {% endfor %}
-</div>
-
-<!-- Pagination -->
-{% if properties.has_other_pages %}
-<div class="mt-12 flex justify-center">
-<nav class="flex items-center gap-2">
-  {% if properties.has_previous %}
-    <a href="?page={{ properties.previous_page_number }}" class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50">
-      <span class="material-symbols-outlined">chevron_left</span>
-    </a>
-  {% endif %}
-
-  {% for num in properties.paginator.page_range %}
-    <a href="?page={{ num }}" class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 {% if properties.number == num %}bg-primary text-white{% else %}text-slate-600 hover:bg-slate-50{% endif %} font-bold">
-      {{ num }}
-    </a>
-  {% endfor %}
-
-  {% if properties.has_next %}
-    <a href="?page={{ properties.next_page_number }}" class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50">
-      <span class="material-symbols-outlined">chevron_right</span>
-    </a>
-  {% endif %}
-</nav>
-</div>
-{% endif %}
-</div>
-</div>
 </main>
 
-<!-- Map Preview Toggle Floating Button -->
-<button class="fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 bg-primary text-white rounded-full shadow-2xl flex items-center gap-2 font-bold z-40 hover:scale-105 active:scale-95 transition-transform">
-<span class="material-symbols-outlined">map</span> View Map
+<!-- ✅ Bouton View Map -->
+<button onclick="openMap()"
+        class="fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 bg-primary text-white rounded-full shadow-2xl flex items-center gap-2 font-bold z-40 hover:scale-105 active:scale-95 transition-transform">
+    <span class="material-symbols-outlined">map</span> View Map
 </button>
 
-<!-- Message Agent Floating Button -->
+<!-- Bouton Message Agent -->
 <a href="{% url 'core:message' %}"
-class="fixed bottom-24 left-1/2 -translate-x-1/2 px-6 py-3 bg-primary text-white rounded-full shadow-2xl flex items-center gap-2 font-bold z-40 hover:scale-105 active:scale-95 transition-transform">
-
-<span class="material-symbols-outlined">chat</span> Message Agent
-
+   class="fixed bottom-24 left-1/2 -translate-x-1/2 px-6 py-3 bg-primary text-white rounded-full shadow-2xl flex items-center gap-2 font-bold z-40 hover:scale-105 active:scale-95 transition-transform">
+    <span class="material-symbols-outlined">chat</span> Message Agent
 </a>
+
+<!-- ✅ Modal Carte -->
+<div id="map-modal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/50" onclick="closeMap()"></div>
+    <div class="absolute inset-4 md:inset-10 bg-white rounded-2xl overflow-hidden flex flex-col shadow-2xl">
+        <div class="flex items-center justify-between p-4 border-b bg-white">
+            <h3 class="font-bold text-lg flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">map</span>
+                Properties on Map
+            </h3>
+            <button onclick="closeMap()" class="p-2 hover:bg-slate-100 rounded-full transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div id="map" class="flex-1" style="min-height: 400px;"></div>
+    </div>
+</div>
 
 <!-- Footer -->
 <footer class="bg-primary text-white py-10">
-
-<div class="max-w-7xl mx-auto px-4">
-
-<div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-
-<!-- Brand -->
-<div>
-
-<div class="flex items-center gap-3 mb-4">
-
-<div class="bg-white p-2 rounded-lg text-primary">
-<span class="material-symbols-outlined">domain</span>
-</div>
-
-<h1 class="text-lg font-black uppercase italic text-white">
-Home Market
-</h1>
-
-</div>
-
-<p class="text-sm text-white leading-relaxed mb-4">
-The leading premium marketplace for luxury real estate, apartments and commercial properties.
-</p>
-
-<div class="flex gap-3">
-
-<a class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition">
-<span class="material-symbols-outlined text-base text-white">share</span>
-</a>
-
-<a class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition">
-<span class="material-symbols-outlined text-base text-white">public</span>
-</a>
-
-<a class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition">
-<span class="material-symbols-outlined text-base text-white">mail</span>
-</a>
-
-</div>
-
-</div>
-
-<!-- Quick Links -->
-<div>
-
-<h4 class="font-bold mb-4 text-yellow-400 uppercase tracking-widest text-xs">
-Quick Links
-</h4>
-
-<ul class="space-y-2 text-sm text-white">
-
-<li><a class="hover:text-accent transition" href="{% url 'core:home' %}">Home</a></li>
-
-<li><a class="hover:text-accent transition" href="{% url 'core:search' %}?type=buy">Buy</a></li>
-
-<li><a class="hover:text-accent transition" href="{% url 'core:search' %}?type=rent">Rent</a></li>
-
-<li><a class="hover:text-accent transition" href="{% url 'core:about' %}">About</a></li>
-
-</ul>
-
-</div>
-
-<!-- Property Types -->
-<div>
-
-<h4 class="font-bold mb-4 text-yellow-400 uppercase tracking-widest text-xs">
-Property Types
-</h4>
-
-<ul class="space-y-2 text-sm text-white">
-
-<li><a class="hover:text-accent transition" href="{% url 'core:search' %}?category=house">Houses</a></li>
-
-<li><a class="hover:text-accent transition" href="{% url 'core:search' %}?category=apartment">Apartments</a></li>
-
-<li><a class="hover:text-accent transition" href="{% url 'core:search' %}?category=land">Land</a></li>
-
-<li><a class="hover:text-accent transition" href="{% url 'core:search' %}?category=commercial">Commercial</a></li>
-
-</ul>
-
-</div>
-
-<!-- Office -->
-<div>
-
-<h4 class="font-bold mb-4 text-yellow-400 uppercase tracking-widest text-xs">
-Office
-</h4>
-
-<p class="text-sm text-white leading-relaxed">
-Banengo, Bafoussam<br>
-Cameroon<br>
-+237 654 25 29 90
-</p>
-
-<p class="text-sm text-white mt-2">
-homemarket952@gmail.com
-</p>
-
-</div>
-
-</div>
-
-<div class="border-t border-white/20 pt-5 text-center text-sm text-white">
-
-© 2026 Home Market Marketplace. All rights reserved.
-
-</div>
-
-</div>
-
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="bg-white p-2 rounded-lg text-primary"><span class="material-symbols-outlined">domain</span></div>
+                    <h1 class="text-lg font-black uppercase italic text-white">Home Market</h1>
+                </div>
+                <p class="text-sm text-white leading-relaxed mb-4">The leading premium marketplace for luxury real estate, apartments and commercial properties.</p>
+            </div>
+            <div>
+                <h4 class="font-bold mb-4 text-yellow-400 uppercase tracking-widest text-xs">Quick Links</h4>
+                <ul class="space-y-2 text-sm text-white">
+                    <li><a class="hover:text-yellow-400 transition" href="{% url 'core:home' %}">Home</a></li>
+                    <li><a class="hover:text-yellow-400 transition" href="{% url 'core:search' %}?type=buy">Buy</a></li>
+                    <li><a class="hover:text-yellow-400 transition" href="{% url 'core:search' %}?type=rent">Rent</a></li>
+                    <li><a class="hover:text-yellow-400 transition" href="{% url 'core:about' %}">About</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-4 text-yellow-400 uppercase tracking-widest text-xs">Property Types</h4>
+                <ul class="space-y-2 text-sm text-white">
+                    <li><a class="hover:text-yellow-400 transition" href="{% url 'core:search' %}?property_type=HOUSE">Houses</a></li>
+                    <li><a class="hover:text-yellow-400 transition" href="{% url 'core:search' %}?property_type=APARTMENT">Apartments</a></li>
+                    <li><a class="hover:text-yellow-400 transition" href="{% url 'core:search' %}?property_type=LAND">Land</a></li>
+                    <li><a class="hover:text-yellow-400 transition" href="{% url 'core:search' %}?property_type=COMMERCIAL">Commercial</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-4 text-yellow-400 uppercase tracking-widest text-xs">Office</h4>
+                <p class="text-sm text-white leading-relaxed">Banengo, Bafoussam<br>Cameroon<br>+237 654 25 29 90</p>
+                <p class="text-sm text-white mt-2">homemarket952@gmail.com</p>
+            </div>
+        </div>
+        <div class="border-t border-white/20 pt-5 text-center text-sm text-white">© 2026 Home Market Marketplace. All rights reserved.</div>
+    </div>
 </footer>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+// ── Bedrooms filter ──
+function setBedrooms(val) {
+    const current = document.getElementById('bedrooms-input').value;
+    if (current === val) {
+        document.getElementById('bedrooms-input').value = '';
+        document.querySelectorAll('[id^="bed-btn-"]').forEach(b => {
+            b.classList.remove('bg-primary', 'text-white', 'border-primary');
+        });
+    } else {
+        document.getElementById('bedrooms-input').value = val;
+        document.querySelectorAll('[id^="bed-btn-"]').forEach(b => {
+            b.classList.remove('bg-primary', 'text-white', 'border-primary');
+        });
+        document.getElementById('bed-btn-' + val).classList.add('bg-primary', 'text-white', 'border-primary');
+    }
+}
+
+// ── Carte Leaflet ──
+let map = null;
+
+const propertiesData = [
+    {% for prop in properties %}
+    {% if prop.location and prop.location.latitude and prop.location.longitude %}
+    {
+        lat: {{ prop.location.latitude }},
+        lng: {{ prop.location.longitude }},
+        title: "{{ prop.title|escapejs }}",
+        price: "{{ prop.price|floatformat:0 }} FCFA",
+        url: "{% url 'core:property_detail' prop.id %}"
+    },
+    {% endif %}
+    {% endfor %}
+];
+
+function openMap() {
+    document.getElementById('map-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+
+    if (!map) {
+        map = L.map('map').setView([3.848, 11.502], 6);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        if (propertiesData.length > 0) {
+            propertiesData.forEach(p => {
+                L.marker([p.lat, p.lng])
+                    .addTo(map)
+                    .bindPopup(`
+                        <div style="text-align:center;padding:4px;min-width:150px">
+                            <p style="font-weight:bold;color:#000080;margin-bottom:4px">${p.price}</p>
+                            <p style="font-size:13px;margin-bottom:6px">${p.title}</p>
+                            <a href="${p.url}" style="color:#000080;font-size:12px;text-decoration:underline">Voir le bien →</a>
+                        </div>
+                    `);
+            });
+            map.setView([propertiesData[0].lat, propertiesData[0].lng], 12);
+        }
+    }
+
+    setTimeout(() => map.invalidateSize(), 150);
+}
+
+function closeMap() {
+    document.getElementById('map-modal').classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+// ── Favori AJAX ──
+const csrfToken = '{{ csrf_token }}';
+function toggleFav(btn, propertyId) {
+    fetch(`/users/toggle-favorite/${propertyId}/`, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': csrfToken, 'Content-Type': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(data => {
+        const icon = btn.querySelector('.material-symbols-outlined');
+        if (data.status === 'added') {
+            icon.style.fontVariationSettings = "'FILL' 1";
+            icon.classList.add('text-red-500');
+            icon.classList.remove('text-slate-400');
+        } else {
+            icon.style.fontVariationSettings = "'FILL' 0";
+            icon.classList.remove('text-red-500');
+            icon.classList.add('text-slate-400');
+        }
+    });
+}
+</script>
+
+</body>
+</html>

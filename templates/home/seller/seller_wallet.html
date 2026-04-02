@@ -1,310 +1,330 @@
-<!DOCTYPE html>
 {% load static %}
-
-<html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#000080",
-                        "background-light": "#f5f5f8",
-                        "background-dark": "#0f0f23",
-                    },
-                    fontFamily: {
-                        "display": ["Inter"]
-                    },
-                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "primary": "#000080",
+                    "background-light": "#f5f5f8",
+                    "background-dark": "#0f0f23",
                 },
+                fontFamily: { "display": ["Inter"] },
+                borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
             },
-        }
-    </script>
+        },
+    }
+</script>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .soft-shadow { box-shadow: 0 4px 20px -2px rgba(0, 0, 128, 0.05); }
+</style>
 <title>Seller Wallet - Home Market</title>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
-<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
-<!-- Header -->
-<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 lg:px-10 py-3 sticky top-0 z-50">
-<div class="flex items-center gap-8">
-<div class="flex items-center gap-3 text-primary">
-<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
-<span class="material-symbols-outlined">domain</span>
-</div>
-<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">Home Market</h2>
-</div>
-<nav class="hidden md:flex items-center gap-8">
-<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="{% url 'users:seller_dashboard' %}">Dashboard</a>
-<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="{% url 'users:seller_listings' %}">Listings</a>
-<a class="text-primary text-sm font-bold border-b-2 border-primary pb-1" href="{% url 'users:seller_wallet' %}">Wallet</a>
-<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="{% url 'core:message' %}">Messages</a>
+<div class="flex h-screen overflow-hidden">
+
+    <!-- ✅ Sidebar identique au dashboard -->
+    <aside class="w-72 bg-primary flex flex-col shrink-0">
+        <div class="p-8">
+            <a href="{% url 'core:home' %}" class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-primary">
+                    <img src="{% static 'images/logo/logo.webp' %}" alt="Home Market Logo" class="h-8 w-auto">
+                </div>
+                <div class="flex flex-col">
+                    <h1 class="text-white text-lg font-bold leading-tight">Home Market</h1>
+                    <p class="text-white/60 text-xs font-medium uppercase tracking-wider">Seller Portal</p>
+                </div>
+            </a>
+        </div>
+
+       <nav class="flex-1 px-4 space-y-2 overflow-y-auto">
+
+    {% if request.user.is_superuser or request.user.is_staff or verification and verification.is_verified %}
+    <!-- ✅ Menu complet : admin OU vendeur vérifié -->
+    <a class="flex items-center gap-4 px-4 py-3 bg-white/10 text-white rounded-xl transition-colors" href="{% url 'users:seller_dashboard' %}">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span class="font-medium">Dashboard</span>
+    </a>
+    <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="{% url 'users:seller_listings' %}">
+        <span class="material-symbols-outlined">list_alt</span>
+        <span class="font-medium">My Listings</span>
+    </a>
+    <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="{% url 'users:add_property_step1' %}">
+        <span class="material-symbols-outlined">add_circle</span>
+        <span class="font-medium">Add Property</span>
+    </a>
+    <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="{% url 'core:message' %}">
+        <span class="material-symbols-outlined">chat_bubble</span>
+        <span class="font-medium">Messages</span>
+    </a>
+    <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="#">
+        <span class="material-symbols-outlined">analytics</span>
+        <span class="font-medium">Analytics</span>
+    </a>
+    <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="{% url 'users:seller_wallet' %}">
+        <span class="material-symbols-outlined">account_balance_wallet</span>
+        <span class="font-medium">Wallet</span>
+    </a>
+
+    {% else %}
+    <!-- ❌ Vendeur non vérifié → Dashboard + Verification uniquement -->
+    <a class="flex items-center gap-4 px-4 py-3 bg-white/10 text-white rounded-xl transition-colors" href="{% url 'users:seller_dashboard' %}">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span class="font-medium">Dashboard</span>
+    </a>
+    <a class="flex items-center gap-4 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-xl transition-colors" href="{% url 'users:seller_kyc' %}">
+        <span class="material-symbols-outlined">verified_user</span>
+        <span class="font-medium">Verification</span>
+        <span class="ml-auto bg-amber-400 text-primary text-[10px] font-black px-2 py-0.5 rounded-full animate-pulse">Required</span>
+    </a>
+    {% endif %}
+
 </nav>
+
+        <div class="p-6 border-t border-white/10">
+            <div class="bg-white/5 rounded-xl p-4 flex items-center gap-3">
+                <div class="size-10 rounded-full bg-primary/20 flex items-center justify-center text-white font-bold">
+                    {{ request.user.first_name|first }}{{ request.user.last_name|first }}
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-white text-sm font-semibold truncate">{{ request.user.get_full_name|default:request.user.email }}</p>
+                    <p class="text-white/40 text-xs truncate">{% if verification.is_verified %}Verified Seller{% else %}Seller{% endif %}</p>
+                </div>
+                <a href="{% url 'users:logout' %}">
+                    <span class="material-symbols-outlined text-white/40 text-lg">logout</span>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Contenu principal -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+
+        <!-- ✅ Header -->
+        <header class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-8 py-4 shrink-0">
+            <div class="flex items-center gap-4">
+                <h2 class="text-xl font-bold">Wallet</h2>
+                <span class="text-slate-400 text-sm hidden sm:inline">|</span>
+                <span class="text-slate-400 text-sm hidden sm:inline">{{ request.user.get_full_name|default:request.user.email }}</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="relative hidden md:block">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                    <input class="pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-xl focus:ring-2 focus:ring-primary w-64 text-sm" placeholder="Search transactions..." type="text"/>
+                </div>
+                <button class="w-10 h-10 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 rounded-xl hover:bg-primary/10 hover:text-primary transition-colors relative">
+                    <span class="material-symbols-outlined">notifications</span>
+                    <span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white"></span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto p-8 space-y-8">
+
+            <!-- Page Title -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                <div class="space-y-1">
+                    <h1 class="text-3xl font-extrabold tracking-tight">Wallet &amp; Transactions</h1>
+                    <p class="text-slate-500 text-base">Overview of your real estate earnings and fund management.</p>
+                </div>
+                <button class="bg-primary hover:bg-opacity-90 text-white font-bold py-3 px-8 rounded-[20px] transition-all flex items-center gap-2 shadow-lg shadow-primary/20">
+                    <span class="material-symbols-outlined">account_balance_wallet</span>
+                    <span>Withdraw Funds</span>
+                </button>
+            </div>
+
+            <!-- ✅ Metric Cards dynamiques -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Card 1 : Total Revenue -->
+                <div class="bg-white dark:bg-slate-900 p-8 rounded-xl border border-slate-200 dark:border-slate-800 soft-shadow flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-4">
+                        <p class="text-slate-500 font-semibold text-sm uppercase tracking-wider">Total Revenue</p>
+                        <div class="p-2 bg-primary/10 rounded-lg text-primary">
+                            <span class="material-symbols-outlined">trending_up</span>
+                        </div>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-3xl font-black text-slate-900 dark:text-white">{{ total_revenue|floatformat:2 }} FCFA</p>
+                        <p class="text-emerald-600 text-sm font-bold flex items-center gap-1">
+                            <span class="material-symbols-outlined text-sm">arrow_upward</span>
+                            {{ total_transactions }} transaction(s)
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 2 : Available Balance -->
+                <div class="bg-white dark:bg-slate-900 p-8 rounded-xl border border-slate-200 dark:border-slate-800 soft-shadow flex flex-col justify-between border-t-4 border-t-primary">
+                    <div class="flex items-center justify-between mb-4">
+                        <p class="text-slate-500 font-semibold text-sm uppercase tracking-wider">Available Balance</p>
+                        <div class="p-2 bg-blue-100 rounded-lg text-blue-600">
+                            <span class="material-symbols-outlined">payments</span>
+                        </div>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-3xl font-black text-slate-900 dark:text-white">{{ total_revenue|floatformat:2 }} FCFA</p>
+                        <p class="text-slate-400 text-sm font-medium">Ready for withdrawal</p>
+                    </div>
+                </div>
+
+                <!-- Card 3 : Pending -->
+                <div class="bg-white dark:bg-slate-900 p-8 rounded-xl border border-slate-200 dark:border-slate-800 soft-shadow flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-4">
+                        <p class="text-slate-500 font-semibold text-sm uppercase tracking-wider">Pending Payouts</p>
+                        <div class="p-2 bg-amber-100 rounded-lg text-amber-600">
+                            <span class="material-symbols-outlined">hourglass_empty</span>
+                        </div>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-3xl font-black text-slate-900 dark:text-white">{{ pending_revenue|floatformat:2 }} FCFA</p>
+                        <p class="text-slate-400 text-sm font-medium">Expected in 3-5 business days</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ✅ Transaction History dynamique -->
+            <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 soft-shadow overflow-hidden">
+                <div class="px-8 py-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between flex-wrap gap-4">
+                    <h2 class="text-xl font-bold">Transaction History</h2>
+                    <div class="flex items-center gap-3">
+                        <button class="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">
+                            <span class="material-symbols-outlined text-sm">filter_list</span> Filter
+                        </button>
+                        <button class="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">
+                            <span class="material-symbols-outlined text-sm">download</span> Export
+                        </button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 dark:bg-slate-800/50">
+                                <th class="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Date</th>
+                                <th class="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Description</th>
+                                <th class="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Amount</th>
+                                <th class="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
+                                <th class="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                            {% for transaction in transactions %}
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+                                <td class="px-8 py-5 text-sm font-medium text-slate-600 whitespace-nowrap">
+                                    {{ transaction.created|date:"M d, Y" }}
+                                </td>
+                                <td class="px-8 py-5">
+                                    <div class="flex items-center gap-3">
+                                        <div class="size-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                                            <span class="material-symbols-outlined text-[20px]">sell</span>
+                                        </div>
+                                        <span class="text-sm font-bold text-slate-900 dark:text-white">
+                                            Sale: {{ transaction.listing.property.title }}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="px-8 py-5">
+                                    <span class="text-sm font-bold
+                                        {% if transaction.status == 'COMPLETED' %}text-emerald-600
+                                        {% elif transaction.status == 'PENDING' %}text-amber-600
+                                        {% else %}text-rose-600{% endif %}">
+                                        +{{ transaction.amount|floatformat:2 }} FCFA
+                                    </span>
+                                </td>
+                                <td class="px-8 py-5">
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold
+                                        {% if transaction.status == 'COMPLETED' %}bg-emerald-100 text-emerald-700
+                                        {% elif transaction.status == 'PENDING' %}bg-amber-100 text-amber-700
+                                        {% else %}bg-rose-100 text-rose-700{% endif %}">
+                                        <span class="size-1.5 rounded-full
+                                            {% if transaction.status == 'COMPLETED' %}bg-emerald-500
+                                            {% elif transaction.status == 'PENDING' %}bg-amber-500
+                                            {% else %}bg-rose-500{% endif %}">
+                                        </span>
+                                        {{ transaction.get_status_display }}
+                                    </span>
+                                </td>
+                                <td class="px-8 py-5 text-right">
+                                    <button class="text-slate-400 hover:text-primary transition-colors">
+                                        <span class="material-symbols-outlined">more_horiz</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="px-8 py-16 text-center">
+                                    <span class="material-symbols-outlined text-4xl text-slate-300 block mb-3">receipt_long</span>
+                                    <p class="text-slate-500 font-medium">No transactions yet</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="px-8 py-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">
+                        Showing {{ transactions|length }} of {{ total_transactions }} transactions
+                    </span>
+                    <div class="flex items-center gap-2">
+                        <button class="p-1 rounded bg-white border border-slate-200 text-slate-500 disabled:opacity-50" disabled>
+                            <span class="material-symbols-outlined">chevron_left</span>
+                        </button>
+                        <button class="p-1 rounded bg-white border border-slate-200 text-slate-500">
+                            <span class="material-symbols-outlined">chevron_right</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Secondary Info -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="p-6 rounded-xl bg-primary/5 border border-primary/10 flex gap-5">
+                    <div class="size-12 rounded-full bg-primary flex items-center justify-center text-white shrink-0">
+                        <span class="material-symbols-outlined">verified_user</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold">Verified Secure Payments</h3>
+                        <p class="text-slate-600 text-sm mt-1">All transactions are processed through encrypted gateways with industry-standard security protocols.</p>
+                    </div>
+                </div>
+                <div class="p-6 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 flex gap-5">
+                    <div class="size-12 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-600 shrink-0">
+                        <span class="material-symbols-outlined">support_agent</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold">Financial Support</h3>
+                        <p class="text-slate-600 text-sm mt-1">Need help with a payout or transaction? Our team is available 24/7.</p>
+                        <a class="text-primary font-bold text-sm inline-flex items-center gap-1 mt-3 hover:underline" href="#">
+                            Contact Finance Team
+                            <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6 px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
+                <p>© 2026 Home Market Real Estate Marketplace. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a class="hover:text-primary transition-colors" href="#">Terms</a>
+                    <a class="hover:text-primary transition-colors" href="#">Privacy</a>
+                    <a class="hover:text-primary transition-colors" href="#">Contact</a>
+                </div>
+            </div>
+        </footer>
+
+    </div>
 </div>
-<div class="flex flex-1 justify-end gap-6 items-center">
-<label class="hidden sm:flex flex-col min-w-40 h-10 max-w-64">
-<div class="flex w-full flex-1 items-stretch rounded-xl h-full">
-<div class="text-slate-400 flex border-none bg-slate-100 dark:bg-slate-800 items-center justify-center pl-4 rounded-l-xl">
-<span class="material-symbols-outlined text-[20px]">search</span>
-</div>
-<input class="form-input flex w-full min-w-0 flex-1 border-none bg-slate-100 dark:bg-slate-800 focus:ring-0 text-slate-900 dark:text-white placeholder:text-slate-500 px-4 rounded-r-xl text-sm" placeholder="Search transactions..." value=""/>
-</div>
-</label>
-<div class="flex items-center gap-3">
-<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors relative">
-<span class="material-symbols-outlined">notifications</span>
-<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
-</button>
-<div class="size-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden border border-slate-200 dark:border-slate-700">
-<img class="w-full h-full object-cover" data-alt="Seller profile picture avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACcoDgMruY22ZD3qEVsUH8e37e8mW6WfEMn2POa1OkM97xAjNintmKpiBuGz4WcudaQ__Zs-afHzyCPzz3vG6dxqiaWMvNkqDw2Z6C3N8Gobmpx8eTDw3GqBvIXPmCbE7JWkxzv21RzPz6JQBJBDbbO6HxmTpxAGeHlEQGosP2imOLcLFEVUd_IVYS_tCmba5K_1SU-CYPJe6SHAbbXK2ZGupw-x9jR7iD5hS9TFX55pqRTkjnMaL4akArel19SHTMUili231pKbM"/>
-</div>
-</div>
-</div>
-</header>
-<main class="flex-1 max-w-[1280px] mx-auto w-full p-6 lg:p-10 space-y-10">
-<!-- Dashboard Header Section -->
-<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-<div class="space-y-1">
-<h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">Wallet &amp; Transactions</h1>
-<p class="text-slate-500 dark:text-slate-400 text-base">Overview of your real estate earnings and fund management.</p>
-</div>
-<button class="bg-primary hover:bg-opacity-90 text-white font-bold py-3 px-8 rounded-[20px] transition-all flex items-center gap-2 shadow-lg shadow-primary/20">
-<span class="material-symbols-outlined">account_balance_wallet</span>
-<span>Withdraw Funds</span>
-</button>
-</div>
-<!-- Metric Cards -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-<!-- Card 1 -->
-<div class="bg-white dark:bg-slate-900 p-8 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
-<div class="flex items-center justify-between mb-4">
-<p class="text-slate-500 dark:text-slate-400 font-semibold text-sm uppercase tracking-wider">Total Revenue</p>
-<div class="p-2 bg-primary/10 rounded-lg text-primary">
-<span class="material-symbols-outlined">trending_up</span>
-</div>
-</div>
-<div class="space-y-1">
-<p class="text-3xl font-black text-slate-900 dark:text-white">$1,250,000.00</p>
-<p class="text-emerald-600 dark:text-emerald-400 text-sm font-bold flex items-center gap-1">
-<span class="material-symbols-outlined text-sm">arrow_upward</span>
-                        12.5% from last month
-                    </p>
-</div>
-</div>
-<!-- Card 2 -->
-<div class="bg-white dark:bg-slate-900 p-8 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between border-t-4 border-t-primary">
-<div class="flex items-center justify-between mb-4">
-<p class="text-slate-500 dark:text-slate-400 font-semibold text-sm uppercase tracking-wider">Available Balance</p>
-<div class="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg text-blue-600 dark:text-blue-400">
-<span class="material-symbols-outlined">payments</span>
-</div>
-</div>
-<div class="space-y-1">
-<p class="text-3xl font-black text-slate-900 dark:text-white">$45,800.50</p>
-<p class="text-slate-400 text-sm font-medium">Ready for withdrawal</p>
-</div>
-</div>
-<!-- Card 3 -->
-<div class="bg-white dark:bg-slate-900 p-8 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
-<div class="flex items-center justify-between mb-4">
-<p class="text-slate-500 dark:text-slate-400 font-semibold text-sm uppercase tracking-wider">Pending Payouts</p>
-<div class="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg text-amber-600 dark:text-amber-400">
-<span class="material-symbols-outlined">hourglass_empty</span>
-</div>
-</div>
-<div class="space-y-1">
-<p class="text-3xl font-black text-slate-900 dark:text-white">$12,400.00</p>
-<p class="text-slate-400 text-sm font-medium">Expected in 3-5 business days</p>
-</div>
-</div>
-</div>
-<!-- Transaction History Table -->
-<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-<div class="px-8 py-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between flex-wrap gap-4">
-<h2 class="text-xl font-bold text-slate-900 dark:text-white">Transaction History</h2>
-<div class="flex items-center gap-3">
-<button class="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors">
-<span class="material-symbols-outlined text-sm">filter_list</span>
-                        Filter
-                    </button>
-<button class="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors">
-<span class="material-symbols-outlined text-sm">download</span>
-                        Export
-                    </button>
-</div>
-</div>
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="bg-slate-50 dark:bg-slate-800/50">
-<th class="px-8 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Date</th>
-<th class="px-8 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Description</th>
-<th class="px-8 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Amount</th>
-<th class="px-8 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
-<th class="px-8 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-right">Action</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-<td class="px-8 py-5 text-sm font-medium text-slate-600 dark:text-slate-400 whitespace-nowrap">Oct 24, 2023</td>
-<td class="px-8 py-5">
-<div class="flex items-center gap-3">
-<div class="size-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
-<span class="material-symbols-outlined text-[20px]">sell</span>
-</div>
-<span class="text-sm font-bold text-slate-900 dark:text-white">Sale: Modern Villa in Aspen</span>
-</div>
-</td>
-<td class="px-8 py-5">
-<span class="text-sm font-bold text-emerald-600 dark:text-emerald-400">+$850,000.00</span>
-</td>
-<td class="px-8 py-5">
-<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300">
-<span class="size-1.5 rounded-full bg-emerald-500"></span>
-                                    Completed
-                                </span>
-</td>
-<td class="px-8 py-5 text-right">
-<button class="text-slate-400 hover:text-primary transition-colors">
-<span class="material-symbols-outlined">more_horiz</span>
-</button>
-</td>
-</tr>
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-<td class="px-8 py-5 text-sm font-medium text-slate-600 dark:text-slate-400 whitespace-nowrap">Oct 22, 2023</td>
-<td class="px-8 py-5">
-<div class="flex items-center gap-3">
-<div class="size-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 flex items-center justify-center">
-<span class="material-symbols-outlined text-[20px]">outbox</span>
-</div>
-<span class="text-sm font-bold text-slate-900 dark:text-white">Withdrawal to Bank Account</span>
-</div>
-</td>
-<td class="px-8 py-5">
-<span class="text-sm font-bold text-slate-900 dark:text-white">-$15,000.00</span>
-</td>
-<td class="px-8 py-5">
-<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300">
-<span class="size-1.5 rounded-full bg-blue-500"></span>
-                                    Processing
-                                </span>
-</td>
-<td class="px-8 py-5 text-right">
-<button class="text-slate-400 hover:text-primary transition-colors">
-<span class="material-symbols-outlined">more_horiz</span>
-</button>
-</td>
-</tr>
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-<td class="px-8 py-5 text-sm font-medium text-slate-600 dark:text-slate-400 whitespace-nowrap">Oct 18, 2023</td>
-<td class="px-8 py-5">
-<div class="flex items-center gap-3">
-<div class="size-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
-<span class="material-symbols-outlined text-[20px]">sell</span>
-</div>
-<span class="text-sm font-bold text-slate-900 dark:text-white">Sale: Penthouse L'Artiste</span>
-</div>
-</td>
-<td class="px-8 py-5">
-<span class="text-sm font-bold text-emerald-600 dark:text-emerald-400">+$400,000.00</span>
-</td>
-<td class="px-8 py-5">
-<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300">
-<span class="size-1.5 rounded-full bg-emerald-500"></span>
-                                    Completed
-                                </span>
-</td>
-<td class="px-8 py-5 text-right">
-<button class="text-slate-400 hover:text-primary transition-colors">
-<span class="material-symbols-outlined">more_horiz</span>
-</button>
-</td>
-</tr>
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-<td class="px-8 py-5 text-sm font-medium text-slate-600 dark:text-slate-400 whitespace-nowrap">Oct 15, 2023</td>
-<td class="px-8 py-5">
-<div class="flex items-center gap-3">
-<div class="size-8 rounded-lg bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 flex items-center justify-center">
-<span class="material-symbols-outlined text-[20px]">history</span>
-</div>
-<span class="text-sm font-bold text-slate-900 dark:text-white">Listing Renewal Fee: Malibu Beach</span>
-</div>
-</td>
-<td class="px-8 py-5">
-<span class="text-sm font-bold text-rose-600 dark:text-rose-400">-$499.00</span>
-</td>
-<td class="px-8 py-5">
-<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300">
-<span class="size-1.5 rounded-full bg-emerald-500"></span>
-                                    Completed
-                                </span>
-</td>
-<td class="px-8 py-5 text-right">
-<button class="text-slate-400 hover:text-primary transition-colors">
-<span class="material-symbols-outlined">more_horiz</span>
-</button>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="px-8 py-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
-<span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Showing 4 of 128 transactions</span>
-<div class="flex items-center gap-2">
-<button class="p-1 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-500 disabled:opacity-50" disabled="">
-<span class="material-symbols-outlined">chevron_left</span>
-</button>
-<button class="p-1 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-500">
-<span class="material-symbols-outlined">chevron_right</span>
-</button>
-</div>
-</div>
-</div>
-<!-- Secondary Info & Help -->
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6">
-<div class="p-6 rounded-xl bg-primary/5 dark:bg-primary/10 border border-primary/10 flex gap-5">
-<div class="size-12 rounded-full bg-primary flex items-center justify-center text-white shrink-0">
-<span class="material-symbols-outlined">verified_user</span>
-</div>
-<div>
-<h3 class="text-lg font-bold text-slate-900 dark:text-white">Verified Secure Payments</h3>
-<p class="text-slate-600 dark:text-slate-400 text-sm mt-1">All transactions are processed through encrypted gateways with industry-standard security protocols for high-value real estate assets.</p>
-</div>
-</div>
-<div class="p-6 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 flex gap-5">
-<div class="size-12 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-400 shrink-0">
-<span class="material-symbols-outlined">support_agent</span>
-</div>
-<div>
-<h3 class="text-lg font-bold text-slate-900 dark:text-white">Financial Support</h3>
-<p class="text-slate-600 dark:text-slate-400 text-sm mt-1">Need help with a payout or transaction? Our specialized real estate financial concierge is available 24/7 to assist with your funds.</p>
-<a class="text-primary font-bold text-sm inline-flex items-center gap-1 mt-3 hover:underline" href="#">
-                        Contact Finance Team
-                        <span class="material-symbols-outlined text-xs">arrow_forward</span>
-</a>
-</div>
-</div>
-</div>
-</main>
-<!-- Footer -->
-<footer class="mt-12 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-8 px-10">
-<div class="max-w-[1280px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-<div class="flex items-center gap-2 text-primary/60 grayscale opacity-70">
-<span class="material-symbols-outlined">domain</span>
-<span class="font-bold">Home Market</span>
-</div>
-<p class="text-slate-500 dark:text-slate-500 text-sm">© 2023 Home Market Real Estate Marketplace. All rights reserved.</p>
-<div class="flex gap-6">
-<a class="text-slate-400 hover:text-primary transition-colors text-sm" href="#">Terms</a>
-<a class="text-slate-400 hover:text-primary transition-colors text-sm" href="#">Privacy</a>
-<a class="text-slate-400 hover:text-primary transition-colors text-sm" href="#">Contact</a>
-</div>
-</div>
-</footer>
-</div>
-</body></html>
+</body>
+</html>

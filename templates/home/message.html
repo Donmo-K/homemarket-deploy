@@ -343,8 +343,43 @@ function sendMessage() {
             input.value = '';
             appendMessage(data.message);
             scrollToBottom();
+        } else if (data.status === 'blocked') {
+            // ✅ Afficher le message de blocage
+            showBlockedAlert(data.error);
         }
     });
+}
+
+function showBlockedAlert(message) {
+    // Supprimer l'alerte précédente si elle existe
+    const existing = document.getElementById('blocked-alert');
+    if (existing) existing.remove();
+
+    const alert = document.createElement('div');
+    alert.id = 'blocked-alert';
+    alert.className = 'fixed bottom-32 left-1/2 -translate-x-1/2 z-50 max-w-md w-full mx-4';
+    alert.innerHTML = `
+        <div class="bg-red-50 border border-red-200 rounded-xl p-4 shadow-xl flex gap-3 items-start">
+            <span class="material-symbols-outlined text-red-500 shrink-0">block</span>
+            <div class="flex-1">
+                <p class="text-red-700 font-bold text-sm mb-1">Message bloqué</p>
+                <p class="text-red-600 text-xs leading-relaxed">${message}</p>
+                <a href="{% url 'core:home' %}" 
+                   class="inline-flex items-center gap-1 mt-3 px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:opacity-90 transition">
+                    <span class="material-symbols-outlined text-sm">payments</span>
+                    Effectuer un paiement
+                </a>
+            </div>
+            <button onclick="this.closest('#blocked-alert').remove()" 
+                    class="text-red-400 hover:text-red-600">
+                <span class="material-symbols-outlined text-sm">close</span>
+            </button>
+        </div>
+    `;
+    document.body.appendChild(alert);
+
+    // Disparaît après 8 secondes
+    setTimeout(() => alert.remove(), 8000);
 }
 
 // Append new message to thread

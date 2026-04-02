@@ -74,6 +74,24 @@ class MessageView(LoginRequiredMixin, TemplateView):
 
         return context
 
+import re
+
+def contains_contact_info(text):
+    """Détecte numéros, emails, réseaux sociaux dans un message"""
+    patterns = [
+        r'\b6\d{8}\b',                                    # numéros camerounais (6XXXXXXXX)
+        r'\b\d{8,}\b',                                    # tout numéro 8+ chiffres
+        r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+', # emails
+        r'(whatsapp|telegram|instagram|facebook|twitter|tiktok|snapchat)',
+        r'(appelle|appeler|contacte|joindre|rejoindre|appel)',
+        r'(http|https|www\.)',                             # liens
+        r'(\+237|\+\d{10,})',                              # indicatifs téléphoniques
+    ]
+    for pattern in patterns:
+        if re.search(pattern, text, re.IGNORECASE):
+            return True
+    return False
+
 
 class SendMessageView(LoginRequiredMixin, View):
     login_url = '/users/login/'
@@ -85,6 +103,13 @@ class SendMessageView(LoginRequiredMixin, View):
 
         if not conv_id or not content:
             return JsonResponse({'error': 'Invalid data'}, status=400)
+
+        # ✅ Bloquer les infos de contact
+        if contains_contact_info(content):
+            return JsonResponse({
+                'status': 'blocked',
+                'error': '🚫 Partager des coordonnées personnelles est interdit. Pour contacter le vendeur directement, effectuez un paiement via Home Market.'
+            }, status=403)
 
         try:
             conv = Conversation.objects.get(id=conv_id, participants=request.user)
@@ -104,7 +129,6 @@ class SendMessageView(LoginRequiredMixin, View):
                 'time': msg.created.strftime("%H:%M"),
             }
         })
-
 
 class PollMessagesView(LoginRequiredMixin, View):
     login_url = '/users/login/'

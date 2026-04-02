@@ -38,23 +38,27 @@ class PropertySearchView(ListView):
     model = Property
     context_object_name = 'properties'
     paginate_by = 12
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['location'] = self.request.GET.get('location', '')
+        context['type_filter'] = self.request.GET.get('type', '')
+        context['min_price'] = self.request.GET.get('min_price', '')
+        context['max_price'] = self.request.GET.get('max_price', '')
+        context['bedrooms'] = self.request.GET.get('bedrooms', '')
+        context['property_type'] = self.request.GET.get('property_type', '')
         return context
-    
+
     def get_queryset(self):
         queryset = Property.objects.filter(
             status='APPROVED'
         ).select_related('location').prefetch_related('images').order_by('-created')
 
-        from django.db.models import Q
         location      = self.request.GET.get('location', '').strip()
         min_price     = self.request.GET.get('min_price')
         max_price     = self.request.GET.get('max_price')
         bedrooms      = self.request.GET.get('bedrooms')
-        property_type = self.request.GET.get('property_type')   # ← simple GET
+        property_type = self.request.GET.get('property_type')
         type_filter   = self.request.GET.get('type')
 
         if location:
@@ -63,16 +67,37 @@ class PropertySearchView(ListView):
                 Q(location__address__icontains=location) |
                 Q(location__country__icontains=location)
             )
+
+        # ✅ Mapping buy/rent → FOR_SALE/FOR_RENT
         if type_filter:
-            queryset = queryset.filter(property_type=type_filter)
+            type_mapping = {
+                'buy': 'FOR_SALE',
+                'rent': 'FOR_RENT',
+            }
+            mapped = type_mapping.get(type_filter)
+            if mapped:
+                queryset = queryset.filter(property_type=mapped)
+
         elif property_type:
             queryset = queryset.filter(property_type=property_type)
+
         if min_price:
-            queryset = queryset.filter(price__gte=min_price)
+            try:
+                queryset = queryset.filter(price__gte=float(min_price))
+            except ValueError:
+                pass
+
         if max_price:
-            queryset = queryset.filter(price__lte=max_price)
+            try:
+                queryset = queryset.filter(price__lte=float(max_price))
+            except ValueError:
+                pass
+
         if bedrooms:
-            queryset = queryset.filter(bedrooms__gte=bedrooms)
+            try:
+                queryset = queryset.filter(bedrooms__gte=int(bedrooms))
+            except ValueError:
+                pass
 
         return queryset
     

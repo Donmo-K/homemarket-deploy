@@ -86,10 +86,8 @@ class AddPropertyStep3View(LoginRequiredMixin, View):
         request.session.modified = True
  
         return redirect('users:add_property_step4')
-
-
 class AddPropertyStep4View(LoginRequiredMixin, View):
-    template_name = 'home/add_property/media_upload.html'
+    template_name = 'add_properties/add_property_step4.html'
     login_url = '/users/login/'
 
     def get(self, request):
@@ -108,7 +106,8 @@ class AddPropertyStep4View(LoginRequiredMixin, View):
                 owner=request.user,
                 title=draft.get('title'),
                 description=draft.get('description', ''),
-                property_type=draft.get('property_type'),
+                property_type=draft.get('property_type', 'HOUSE'),
+                listing_type=draft.get('listing_type', 'FOR_SALE'),  # ✅ NOUVEAU
                 category_id=draft.get('category_id'),
                 price=draft.get('price'),
                 bedrooms=draft.get('bedrooms', 0),
@@ -116,11 +115,6 @@ class AddPropertyStep4View(LoginRequiredMixin, View):
                 area_sqm=draft.get('area_sqm') or None,
                 status='PENDING',
             )
-
-            # ✅ Features ignorées pour l'instant
-            # feature_ids = draft.get('features', [])
-            # if feature_ids:
-            #     property.features.set(feature_ids)
 
             images = request.FILES.getlist('images')
             for i, image in enumerate(images):
