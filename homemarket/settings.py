@@ -214,7 +214,8 @@ PAYUNIT_PASSWORD = config("PAYUNIT_PASSWORD", default="c5b8607b-7783-4ee8-86e7-4
 PAYUNIT_MODE = config("PAYUNIT_MODE", default="sandbox")
 NGROK_URL = "https://unbeauteous-osculant-sheba.ngrok-free.dev"
 CSRF_TRUSTED_ORIGINS = ["https://unbeauteous-osculant-sheba.ngrok-free.dev"]
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "unbeauteous-osculant-sheba.ngrok-free.dev"]
+
+ALLOWED_HOSTS = ['*', "unbeauteous-osculant-sheba.ngrok-free.dev"]
 
 LOGGING = {
     'version': 1,
