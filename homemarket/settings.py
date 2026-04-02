@@ -218,7 +218,7 @@ PAYUNIT_USERNAME = config("PAYUNIT_USERNAME", default="1e39f9b4-74d1-4ac9-9224-c
 PAYUNIT_PASSWORD = config("PAYUNIT_PASSWORD", default="c5b8607b-7783-4ee8-86e7-4ea5f75617f7")
 PAYUNIT_MODE = config("PAYUNIT_MODE", default="sandbox")
 NGROK_URL = "https://unbeauteous-osculant-sheba.ngrok-free.dev"
-CSRF_TRUSTED_ORIGINS = ["https://unbeauteous-osculant-sheba.ngrok-free.dev"]
+CSRF_TRUSTED_ORIGINS = ["https://unbeauteous-osculant-sheba.ngrok-free.dev", "https://web-production-e6d90.up.railway.app",]
 
 ALLOWED_HOSTS = ['*', "unbeauteous-osculant-sheba.ngrok-free.dev"]
 
