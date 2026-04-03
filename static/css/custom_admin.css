@@ -1,0 +1,24 @@
+/* Réduire le logo */
+.login-logo img {
+    max-width: 150px !important;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* Fond de la page login */
+body.login-page {
+    background: linear-gradient(135deg, #1a3c5e, #2d6a9f) !important;
+}
+
+/* Card de login */
+.login-card-body {
+    border-radius: 15px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
+}
+
+/* Bouton login */
+.btn-primary {
+    background: #2d6a9f !important;
+    border: none !important;
+}

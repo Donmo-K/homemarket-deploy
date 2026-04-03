@@ -137,12 +137,12 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 # Jazzmin Settings
-JAZZMIN_SETTINGS = {
+JJAZZMIN_SETTINGS = {
     "site_title": "Home Market Admin",
     "site_header": "Home Market",
     "site_brand": "Home Market",
     "site_logo": "images/logo/logo.webp",
-    "login_logo": "images/logo/logo.webp",
+    "login_logo": "/static/images/logo/logo.webp",
     "login_logo_dark": None,
     "site_logo_classes": "img-fluid",
     "site_icon": "images/logo/logo.webp",
@@ -180,37 +180,12 @@ JAZZMIN_SETTINGS = {
     "default_icon_parents": "fas fa-chevron-circle-right",
     "default_icon_children": "fas fa-circle",
     "related_modal_active": True,
-    "custom_css": None,
+    "custom_css": "css/custom_admin.css",
     "custom_js": None,
     "use_google_fonts_cdn": True,
     "show_ui_builder": False,
     "changeform_format": "horizontal_tabs",
 }
-
-JAZZMIN_UI_CUSTOMIZER = {
-    "navbar_small_text": False,
-    "footer_small_text": False,
-    "body_small_text": False,
-    "brand_small_text": False,
-    "brand_colour": "navbar-navy",
-    "accent": "accent-primary",
-    "navbar": "navbar-white navbar-light",
-    "no_navbar_border": False,
-    "navbar_fixed": False,
-    "layout_boxed": False,
-    "footer_fixed": False,
-    "sidebar_fixed": False,
-    "sidebar": "sidebar-dark-navy",
-    "sidebar_nav_small_text": False,
-    "sidebar_disable_expand": False,
-    "sidebar_nav_child_indent": False,
-    "sidebar_nav_compact_style": False,
-    "sidebar_hover_elevate": False,
-    "sidebar_activate_nav_legacy": False,
-    "sidebar_theme": "sidebar-dark-primary",
-    "sidebar_nav_treeview_help": False,
-}
-
 
 PAYUNIT_API_KEY = config("PAYUNIT_API_KEY", default="sand_TU0ujsTNSyuBlEhDQBnbiSNM6jifgV")
 PAYUNIT_BASE_URL = config("PAYUNIT_BASE_URL", default="https://gateway.payunit.net")
