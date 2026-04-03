@@ -86,8 +86,9 @@ class AddPropertyStep3View(LoginRequiredMixin, View):
         request.session.modified = True
  
         return redirect('users:add_property_step4')
+    
 class AddPropertyStep4View(LoginRequiredMixin, View):
-    template_name = 'add_properties/add_property_step4.html'
+    template_name = 'home/add_property/media_upload.html'
     login_url = '/users/login/'
 
     def get(self, request):
