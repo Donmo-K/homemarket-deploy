@@ -151,26 +151,22 @@ tailwind.config = {
 <!-- Categories -->
 <section class="max-w-7xl mx-auto px-4 py-16">
     <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <a href="{% url 'core:search' %}" class="bg-white dark:bg-slate-800 p-6 rounded-xl text-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all border border-primary/5">
-            <span class="material-symbols-outlined text-primary text-4xl mb-3">cottage</span>
-            <h3 class="font-bold text-sm">Houses</h3>
-        </a>
-        <a href="{% url 'core:search' %}" class="bg-white dark:bg-slate-800 p-6 rounded-xl text-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all border border-primary/5">
-            <span class="material-symbols-outlined text-primary text-4xl mb-3">apartment</span>
-            <h3 class="font-bold text-sm">Apartments</h3>
-        </a>
-        <a href="{% url 'core:search' %}" class="bg-white dark:bg-slate-800 p-6 rounded-xl text-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all border border-primary/5">
-            <span class="material-symbols-outlined text-primary text-4xl mb-3">landscape</span>
-            <h3 class="font-bold text-sm">Land</h3>
-        </a>
-        <a href="{% url 'core:search' %}" class="bg-white dark:bg-slate-800 p-6 rounded-xl text-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all border border-primary/5">
-            <span class="material-symbols-outlined text-primary text-4xl mb-3">storefront</span>
-            <h3 class="font-bold text-sm">Commercial</h3>
-        </a>
-        <a href="{% url 'core:search' %}" class="bg-white dark:bg-slate-800 p-6 rounded-xl text-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all border border-primary/5">
-            <span class="material-symbols-outlined text-primary text-4xl mb-3">directions_car</span>
-            <h3 class="font-bold text-sm">Cars</h3>
-        </a>
+        <a href="{% url 'core:search' %}?property_type=house" class="bg-white dark:bg-slate-800 p-6 rounded-xl text-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all border border-primary/5">
+    <span class="material-symbols-outlined text-primary text-4xl mb-3">cottage</span>
+    <h3 class="font-bold text-sm">Houses</h3>
+</a>
+<a href="{% url 'core:search' %}?property_type=apartment" class="bg-white dark:bg-slate-800 p-6 rounded-xl text-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all border border-primary/5">
+    <span class="material-symbols-outlined text-primary text-4xl mb-3">apartment</span>
+    <h3 class="font-bold text-sm">Apartments</h3>
+</a>
+<a href="{% url 'core:search' %}?property_type=land" class="bg-white dark:bg-slate-800 p-6 rounded-xl text-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all border border-primary/5">
+    <span class="material-symbols-outlined text-primary text-4xl mb-3">landscape</span>
+    <h3 class="font-bold text-sm">Land</h3>
+</a>
+<a href="{% url 'core:search' %}?property_type=commercial" class="bg-white dark:bg-slate-800 p-6 rounded-xl text-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all border border-primary/5">
+    <span class="material-symbols-outlined text-primary text-4xl mb-3">storefront</span>
+    <h3 class="font-bold text-sm">Commercial</h3>
+</a>
     </div>
 </section>
 
@@ -318,49 +314,50 @@ tailwind.config = {
         </a>
 
         <!-- ✅ Biens dynamiques cliquables avec bouton favori AJAX -->
-        {% for property in featured_properties %}
-        <div class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-xl border border-primary/5 group hover:shadow-2xl transition-all duration-300 relative">
-            <a href="{% url 'core:property_detail' property.id %}" class="block">
-                <div class="relative h-64 overflow-hidden">
-                    {% with main_image=property.images.first %}
-                    {% if main_image %}
-                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="{{ main_image.image.url }}" alt="{{ property.title }}"/>
-                    {% else %}
-                    <div class="w-full h-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
-                        <span class="material-symbols-outlined text-slate-400 text-5xl">home</span>
-                    </div>
-                    {% endif %}
-                    {% endwith %}
-                    <div class="absolute top-4 left-4">
-                        <span class="bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">{{ property.get_property_type_display }}</span>
-                    </div>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold mb-1">{{ property.title }}</h3>
-                    <p class="text-slate-500 text-sm mb-4 flex items-center gap-1">
-                        <span class="material-symbols-outlined text-sm">location_on</span>
-                        {% if property.location %}{{ property.location.city }}{% else %}Emplacement non spécifié{% endif %}
-                    </p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-2xl font-black text-primary">{{ property.price|floatformat:0 }} FCFA</span>
-                        <div class="flex gap-3 text-slate-500">
-                            <span class="flex items-center gap-1 text-xs font-bold"><span class="material-symbols-outlined text-sm">bed</span> {{ property.bedrooms }}</span>
-                            <span class="flex items-center gap-1 text-xs font-bold"><span class="material-symbols-outlined text-sm">bathtub</span> {{ property.bathrooms }}</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!-- ✅ Bouton favori AJAX — en dehors du <a> pour ne pas rediriger -->
-            {% if request.user.is_authenticated %}
-            <button
-                onclick="toggleFav(this, '{{ property.id }}')"
-                class="fav-btn absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white transition-all"
-                title="Ajouter aux favoris">
-                <span class="material-symbols-outlined text-white hover:text-red-500 transition-colors" style="font-variation-settings:'FILL' 0">favorite</span>
-            </button>
-            {% endif %}
+      {% for property in featured_properties %}
+<div class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-xl border border-primary/5 group hover:shadow-2xl transition-all duration-300 relative">
+    <a href="{% url 'core:property_detail' property.id %}" class="block">
+        <div class="relative h-64 overflow-hidden">
+            {% for img in property.images.all %}
+                {% if img.is_main %}
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="{{ img.image.url }}" alt="{{ property.title }}"/>
+                {% endif %}
+            {% empty %}
+            <div class="w-full h-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
+                <span class="material-symbols-outlined text-slate-400 text-5xl">home</span>
+            </div>
+            {% endfor %}
+            <div class="absolute top-4 left-4">
+                <span class="bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">
+                    {% if property.listing_type == 'FOR_SALE' %}For Sale{% else %}For Rent{% endif %}
+                </span>
+            </div>
         </div>
-        {% endfor %}
+        <div class="p-6">
+            <h3 class="text-xl font-bold mb-1">{{ property.title }}</h3>
+            <p class="text-slate-500 text-sm mb-4 flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">location_on</span>
+                {% if property.location %}{{ property.location.city }}{% else %}Emplacement non spécifié{% endif %}
+            </p>
+            <div class="flex justify-between items-center">
+                <span class="text-2xl font-black text-primary">{{ property.price|floatformat:0 }} FCFA</span>
+                <div class="flex gap-3 text-slate-500">
+                    <span class="flex items-center gap-1 text-xs font-bold"><span class="material-symbols-outlined text-sm">bed</span> {{ property.bedrooms }}</span>
+                    <span class="flex items-center gap-1 text-xs font-bold"><span class="material-symbols-outlined text-sm">bathtub</span> {{ property.bathrooms }}</span>
+                </div>
+            </div>
+        </div>
+    </a>
+    {% if request.user.is_authenticated %}
+    <button
+        onclick="toggleFav(this, '{{ property.id }}')"
+        class="fav-btn absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white transition-all"
+        title="Ajouter aux favoris">
+        <span class="material-symbols-outlined text-white hover:text-red-500 transition-colors" style="font-variation-settings:'FILL' 0">favorite</span>
+    </button>
+    {% endif %}
+</div>
+{% endfor %}
 
     </div>
 </section>

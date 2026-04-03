@@ -213,7 +213,9 @@ tailwind.config = {
                         </div>
                         {% endif %}
                         <div class="absolute top-4 left-4 flex gap-2">
-                            <span class="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full">For Sale</span>
+                            <span class="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full">
+    {% if prop.listing_type == 'FOR_SALE' %}For Sale{% else %}For Rent{% endif %}
+</span>
                         </div>
                         {% if request.user.is_authenticated %}
                         <button onclick="event.preventDefault(); toggleFav(this, '{{ prop.id }}')"
@@ -289,11 +291,7 @@ tailwind.config = {
     <span class="material-symbols-outlined">map</span> View Map
 </button>
 
-<!-- Bouton Message Agent -->
-<a href="{% url 'core:message' %}"
-   class="fixed bottom-24 left-1/2 -translate-x-1/2 px-6 py-3 bg-primary text-white rounded-full shadow-2xl flex items-center gap-2 font-bold z-40 hover:scale-105 active:scale-95 transition-transform">
-    <span class="material-symbols-outlined">chat</span> Message Agent
-</a>
+
 
 <!-- ✅ Modal Carte -->
 <div id="map-modal" class="fixed inset-0 z-50 hidden">

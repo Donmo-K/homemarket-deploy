@@ -164,16 +164,17 @@
                             <div class="grid grid-cols-2 gap-3">
                                 <label class="cursor-pointer">
                                     <!-- ✅ value + checked -->
-                                    <input class="peer hidden" name="property_type" type="radio" value="FOR_SALE"
-                                           {% if draft.property_type == 'FOR_SALE' or not draft.property_type %}checked{% endif %}/>
+                                  <input class="peer hidden" name="listing_type" type="radio" value="FOR_SALE"
+       {% if draft.listing_type == 'FOR_SALE' or not draft.listing_type %}checked{% endif %}/>
+
                                     <div class="flex items-center justify-center p-4 rounded-xl border border-slate-200 dark:border-slate-700 peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:text-primary transition-all">
                                         <span class="font-medium">For Sale</span>
                                     </div>
                                 </label>
                                 <label class="cursor-pointer">
                                     <!-- ✅ value + checked -->
-                                    <input class="peer hidden" name="property_type" type="radio" value="FOR_RENT"
-                                           {% if draft.property_type == 'FOR_RENT' %}checked{% endif %}/>
+                                    <input class="peer hidden" name="listing_type" type="radio" value="FOR_RENT"
+       {% if draft.listing_type == 'FOR_RENT' %}checked{% endif %}/>
                                     <div class="flex items-center justify-center p-4 rounded-xl border border-slate-200 dark:border-slate-700 peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:text-primary transition-all">
                                         <span class="font-medium">For Rent</span>
                                     </div>

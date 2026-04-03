@@ -76,10 +76,10 @@ class PropertySearchView(ListView):
             }
             mapped = type_mapping.get(type_filter)
             if mapped:
-                queryset = queryset.filter(property_type=mapped)
+                queryset = queryset.filter(listing_type=mapped)
 
         elif property_type:
-            queryset = queryset.filter(property_type=property_type)
+            queryset = queryset.filter(category__slug=property_type.lower())
 
         if min_price:
             try:

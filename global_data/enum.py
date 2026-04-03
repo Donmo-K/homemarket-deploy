@@ -7,13 +7,11 @@ class UserType(models.TextChoices):
     SELLER = 'SELLER', _('Seller')
     ADMIN  = 'ADMIN',  _('Administrator')
 
-
-class PropertyType(models.TextChoices):  # ✅ NOUVEAU
+class PropertyType(models.TextChoices):
     APARTMENT  = 'APARTMENT',  _('Apartment')
     HOUSE      = 'HOUSE',      _('House')
     COMMERCIAL = 'COMMERCIAL', _('Commercial')
     LAND       = 'LAND',       _('Land')
-
 
 class ListingType(models.TextChoices):
     FOR_SALE = 'FOR_SALE', _('For Sale')

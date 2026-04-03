@@ -1,12 +1,19 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models import Property
+from .models import Property, Listing
 from core.models import Notification
 
 @receiver(post_save, sender=Property)
 def notify_seller_on_property_status(sender, instance, created, **kwargs):
-    if not created:  # seulement lors d'une mise à jour
+    if not created:
         if instance.status == 'APPROVED':
+            # ✅ Crée le Listing si pas encore existant
+            if not instance.listings.exists():
+                Listing.objects.create(
+                    property=instance,
+                    price=instance.price,
+                    status='ACTIVE',
+                )
             Notification.objects.create(
                 recipient=instance.owner,
                 title="Bien approuvé ✅",

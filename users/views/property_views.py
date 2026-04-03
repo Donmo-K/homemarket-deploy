@@ -15,7 +15,6 @@ class AddPropertyStep1View(LoginRequiredMixin, View):
         draft = request.session.get('add_property_draft', {})
         return render(request, self.template_name, {
             'categories': PropertyCategory.objects.all(),
-            'property_types': PropertyType.choices,
             'draft': draft,
         })
 
@@ -25,12 +24,12 @@ class AddPropertyStep1View(LoginRequiredMixin, View):
         draft['description'] = request.POST.get('description', '')
         draft['property_type'] = request.POST.get('property_type', '')
         draft['category_id'] = request.POST.get('category', '')
+        draft['listing_type'] = request.POST.get('listing_type', 'FOR_SALE')
 
-        if not draft['title'] or not draft['property_type'] or not draft['category_id']:
+        if not draft['title'] or not draft['category_id']:
             messages.error(request, "Veuillez remplir tous les champs obligatoires.")
             return render(request, self.template_name, {
                 'categories': PropertyCategory.objects.all(),
-                'property_types': PropertyType.choices,
                 'draft': draft,
             })
 

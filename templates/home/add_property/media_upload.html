@@ -253,50 +253,69 @@
 </div>
 
 <script>
-    let staticCount = 3;
+    let allFiles = [];
 
-    document.getElementById('file-input').addEventListener('change', function (e) {
-        const files = Array.from(e.target.files);
-        const grid = document.getElementById('preview-grid');
-        const countEl = document.getElementById('upload-count');
-
-        files.forEach((file, index) => {
-            if (!file.type.startsWith('image/')) return;
-            staticCount++;
-            const reader = new FileReader();
-            reader.onload = function (ev) {
-                const placeholder = grid.querySelector('.border-dashed');
-                const card = document.createElement('div');
-                card.className = 'relative aspect-square rounded-xl overflow-hidden group border border-slate-200 dark:border-slate-700';
-                card.innerHTML = `
-                    <img src="${ev.target.result}" class="w-full h-full object-cover" alt="Photo ${staticCount}"/>
-                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                        <button type="button" onclick="removeCard(this)" class="p-2 bg-white rounded-full text-red-600 hover:bg-red-50">
-                            <span class="material-symbols-outlined text-xl">delete</span>
-                        </button>
-                    </div>
-                `;
-                if (placeholder) grid.insertBefore(card, placeholder);
-                else grid.appendChild(card);
-                countEl.textContent = staticCount + ' uploaded';
-            };
-            reader.readAsDataURL(file);
-        });
+document.getElementById('file-input').addEventListener('change', function(e) {
+    const newFiles = Array.from(e.target.files);
+    newFiles.forEach(file => {
+        if (!allFiles.find(f => f.name === file.name)) {
+            allFiles.push(file);
+        }
     });
+    
+    // Crée un nouveau DataTransfer pour mettre à jour l'input
+    const dt = new DataTransfer();
+    allFiles.forEach(f => dt.items.add(f));
+    document.getElementById('file-input').files = dt.files;
+    
+    // Affiche les previews
+    updatePreviews();
+});
 
-    function removeCard(btn) {
-        btn.closest('.relative').remove();
-        staticCount = Math.max(0, staticCount - 1);
-        document.getElementById('upload-count').textContent = staticCount + ' uploaded';
-    }
+function updatePreviews() {
+    const grid = document.getElementById('preview-grid');
+    const placeholder = grid.querySelector('.border-dashed');
+    
+    // Supprime les previews dynamiques existants
+    grid.querySelectorAll('.dynamic-preview').forEach(c => c.remove());
+    
+    allFiles.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+            const card = document.createElement('div');
+            card.className = 'relative aspect-square rounded-xl overflow-hidden group border border-slate-200 dynamic-preview';
+            card.innerHTML = `
+                <img src="${ev.target.result}" class="w-full h-full object-cover"/>
+                ${index === 0 ? '<div class="absolute top-2 left-2 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-md uppercase">Main Photo</div>' : ''}
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <button type="button" onclick="removeFile(${index})" class="p-2 bg-white rounded-full text-red-600">
+                        <span class="material-symbols-outlined text-xl">delete</span>
+                    </button>
+                </div>
+            `;
+            if (placeholder) grid.insertBefore(card, placeholder);
+            else grid.appendChild(card);
+        };
+        reader.readAsDataURL(file);
+    });
+    
+    document.getElementById('upload-count').textContent = allFiles.length + ' uploaded';
+}
 
-    function clearAll() {
-        const grid = document.getElementById('preview-grid');
-        const cards = grid.querySelectorAll('.relative');
-        cards.forEach(c => c.remove());
-        staticCount = 0;
-        document.getElementById('upload-count').textContent = '0 uploaded';
-    }
+function removeFile(index) {
+    allFiles.splice(index, 1);
+    const dt = new DataTransfer();
+    allFiles.forEach(f => dt.items.add(f));
+    document.getElementById('file-input').files = dt.files;
+    updatePreviews();
+}
+
+function clearAll() {
+    allFiles = [];
+    document.getElementById('file-input').files = new DataTransfer().files;
+    document.getElementById('preview-grid').querySelectorAll('.dynamic-preview').forEach(c => c.remove());
+    document.getElementById('upload-count').textContent = '0 uploaded';
+}
 </script>
 </body>
 </html>

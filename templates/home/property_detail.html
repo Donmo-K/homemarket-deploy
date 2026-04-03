@@ -390,11 +390,19 @@ h1, h2, .serif { font-family: 'DM Serif Display', serif; }
                 </form>
                 {% endif %}
 
+                
             </div>
         </div>
 
     </div>
 </main>
+
+                <!-- Bouton Message Agent -->
+                <a href="{% url 'core:message' %}"
+                class="fixed bottom-24 left-1/2 -translate-x-1/2 px-6 py-3 bg-primary text-white rounded-full shadow-2xl flex items-center gap-2 font-bold z-40 hover:scale-105 active:scale-95 transition-transform">
+                    <span class="material-symbols-outlined">chat</span> Message Agent
+                </a>
+
 
 <!-- Footer -->
 <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-bg-dark py-8">
