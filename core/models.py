@@ -126,6 +126,7 @@ class Payment(HomeMarketBase):
     )
 
     payment_url = models.URLField(
+        max_length=500,
         null=True,
         blank=True
     )
