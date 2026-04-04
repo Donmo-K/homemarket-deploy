@@ -23,7 +23,6 @@ def initiate_payment(request, property_id, payment_type):
     property_obj = get_object_or_404(Property, id=property_id)
     amount = int(property_obj.price if payment_type == "BUY" else 5000)
 
-    # ✅ Toujours créer un nouveau paiement avec un ID unique
     listing = property_obj.listings.filter(status="ACTIVE").first()
 
     transaction_obj = Transaction.objects.create(
@@ -81,12 +80,14 @@ def payment_return(request):
     reference = request.GET.get('ref')
     payment = get_object_or_404(Payment, reference=reference, transaction__buyer=request.user)
 
-    verification = PayUnitService.verify_payment(payment.reference)
-    if verification:
-        api_status = verification.get("transaction_status") or verification.get("status")
-        if api_status and api_status.upper() in ["SUCCESS", "SUCCESSFUL"]:
-            if payment.status != "SUCCESS":
-                process_successful_payment(payment)
+    # ✅ PayUnit envoie le statut directement dans l'URL de retour
+    transaction_status = request.GET.get('transaction_status', '')
+    logger.info(f"Payment return: ref={reference}, status={transaction_status}")
+
+    if transaction_status.upper() in ["SUCCESS", "SUCCESSFUL"]:
+        if payment.status != "SUCCESS":
+            process_successful_payment(payment)
+            payment.refresh_from_db()
 
     return render(request, "home/payment_status.html", {
         "payment": payment,
@@ -112,11 +113,6 @@ def payment_webhook(request):
             return JsonResponse({"error": "Missing transaction_id"}, status=400)
 
         actual_status = data.get("status") or data.get("transaction_status")
-
-        verification = PayUnitService.verify_payment(transaction_id)
-        if verification:
-            actual_status = verification.get("transaction_status") or verification.get("status") or actual_status
-
         logger.info(f"PayUnit Webhook: transaction={transaction_id}, status={actual_status}")
 
         try:
