@@ -94,21 +94,22 @@ class PayUnitService:
                 "status": "FAILED",
                 "message": "Impossible de contacter le service de paiement."
             }
-
-    @staticmethod
-    def verify_payment(transaction_id):
-        verify_url = f"{settings.PAYUNIT_BASE_URL}/api/gateway/transaction/{transaction_id}/status"
-        
-        try:
-            response = requests.get(
-                verify_url,
-                headers=PayUnitService.get_auth_headers(),
-                timeout=20
-            )
-            logger.info(f"PayUnit verify response for {transaction_id}: status={response.status_code}, body={response.text[:300]}")
-            if response.status_code == 200:
-                return response.json()
-            return None
-        except Exception as e:
-            logger.error(f"Error verifying payment {transaction_id}: {str(e)}")
-            return None
+@staticmethod
+def verify_payment(transaction_id):
+    # Essai avec l'endpoint correct PayUnit
+    verify_url = f"{settings.PAYUNIT_BASE_URL}/api/gateway/transaction"
+    
+    try:
+        response = requests.get(
+            verify_url,
+            headers=PayUnitService.get_auth_headers(),
+            params={"transaction_id": transaction_id},
+            timeout=20
+        )
+        logger.info(f"PayUnit verify response for {transaction_id}: status={response.status_code}, body={response.text[:300]}")
+        if response.status_code == 200:
+            return response.json()
+        return None
+    except Exception as e:
+        logger.error(f"Error verifying payment {transaction_id}: {str(e)}")
+        return None

@@ -120,6 +120,9 @@ def payment_webhook(request):
         data = json.loads(request.body)
         logger.info(f"PayUnit Webhook parsed data: {data}")
         
+        logger.info(f"Webhook body: {request.body}")
+        logger.info(f"Webhook headers: {dict(request.headers)}")
+        
         transaction_id = data.get("transaction_id") or data.get("t_id") or data.get("reference")
         
         if not transaction_id:
