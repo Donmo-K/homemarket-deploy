@@ -16,11 +16,12 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password', 'user_type'),
+            'fields': ('email', 'password1', 'password2', 'user_type'),
         }),
     )
     search_fields = ('email', 'first_name', 'last_name')
     ordering = ('email',)
+
 
 @admin.register(SellerVerification)
 class SellerVerificationAdmin(admin.ModelAdmin):
@@ -30,7 +31,6 @@ class SellerVerificationAdmin(admin.ModelAdmin):
     actions = ['approve_verification', 'reject_verification']
 
     def save_model(self, request, obj, form, change):
-        # ✅ Synchronise is_verified avec status automatiquement
         if obj.status == 'APPROVED':
             obj.is_verified = True
         else:
