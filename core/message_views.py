@@ -117,16 +117,26 @@ class SendMessageView(LoginRequiredMixin, View):
         if not conv_id or not content:
             return JsonResponse({'error': 'Invalid data'}, status=400)
 
-        if contains_contact_info(content):
-            return JsonResponse({
-                'status': 'blocked',
-                'error': '🚫 Partager des coordonnées personnelles est interdit. Pour contacter le vendeur directement, effectuez un paiement via Home Market.'
-            }, status=403)
-
         try:
             conv = Conversation.objects.get(id=conv_id, participants=request.user)
         except Conversation.DoesNotExist:
             return JsonResponse({'error': 'Conversation not found'}, status=404)
+
+        # ✅ Vérifie si l'acheteur a déjà payé pour un bien de ce vendeur
+        from core.models import Payment
+        other = conv.participants.exclude(id=request.user.id).first()
+        has_paid = Payment.objects.filter(
+            transaction__buyer=request.user,
+            property__owner=other,
+            status="SUCCESS"
+        ).exists()
+
+        # ✅ Bloquer les coordonnées seulement si pas encore payé
+        if not has_paid and contains_contact_info(content):
+            return JsonResponse({
+                'status': 'blocked',
+                'error': '🚫 Partager des coordonnées personnelles est interdit. Pour contacter le vendeur directement, effectuez un paiement via Home Market.'
+            }, status=403)
 
         msg = Message.objects.create(
             conversation=conv,
