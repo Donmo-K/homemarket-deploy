@@ -166,7 +166,8 @@ def process_successful_payment(payment):
 
         Message.objects.create(conversation=conv, sender=seller, content=content)
 
-        commission = int(payment.amount * 0.05)
+        from decimal import Decimal
+        commission = int(payment.amount * Decimal('0.05'))
         contract = Contract.objects.create(
             contract_type=payment.payment_type,
             buyer=buyer,
