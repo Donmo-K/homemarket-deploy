@@ -13,12 +13,6 @@ class PayUnitService:
 
     @staticmethod
     def get_auth_headers():
-        """
-        Prepares authentication headers for PayUnit API.
-        Uses Basic Auth and x-api-key.
-        Reference: username = API_KEY, password = empty (for sandbox).
-        """
-        # Align with reference code logic
         api_key = getattr(settings, "PAYUNIT_API_KEY", "")
         username = getattr(settings, "PAYUNIT_USERNAME", "") or api_key
         password = getattr(settings, "PAYUNIT_PASSWORD", "")
@@ -39,10 +33,6 @@ class PayUnitService:
 
     @staticmethod
     def initialize_payment(amount, transaction_id, return_url, notify_url, description="Property Transaction"):
-        """
-        Initializes a payment with PayUnit and returns the response data.
-        This is the starting point for the Redirect Flow.
-        """
         endpoint = f"{settings.PAYUNIT_BASE_URL}/api/gateway/initialize"
         
         payload = {
@@ -76,7 +66,6 @@ class PayUnitService:
             logger.info(f"CloudFront Debug: X-Cache={cf_cache}, X-Amz-Cf-Id={cf_id}")
             logger.info(f"PayUnit response body: {response.text[:500]}")
             
-            # Try to parse JSON even on non-200 (PayUnit sometimes returns JSON errors)
             if "application/json" in content_type.lower():
                 try:
                     data = response.json()
@@ -114,16 +103,17 @@ class PayUnitService:
     def verify_payment(transaction_id):
         """
         Verifies the status of a transaction directly with PayUnit API.
-        Used for secure webhook processing and status checks.
         """
-        verify_url = f"{settings.PAYUNIT_BASE_URL}/api/gateway/transaction/{transaction_id}"
+        verify_url = f"{settings.PAYUNIT_BASE_URL}/api/gateway/transaction/status"
         
         try:
             response = requests.get(
                 verify_url,
                 headers=PayUnitService.get_auth_headers(),
+                params={"transaction_id": transaction_id},
                 timeout=20
             )
+            logger.info(f"PayUnit verify response for {transaction_id}: status={response.status_code}, body={response.text[:300]}")
             if response.status_code == 200:
                 return response.json()
             return None
