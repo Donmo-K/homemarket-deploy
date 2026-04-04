@@ -1,8 +1,10 @@
 import json
+import re
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.views import View
+from django.shortcuts import redirect
 from .models import Conversation, Message
 
 
@@ -10,16 +12,34 @@ class MessageView(LoginRequiredMixin, TemplateView):
     template_name = 'home/message.html'
     login_url = '/users/login/'
 
+    def get(self, request, *args, **kwargs):
+        seller_id = request.GET.get('seller')
+        if seller_id:
+            from django.contrib.auth import get_user_model
+            User = get_user_model()
+            try:
+                seller = User.objects.get(id=seller_id)
+                conv = Conversation.objects.filter(
+                    participants=request.user
+                ).filter(
+                    participants=seller
+                ).first()
+                if not conv:
+                    conv = Conversation.objects.create()
+                    conv.participants.add(request.user, seller)
+                return redirect(f"{request.path}?conv={conv.id}")
+            except User.DoesNotExist:
+                pass
+        return super().get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
 
-        # Toutes les conversations de l'utilisateur
         conversations = Conversation.objects.filter(
             participants=user
         ).prefetch_related('participants', 'messages').order_by('-modified')
 
-        # Enrichir chaque conversation
         conv_list = []
         for conv in conversations:
             other = conv.participants.exclude(id=user.id).first()
@@ -33,7 +53,6 @@ class MessageView(LoginRequiredMixin, TemplateView):
 
         context['conversations'] = conv_list
 
-        # Conversation active (depuis ?conv=<id>)
         conv_id = self.request.GET.get('conv')
         active_conv = None
         if conv_id:
@@ -49,17 +68,13 @@ class MessageView(LoginRequiredMixin, TemplateView):
 
         if active_conv:
             messages_qs = active_conv.messages.select_related('sender').order_by('created')
-
-            # Marquer comme lus
             messages_qs.filter(is_read=False).exclude(sender=user).update(is_read=True)
-
             msgs = list(messages_qs)
             for msg in msgs:
                 msg.created_date = msg.created.strftime("%B %d, %Y")
             context['active_messages'] = msgs
             context['last_message_id'] = msgs[-1].id if msgs else ''
 
-            # Propriété liée
             from properties.models import Property
             from .models import Visit
             visit = Visit.objects.filter(
@@ -74,18 +89,16 @@ class MessageView(LoginRequiredMixin, TemplateView):
 
         return context
 
-import re
 
 def contains_contact_info(text):
-    """Détecte numéros, emails, réseaux sociaux dans un message"""
     patterns = [
-        r'\b6\d{8}\b',                                    # numéros camerounais (6XXXXXXXX)
-        r'\b\d{8,}\b',                                    # tout numéro 8+ chiffres
-        r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+', # emails
+        r'\b6\d{8}\b',
+        r'\b\d{8,}\b',
+        r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+',
         r'(whatsapp|telegram|instagram|facebook|twitter|tiktok|snapchat)',
         r'(appelle|appeler|contacte|joindre|rejoindre|appel)',
-        r'(http|https|www\.)',                             # liens
-        r'(\+237|\+\d{10,})',                              # indicatifs téléphoniques
+        r'(http|https|www\.)',
+        r'(\+237|\+\d{10,})',
     ]
     for pattern in patterns:
         if re.search(pattern, text, re.IGNORECASE):
@@ -104,7 +117,6 @@ class SendMessageView(LoginRequiredMixin, View):
         if not conv_id or not content:
             return JsonResponse({'error': 'Invalid data'}, status=400)
 
-        # ✅ Bloquer les infos de contact
         if contains_contact_info(content):
             return JsonResponse({
                 'status': 'blocked',
@@ -129,6 +141,7 @@ class SendMessageView(LoginRequiredMixin, View):
                 'time': msg.created.strftime("%H:%M"),
             }
         })
+
 
 class PollMessagesView(LoginRequiredMixin, View):
     login_url = '/users/login/'
