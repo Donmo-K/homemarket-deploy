@@ -6,10 +6,6 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 
 class PayUnitService:
-    """
-    Service to interact with the PayUnit API.
-    Focuses on the Redirect Flow for payments.
-    """
 
     @staticmethod
     def get_auth_headers():
@@ -101,16 +97,12 @@ class PayUnitService:
 
     @staticmethod
     def verify_payment(transaction_id):
-        """
-        Verifies the status of a transaction directly with PayUnit API.
-        """
-        verify_url = f"{settings.PAYUNIT_BASE_URL}/api/gateway/transaction/status"
+        verify_url = f"{settings.PAYUNIT_BASE_URL}/api/gateway/transaction/{transaction_id}/status"
         
         try:
             response = requests.get(
                 verify_url,
                 headers=PayUnitService.get_auth_headers(),
-                params={"transaction_id": transaction_id},
                 timeout=20
             )
             logger.info(f"PayUnit verify response for {transaction_id}: status={response.status_code}, body={response.text[:300]}")
