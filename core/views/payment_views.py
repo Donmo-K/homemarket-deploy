@@ -168,6 +168,7 @@ def process_successful_payment(payment):
 
         from decimal import Decimal
         commission = int(payment.amount * Decimal('0.05'))
+        
         contract = Contract.objects.create(
             contract_type=payment.payment_type,
             buyer=buyer,

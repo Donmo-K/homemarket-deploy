@@ -223,18 +223,14 @@ class LogoutView(View):
 
 class SellerDashboardView(LoginRequiredMixin, TemplateView):
     template_name = "home/seller/dashboard.html"
-    login_url = '/users/login/'  # ← redirection login si non connecté
+    login_url = '/users/login/'
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             messages.error(request, "Veuillez vous connecter d'abord.")
             return redirect(self.login_url)
-
-        # Autoriser : admins + vendeurs
         if request.user.is_superuser or request.user.is_staff or request.user.user_type == UserType.SELLER:
             return super().dispatch(request, *args, **kwargs)
-
-        # Tous les autres (buyers, etc.) → redirection
         messages.error(request, "Accès réservé aux vendeurs et administrateurs.")
         return redirect('core:home')
 
@@ -242,15 +238,11 @@ class SellerDashboardView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         user = self.request.user
         context['verification'] = SellerVerification.objects.filter(user=user).first()
-        
-    
-        # Stats seller (ou admin qui voit tout)
+
         if user.is_superuser or user.is_staff:
-            # Admin voit les stats globales ou filtrées
             properties = Property.objects.all()
             listings = Listing.objects.all()
         else:
-            # Vendeur normal voit seulement ses données
             properties = Property.objects.filter(owner=user)
             listings = Listing.objects.filter(property__owner=user)
 
@@ -258,25 +250,22 @@ class SellerDashboardView(LoginRequiredMixin, TemplateView):
         context['total_views'] = Visit.objects.filter(property__in=properties).count()
         context['total_sales'] = Transaction.objects.filter(
             listing__in=listings,
-            status='COMPLETED'  # adapte selon ton enum
+            status='COMPLETED'
         ).count()
         context['total_revenue'] = Transaction.objects.filter(
             listing__in=listings,
             status='COMPLETED'
         ).aggregate(total=Sum('amount'))['total'] or 0
 
-        # Pourcentages (valeurs exemples - tu peux les calculer vraiment plus tard)
         context['new_listings_percent'] = 12
         context['views_percent'] = 18
         context['sales_percent'] = 5
         context['revenue_change_percent'] = -2
 
-        # Graphique simple (6 derniers mois)
         months = []
         for i in range(5, -1, -1):
             month_date = timezone.now() - timedelta(days=30 * i)
             month_name = month_date.strftime("%b")
-            # Valeurs simulées (remplace par vraies stats si tu veux)
             months.append({
                 'name': month_name,
                 'height': random.randint(10, 32),
@@ -284,21 +273,23 @@ class SellerDashboardView(LoginRequiredMixin, TemplateView):
             })
         context['sales_data'] = months
 
-        # Dernières inquiries via les conversations
-from core.models import Conversation
-conversations = Conversation.objects.filter(
-    participants=user
-).prefetch_related('participants', 'messages').order_by('-modified')[:5]
+        from core.models import Conversation
+        conversations = Conversation.objects.filter(
+            participants=user
+        ).prefetch_related('participants', 'messages').order_by('-modified')[:5]
 
-inquiries = []
-for conv in conversations:
-    other = conv.participants.exclude(id=user.id).first()
-    last_msg = conv.messages.order_by('-created').first()
-    if other and last_msg:
-        inquiries.append({
-            'buyer': other,
-            'property': None,
-            'created': last_msg.created,
-            'message': last_msg.content,
-        })
-context['recent_inquiries'] = inquiries
+        inquiries = []
+        for conv in conversations:
+            other = conv.participants.exclude(id=user.id).first()
+            last_msg = conv.messages.order_by('-created').first()
+            if other and last_msg:
+                inquiries.append({
+                    'buyer': other,
+                    'property': None,
+                    'created': last_msg.created,
+                    'message': last_msg.content,
+                })
+        context['recent_inquiries'] = inquiries
+        context['today'] = timezone.now()
+
+        return context
