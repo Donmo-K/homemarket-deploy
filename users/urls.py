@@ -10,6 +10,7 @@ from .views.dashboard_views import (
     SellerListingView, SellerWalletView,
     AdminPendingPropertiesView, ApprovePropertyView, RejectPropertyView, RemoveFavoriteView,
     toggle_favorite,
+    BuyerContractsView,
 )
 from .views.property_views import (
     AddPropertyStep1View, AddPropertyStep2View,
@@ -32,6 +33,7 @@ urlpatterns = [
     path('buyer/dashboard/', BuyerDashboardView.as_view(), name='buyer_dashboard'),
     path('seller/dashboard/', SellerDashboardView.as_view(), name='seller_dashboard'),
     path('admin/dashboard/', AdminDashboardView.as_view(), name='admin_dashboard'),
+    
 
     # Acheteur
     path('buyer/profile/', BuyerProfileView.as_view(), name='buyer_profile'),
@@ -39,6 +41,7 @@ urlpatterns = [
     path('buyer/bookings/', BuyerBookingView.as_view(), name='buyer_bookings'),
     path('buyer/favorites/remove/<uuid:property_id>/', RemoveFavoriteView.as_view(), name='remove_favorite'),
     path('toggle-favorite/<uuid:property_id>/', toggle_favorite, name='toggle_favorite'),
+    path('buyer/contracts/', BuyerContractsView.as_view(), name='buyer_contracts'),
 
     # Vendeur
     path('seller/profile/', SellerProfileView.as_view(), name='seller_profile'),

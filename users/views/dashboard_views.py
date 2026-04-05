@@ -231,6 +231,20 @@ def dispatch(self, request, *args, **kwargs):
             return redirect('core:home')
         return super().dispatch(request, *args, **kwargs)
 
+from core.models import Contract
+
+class BuyerContractsView(LoginRequiredMixin, TemplateView):
+    template_name = 'buyer/contracts.html'
+    login_url = '/users/login/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['contracts'] = Contract.objects.filter(
+            buyer=self.request.user
+        ).select_related(
+            'property', 'seller', 'transaction'
+        ).order_by('-created')
+        return context
 
 
 # ✅ TOGGLE FAVORITE (AJAX)

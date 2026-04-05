@@ -80,7 +80,6 @@ class RegisterView(View):
             inline_images={'logo_img': logo_path}
         )
         return redirect('users:verify_otp')
-
 class LoginView(View):
     template_name = 'home/login.html'
 
@@ -93,9 +92,7 @@ class LoginView(View):
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-        # ✅ CORRECTION ICI
         user = authenticate(request, email=email, password=password)
-
         if user is not None:
             if not user.is_active:
                 messages.error(request, "Account is not active. Please verify your email.")
@@ -104,17 +101,22 @@ class LoginView(View):
 
             login(request, user)
 
-            # 🔥 SELLER LOGIC
+            # ✅ SELLER
             if user.user_type == UserType.SELLER:
                 verification = SellerVerification.objects.filter(user=user).first()
-                if verification and not verification.is_verified:
-                    messages.warning(request, "Your account is pending verification. Please submit your documents.")
+                if not verification:
+                    # Pas encore soumis ses documents → KYC
+                    messages.warning(request, "Please submit your verification documents.")
                     return redirect('users:seller_kyc')
-            
-                return redirect('users:seller_dashboard')
+                # Déjà soumis → home
+                return redirect('core:home')
+
+            # ✅ ADMIN
+            if user.user_type == UserType.ADMIN or user.is_staff or user.is_superuser:
+                return redirect('core:home')
 
             # ✅ BUYER
-            return redirect('users:buyer_dashboard')
+            return redirect('core:home')
 
         else:
             messages.error(request, "Invalid email or password")
