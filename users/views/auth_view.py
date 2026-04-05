@@ -284,10 +284,21 @@ class SellerDashboardView(LoginRequiredMixin, TemplateView):
             })
         context['sales_data'] = months
 
-        # Dernières inquiries (messages sur les propriétés)
-        context['recent_inquiries'] = Message.objects.filter(
-            conversation__participants=user,
-            created__gte=timezone.now() - timedelta(days=30)
-        ).order_by('-created')[:5]
+        # Dernières inquiries via les conversations
+from core.models import Conversation
+conversations = Conversation.objects.filter(
+    participants=user
+).prefetch_related('participants', 'messages').order_by('-modified')[:5]
 
-        return context
+inquiries = []
+for conv in conversations:
+    other = conv.participants.exclude(id=user.id).first()
+    last_msg = conv.messages.order_by('-created').first()
+    if other and last_msg:
+        inquiries.append({
+            'buyer': other,
+            'property': None,
+            'created': last_msg.created,
+            'message': last_msg.content,
+        })
+context['recent_inquiries'] = inquiries

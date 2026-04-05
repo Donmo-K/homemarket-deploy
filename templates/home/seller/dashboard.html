@@ -269,7 +269,9 @@ borderRadius: {
 <span class="font-medium text-sm">{{ inquiry.buyer.get_full_name|default:inquiry.buyer.email }}</span>
 </div>
 </td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">{{ inquiry.property.title }}</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
+    {% if inquiry.property %}{{ inquiry.property.title }}{% else %}—{% endif %}
+</td>
 <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">{{ inquiry.created|date:"M d, Y" }}</td>
 <td class="px-6 py-4">
 <span class="px-2.5 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">Active</span>
