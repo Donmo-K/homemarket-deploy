@@ -3,8 +3,10 @@ autocommand==2.2.2
 backports.tarfile==1.2.0
 certifi==2026.2.25
 charset-normalizer==3.4.6
+cloudinary==1.44.1
 dj-database-url==3.1.2
 Django==6.0.2
+django-cloudinary-storage==0.3.0
 django-extensions==4.1
 django-jazzmin==3.0.2
 gunicorn==25.3.0
@@ -22,6 +24,7 @@ psycopg2-binary==2.9.11
 python-decouple==3.8
 reportlab==4.4.10
 requests==2.33.0
+six==1.17.0
 sqlparse==0.5.5
 tomli==2.4.0
 urllib3==2.6.3

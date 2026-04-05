@@ -20,6 +20,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    'cloudinary_storage',  
+    'cloudinary',       
+    
     # Third party
     'django_extensions',
     
@@ -113,6 +116,12 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME', default='dr4qmbhqx'),
+    'API_KEY': config('CLOUDINARY_API_KEY', default='357633785845279'),
+    'API_SECRET': config('CLOUDINARY_API_SECRET', default='Oo2Yj3kRHhlzwXhS4jbTj2irEN8'),
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 
